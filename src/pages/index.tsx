@@ -1,12 +1,12 @@
 import type { InferGetServerSidePropsType } from "next";
+import { useSession } from "next-auth/react";
 
 import Seo from "@/components/Seo";
-import { useAuth } from "@/context/authContext";
 import Layout from "@/layouts/Layout";
 
 const Home = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { user } = useAuth();
-  console.log("user: ", user);
+  const { data: session } = useSession();
+  console.log("session: ", session);
 
   return (
     <Layout>
