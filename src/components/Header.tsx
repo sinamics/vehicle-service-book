@@ -1,6 +1,7 @@
 import cx from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -27,6 +28,7 @@ const Header = ({ ...props }) => {
   const [opened, setOpened] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { pathname } = useRouter();
+  const { data: session } = useSession();
 
   return (
     <header className={"fixed justify-center navbar bg-base-3 shadow-lg"} {...props}>
@@ -68,6 +70,21 @@ const Header = ({ ...props }) => {
         </Link>
       </div>
       <div className={"navbar-end"}>
+        {session ? (
+          <>
+            <p>Signed as {session.user?.email}</p>
+            <button className={"btn btn-outline"} onClick={() => signOut()}>
+              Sign Out
+            </button>
+          </>
+        ) : (
+          <>
+            <p>Not signed in</p>
+            <button className={"btn btn-outline"} onClick={() => signIn()}>
+              Sign In
+            </button>
+          </>
+        )}
         {pathname === "/" ? (
           <Link href={"/app"} className={"btn btn-outline"}>
             Go to app

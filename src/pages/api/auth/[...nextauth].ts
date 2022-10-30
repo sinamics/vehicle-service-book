@@ -1,20 +1,18 @@
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
+
+import prisma from "@/lib/prismadb";
 
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  adapter: PrismaAdapter(prisma),
   providers: [
-    CredentialsProvider({
-      type: "credentials",
-      credentials: {
-        email: {},
-        password: {},
-      },
-      authorize: async (credentials, req) => {
-        return { id: "1", name: "John Doe", email: "teziovsky@gmail.com" };
-      },
+    GithubProvider({
+      clientId: process.env.GITHUB_ID || "",
+      clientSecret: process.env.GITHUB_SECRET || "",
     }),
   ],
 };

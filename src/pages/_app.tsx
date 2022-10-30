@@ -1,17 +1,16 @@
 import "@/styles/globals.css";
 
 import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
 import { CookiesProvider } from "react-cookie";
 
-import { AuthProvider } from "@/context/authContext";
-
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
-    <AuthProvider>
+    <SessionProvider session={session}>
       <CookiesProvider>
         <Component {...pageProps} />
       </CookiesProvider>
-    </AuthProvider>
+    </SessionProvider>
   );
 };
 
