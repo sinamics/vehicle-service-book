@@ -21,7 +21,6 @@ const Home = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => 
     </Layout>
   );
 };
-
 export async function getServerSideProps() {
   return {
     props: {
