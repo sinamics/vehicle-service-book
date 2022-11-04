@@ -1,8 +1,8 @@
 import { User } from "@prisma/client";
 import cx from "classnames";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { signOut } from "next-auth/react";
 import { useState } from "react";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -24,7 +24,7 @@ const Header = ({ user, links }: Props) => {
   const { pathname } = useRouter();
 
   return (
-    <header className={"fixed justify-center navbar bg-base-3 shadow-lg"}>
+    <header className={"fixed justify-center navbar bg-base-3 shadow-lg px-6"}>
       <div className={"navbar-start"}>
         <button
           onClick={() => setOpened((prev) => !prev)}
@@ -39,7 +39,7 @@ const Header = ({ user, links }: Props) => {
         </button>
         <ul
           className={cx(
-            "p-0 menu flex md:menu-horizontal absolute top-20 left-2 bg-base-300 rounded-lg transition duration-500 md:translate-y-0 md:static md:top-0 md:left-0 md:bg-transparent md:opacity-100",
+            "p-0 menu flex md:menu-horizontal absolute top-20 left-6 bg-base-300 rounded-lg transition duration-500 md:translate-y-0 md:static md:top-0 md:left-0 md:bg-transparent md:opacity-100",
             {
               "opacity-0 -translate-y-6": !isDesktop && !opened,
             }
@@ -60,12 +60,18 @@ const Header = ({ user, links }: Props) => {
       </div>
       <div className={"navbar-end"}>
         {user && pathname !== "/" ? (
-          <>
-            <p>Signed as {user.email}</p>
-            <button className={"btn btn-outline"} onClick={() => signOut()}>
-              Sign Out
-            </button>
-          </>
+          <div className={"flex gap-3 items-center"}>
+            {user.image ? (
+              <Image
+                className={"rounded-full ring-2"}
+                src={user.image}
+                width={36}
+                height={36}
+                alt={`Profile picture of ${user.name}`}
+              />
+            ) : null}
+            <p>{user.name}</p>
+          </div>
         ) : null}
         {pathname === "/" ? (
           <Link href={"/app"} className={"btn btn-outline"}>
