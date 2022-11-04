@@ -1,18 +1,15 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { verify } from "argon2";
-import { verifyRootLayout } from "next/dist/lib/verifyRootLayout";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 
 import prisma from "@/lib/prismadb";
 
-export const nextAuthOptions: NextAuthOptions = {
+const nextAuthOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
-  },
-  jwt: {
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 60 * 60 * 24 * 30, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET || "",
   adapter: PrismaAdapter(prisma),
@@ -53,7 +50,7 @@ export const nextAuthOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user, profile }) => {
+    jwt: async ({ token, user }) => {
       if (user) {
         token = {
           id: user.id,

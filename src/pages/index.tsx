@@ -1,13 +1,9 @@
-import type { InferGetServerSidePropsType } from "next";
-import { useSession } from "next-auth/react";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 
-const Home = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data: session } = useSession();
-  console.log("session: ", session);
-
+const Index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout>
       <Seo title={"Home"} description={"Description of Home"} />
@@ -21,12 +17,11 @@ const Home = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => 
     </Layout>
   );
 };
-export async function getServerSideProps() {
-  return {
-    props: {
-      email: "teziovsky@gmail.com",
-    },
-  };
-}
 
-export default Home;
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  return {
+    props: {},
+  };
+};
+
+export default Index;
