@@ -26,6 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(201).json(result);
   }
-  console.log("req.method: ", req.method);
+
   res.status(200).json({ message: "Hello World" });
 }

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-type Link = {
+export type Link = {
   id: number;
   href: string;
   label: string;
@@ -25,18 +25,18 @@ const Header = ({ user, links }: Props) => {
   const { pathname } = useRouter();
 
   return (
-    <header className={"fixed justify-center navbar bg-base-300 z-10 shadow-lg px-6"}>
-      <div className={"navbar-start"}>
+    <header className="fixed z-40 justify-center px-6 shadow-lg navbar bg-base-300">
+      <div className="navbar-start">
         <button
           onClick={() => setOpened((prev) => !prev)}
-          className={"flex flex-col items-start gap-1 cursor-pointer btn btn-ghost group md:hidden"}>
-          <span className={"w-4 h-[2px] bg-current d-block transition"} />
+          className="flex cursor-pointer flex-col items-start gap-1 btn btn-ghost group md:hidden">
+          <span className="w-4 h-[2px] bg-current d-block transition" />
           <span
             className={
               "w-4 h-[2px] bg-current d-block scale-x-50 origin-left transition group-focus:scale-x-100 group-hover:scale-x-100"
             }
           />
-          <span className={"w-4 h-[2px] bg-current d-block transition"} />
+          <span className="bg-current d-block transition w-4 h-[2px]" />
         </button>
         <ul
           className={cx(
@@ -47,24 +47,24 @@ const Header = ({ user, links }: Props) => {
           )}>
           {links.map((link) => (
             <li key={link.id}>
-              <Link tabIndex={!isDesktop && !opened ? -1 : undefined} className={"btn btn-ghost"} href={link.href}>
+              <Link tabIndex={!isDesktop && !opened ? -1 : undefined} className="btn btn-ghost" href={link.href}>
                 {link.label}
               </Link>
             </li>
           ))}
         </ul>
       </div>
-      <div className={"navbar-center"}>
-        <Link href={"/"} className={"normal-case t ext-xl btn btn-ghost"}>
+      <div className="navbar-center">
+        <Link href="/" className="normal-case t ext-xl btn btn-ghost">
           Car Service Book
         </Link>
       </div>
-      <div className={"navbar-end"}>
+      <div className="navbar-end">
         {user && pathname !== "/" ? (
-          <div className={"flex gap-3 items-center"}>
+          <div className="flex items-center gap-3">
             {user.image ? (
               <Image
-                className={"rounded-full ring-2"}
+                className="rounded-full ring-2"
                 src={user.image}
                 width={36}
                 height={36}
@@ -72,13 +72,13 @@ const Header = ({ user, links }: Props) => {
               />
             ) : null}
             <p>{user.name}</p>
-            <button className={"btn btn-outline"} onClick={() => signOut()}>
+            <button className="btn btn-outline" onClick={() => signOut()}>
               Logout
             </button>
           </div>
         ) : null}
         {pathname === "/" ? (
-          <Link href={"/app"} className={"btn btn-outline"}>
+          <Link href="/app" className="btn btn-outline">
             Go to app
           </Link>
         ) : null}

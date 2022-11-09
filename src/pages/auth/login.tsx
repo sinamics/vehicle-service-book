@@ -39,15 +39,15 @@ export default function Login({ providers, csrfToken }: InferGetServerSidePropsT
     <>
       <form onSubmit={handleSubmit}>
         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-        <div className={"form-control w-full max-w-xs"}>
-          <label className={"label"} htmlFor={"email"}>
+        <div className="form-control w-full max-w-xs">
+          <label className="label" htmlFor="email">
             <span className="label-text">Username</span>
           </label>
           <input
-            id={"email"}
-            placeholder={"john@doe.com"}
-            className={"input input-bordered w-full max-w-xs"}
-            name={"email"}
+            id="email"
+            placeholder="john@doe.com"
+            className="input input-bordered w-full max-w-xs"
+            name="email"
             type="email"
             onChange={handleChange}
             onBlur={handleBlur}
@@ -55,13 +55,13 @@ export default function Login({ providers, csrfToken }: InferGetServerSidePropsT
           />
         </div>
         <div className="form-control w-full max-w-xs">
-          <label className={"label"} htmlFor={"password"}>
+          <label className="label" htmlFor="password">
             <span className="label-text">Password</span>
           </label>
           <input
-            id={"password"}
-            placeholder={""}
-            className={"input input-bordered w-full max-w-xs"}
+            id="password"
+            placeholder=""
+            className="input input-bordered w-full max-w-xs"
             name="password"
             type="password"
             onChange={handleChange}
@@ -69,7 +69,7 @@ export default function Login({ providers, csrfToken }: InferGetServerSidePropsT
             value={values.password}
           />
         </div>
-        <button className={"btn"} type="submit">
+        <button className="btn" type="submit">
           Login
         </button>
       </form>

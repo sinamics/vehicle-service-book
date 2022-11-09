@@ -4,16 +4,16 @@ import { checkSession } from "@/common/checkSession";
 import prisma from "@/lib/prismadb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { carId } = req.query;
+
   switch (req.method) {
     case "GET":
       const user = await checkSession(req, res);
 
-      const cars = await prisma.car.findMany({
+      const car = await prisma.car.findFirst({
         where: {
+          id: String(carId),
           userId: user?.id,
-        },
-        orderBy: {
-          createdAt: "desc",
         },
         select: {
           id: true,
@@ -29,11 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       });
 
-      if (!cars.length) return res.status(404).json({ message: "No cars found" });
+      if (!car) return res.status(404).json({ message: "No car found" });
 
-      return res.status(200).json(cars);
-    case "POST":
-      return res.status(200).json({ message: "Car created" });
+      return res.status(200).json(car);
     default:
       return res.status(405).end();
   }
