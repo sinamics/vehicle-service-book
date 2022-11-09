@@ -3,6 +3,7 @@ import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -24,7 +25,7 @@ const Header = ({ user, links }: Props) => {
   const { pathname } = useRouter();
 
   return (
-    <header className={"fixed justify-center navbar bg-base-3 shadow-lg px-6"}>
+    <header className={"fixed justify-center navbar bg-base-300 z-10 shadow-lg px-6"}>
       <div className={"navbar-start"}>
         <button
           onClick={() => setOpened((prev) => !prev)}
@@ -71,6 +72,9 @@ const Header = ({ user, links }: Props) => {
               />
             ) : null}
             <p>{user.name}</p>
+            <button className={"btn btn-outline"} onClick={() => signOut()}>
+              Logout
+            </button>
           </div>
         ) : null}
         {pathname === "/" ? (

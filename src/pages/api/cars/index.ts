@@ -1,19 +1,32 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+import { checkSession } from "@/common/checkSession";
+import prisma from "@/lib/prismadb";
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case "GET":
-      return res.status(200).json({
-        cars: [
-          {
-            id: 1,
-            make: "Ford",
-            model: "Fiesta",
-            year: 2010,
-            color: "Red",
-          },
-        ],
+      const user = await checkSession(req, res);
+
+      const cars = await prisma.car.findMany({
+        where: {
+          userId: user?.id,
+        },
+        select: {
+          id: true,
+          type: true,
+          brand: true,
+          model: true,
+          generation: true,
+          productionYear: true,
+          engineType: true,
+          engineCapacity: true,
+          enginePower: true,
+          gearboxType: true,
+        },
       });
+
+      return res.status(200).json(cars);
     case "POST":
       return res.status(200).json({ message: "Cars created" });
     default:

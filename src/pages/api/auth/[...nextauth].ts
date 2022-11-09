@@ -6,9 +6,12 @@ import GithubProvider from "next-auth/providers/github";
 
 import prisma from "@/lib/prismadb";
 
-const nextAuthOptions: NextAuthOptions = {
+export const nextAuthOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  },
+  jwt: {
     maxAge: 60 * 60 * 24 * 30, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET || "",
@@ -50,23 +53,22 @@ const nextAuthOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    async jwt({ token, user, profile, account, isNewUser }) {
       if (user) {
         token = {
           id: user.id,
           email: user.email,
-          name: user.name,
-          image: user.image,
         };
       }
-
+      if (account) {
+        token.accessToken = account.access_token;
+      }
       return token;
     },
-    session: async ({ session, token }) => {
+    async session({ session, token, user }) {
       if (token) {
         session.user = token;
       }
-
       return session;
     },
   },

@@ -1,7 +1,7 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getSession } from "next-auth/react";
 
-import { getUser } from "@/common/getUser";
+import { getServerSideUser } from "@/common/getServerSideUser";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 
@@ -21,7 +21,7 @@ const Index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) =>
 };
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const user = await getUser(context);
+  const user = await getServerSideUser(context);
   return {
     props: {
       user,
