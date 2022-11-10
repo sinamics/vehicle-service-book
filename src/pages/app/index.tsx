@@ -10,7 +10,7 @@ const AppIndex = ({ user }: InferGetServerSidePropsType<typeof getServerSideProp
   return (
     <Layout user={user}>
       <Seo title="Dashboard" description="car service book dashboard" />
-      <div className="container py-6">
+      <div className="container min-h-app py-6">
         <Breadcrumbs />
         <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>

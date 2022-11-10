@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import React from "react";
+import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
 
 import { getServerSideUser } from "@/common/getServerSideUser";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -12,7 +13,7 @@ const Cars = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSidePr
   return (
     <Layout user={user}>
       <Seo title="Cars" description="cars list" />
-      <div className="container py-6">
+      <div className="container min-h-app py-6">
         <Breadcrumbs />
         {cars ? (
           <div className="overflow-x-auto">
@@ -45,11 +46,16 @@ const Cars = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSidePr
                     <td>{car.engineCapacity}</td>
                     <td>{car.enginePower}</td>
                     <td>{car.gearboxType}</td>
-                    <th className="flex gap-2">
-                      <Link href={`/app/cars/${car.id}/repairs`} className="btn btn-success btn-xs">
-                        repairs
+                    <th>
+                      <Link href={`/app/cars/${car.id}/repairs`} className="btn btn-info btn-sm mr-2">
+                        <FiTool />
                       </Link>
-                      <button className="btn btn-error btn-xs">delete</button>
+                      <Link href={`/app/cars/${car.id}`} className="btn btn-success btn-sm mr-2">
+                        <FiEdit />
+                      </Link>
+                      <button className="btn btn-error btn-sm">
+                        <FiTrash2 />
+                      </button>
                     </th>
                   </tr>
                 ))}

@@ -9,7 +9,7 @@ const Index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) =>
   return (
     <Layout user={props.user}>
       <Seo title="Home" description="Description of Home" />
-      <div className="min-h-screen hero bg-base-200">
+      <div className="min-h-app hero bg-base-200">
         <div className="text-center hero-content">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Car service book</h1>

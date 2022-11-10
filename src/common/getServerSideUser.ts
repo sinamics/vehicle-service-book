@@ -7,7 +7,7 @@ export async function getServerSideUser(context: GetServerSidePropsContext) {
   const session = await getSession(context);
   if (!session) return null;
 
-  return await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       id: session.user?.id,
     },
@@ -21,4 +21,8 @@ export async function getServerSideUser(context: GetServerSidePropsContext) {
       lastName: true,
     },
   });
+
+  if (!user) return null;
+
+  return user;
 }

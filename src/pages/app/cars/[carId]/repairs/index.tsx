@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import React from "react";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 import { formatDate, formatPrice } from "@/common/filters";
 import { getServerSideUser } from "@/common/getServerSideUser";
@@ -14,7 +15,7 @@ const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServer
   return (
     <Layout user={user}>
       <Seo title="Repairs" description="repairs list" />
-      <div className="container py-6">
+      <div className="container min-h-app py-6">
         <Breadcrumbs />
         {repairs ? (
           <div className="overflow-x-auto">
@@ -42,10 +43,12 @@ const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServer
                     <th>
                       <Link
                         href={`/app/car/${repair.carId}/repairs/${repair.id}`}
-                        className="btn btn-success btn-xs mr-2">
-                        repairs
+                        className="btn btn-success btn-sm mr-2">
+                        <FiEdit />
                       </Link>
-                      <button className="btn btn-error btn-xs">delete</button>
+                      <button className="btn btn-error btn-sm">
+                        <FiTrash2 />
+                      </button>
                     </th>
                   </tr>
                 ))}

@@ -7,6 +7,9 @@ module.exports = {
       container: {
         center: true,
       },
+      minHeight: {
+        app: "calc(100vh - 7.3rem)",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography"), require("daisyui")],
