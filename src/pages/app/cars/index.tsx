@@ -9,7 +9,7 @@ import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 import { carsService } from "@/services/carsService";
 
-const Cars = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const CarsList = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout user={user}>
       <Seo title="Cars" description="cars list" />
@@ -63,7 +63,7 @@ const Cars = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSidePr
             </table>
           </div>
         ) : (
-          <h2 className="text-3xl font-bold text-red-200">Brak samochodów</h2>
+          <h2 className="text-3xl font-bold text-red-200">No cars 🤷🏼‍♂️</h2>
         )}
       </div>
     </Layout>
@@ -83,4 +83,4 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   };
 };
 
-export default Cars;
+export default CarsList;

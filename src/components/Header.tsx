@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
+import { FiLogOut } from "react-icons/fi";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
 
@@ -72,8 +73,8 @@ const Header = ({ user, links }: Props) => {
               />
             ) : null}
             <p>{user.name}</p>
-            <button className="btn btn-outline" onClick={() => signOut()}>
-              Logout
+            <button title="Logout" className="btn btn-ghost" onClick={() => signOut()}>
+              <FiLogOut size={20} />
             </button>
           </div>
         ) : null}

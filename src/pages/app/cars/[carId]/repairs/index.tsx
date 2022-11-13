@@ -67,7 +67,7 @@ const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServer
             </table>
           </div>
         ) : (
-          <h2 className="text-3xl font-bold text-red-200">Brak samochodów</h2>
+          <h2 className="text-3xl font-bold text-red-200">No services 🤷‍♂️</h2>
         )}
       </div>
     </Layout>
