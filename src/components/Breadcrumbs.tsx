@@ -11,7 +11,7 @@ const Breadcrumbs = () => {
     const asPathNestedRoutes = pathWithoutQuery.split("/").filter(Boolean).slice(1);
 
     const breadcrumbList = asPathNestedRoutes.map((path, index) => {
-      const href = "/" + asPathNestedRoutes.slice(0, index + 1).join("/");
+      const href = "/app/" + asPathNestedRoutes.slice(0, index + 1).join("/");
       return { href, text: path };
     });
 
@@ -19,7 +19,7 @@ const Breadcrumbs = () => {
   }, [asPath]);
 
   return (
-    <div className={"text-sm breadcrumbs"}>
+    <div className="text-sm breadcrumbs mb-6">
       <ul>
         {breadcrumbs.map((crumb, index) => (
           <li key={index}>
@@ -27,7 +27,8 @@ const Breadcrumbs = () => {
               className={cx("capitalize", {
                 "text-gray-500": index !== breadcrumbs.length - 1,
                 "pointer-events-none": index === breadcrumbs.length - 1,
-              })} href={crumb.href}>
+              })}
+              href={crumb.href}>
               {crumb.text}
             </Link>
           </li>
