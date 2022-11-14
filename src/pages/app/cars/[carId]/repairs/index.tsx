@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
-import { formatDate, formatPrice } from "@/common/filters";
+import { formatDate, formatPrice } from "@/common/formatters";
 import { getServerSideUser } from "@/common/getServerSideUser";
 import { sumByField } from "@/common/helpers";
 import Breadcrumbs from "@/components/Breadcrumbs";

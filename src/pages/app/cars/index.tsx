@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
 
+import { formatEngineCapacity } from "@/common/formatters";
 import { getServerSideUser } from "@/common/getServerSideUser";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Seo from "@/components/Seo";
@@ -13,11 +14,11 @@ const CarsList = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSi
   return (
     <Layout user={user}>
       <Seo title="Cars" description="cars list" />
-      <div className="container min-h-app py-6">
+      <div className="container py-6 min-h-app">
         <Breadcrumbs />
         {cars ? (
           <div className="overflow-x-auto">
-            <table className="table table-compact w-full">
+            <table className="table w-full table-compact">
               <thead>
                 <tr>
                   <th></th>
@@ -43,17 +44,17 @@ const CarsList = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSi
                     <td>{car.generation}</td>
                     <td>{car.productionYear}</td>
                     <td>{car.engineType}</td>
-                    <td>{car.engineCapacity}</td>
-                    <td>{car.enginePower}</td>
+                    <td>{formatEngineCapacity(car.engineCapacity)}</td>
+                    <td>{car.enginePower} HP</td>
                     <td>{car.gearboxType}</td>
                     <th>
-                      <Link href={`/app/cars/${car.id}/repairs`} className="btn btn-info btn-sm mr-2">
+                      <Link href={`/app/cars/${car.id}/repairs`} className="mr-2 btn btn-info btn-outline btn-sm">
                         <FiTool />
                       </Link>
-                      <Link href={`/app/cars/${car.id}`} className="btn btn-success btn-sm mr-2">
+                      <Link href={`/app/cars/${car.id}`} className="mr-2 btn btn-success btn-outline btn-sm">
                         <FiEdit />
                       </Link>
-                      <button className="btn btn-error btn-sm">
+                      <button className="btn btn-error btn-outline btn-sm">
                         <FiTrash2 />
                       </button>
                     </th>
