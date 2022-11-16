@@ -4,6 +4,8 @@ import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import React from "react";
 import * as Yup from "yup";
 
+import Layout from "@/layouts/Layout";
+
 function getCallbackUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get("callbackUrl") || `${window.location.origin}/`;
@@ -35,53 +37,59 @@ export default function Login({ providers, csrfToken }: InferGetServerSidePropsT
       }
     },
   });
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-        <div className="form-control w-full max-w-sm">
-          <label className="label" htmlFor="email">
-            <span className="label-text">Username</span>
-          </label>
-          <input
-            id="email"
-            placeholder="john@doe.com"
-            className="input input-bordered w-full max-w-sm"
-            name="email"
-            type="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-          />
-        </div>
-        <div className="form-control w-full max-w-sm">
-          <label className="label" htmlFor="password">
-            <span className="label-text">Password</span>
-          </label>
-          <input
-            id="password"
-            placeholder=""
-            className="input input-bordered w-full max-w-sm"
-            name="password"
-            type="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-          />
-        </div>
-        <button className="btn" type="submit">
-          Login
-        </button>
-      </form>
-      {providers &&
-        Object.values(providers).map((provider) => (
-          <div key={provider.name}>
-            <button onClick={() => signIn(provider.id, { callbackUrl: getCallbackUrl() })}>
-              Sign in with {provider.name}
-            </button>
+    <Layout user={null}>
+      <div className="container py-6 min-h-app">
+        <form className="mx-auto flex max-w-sm flex-col items-stretch justify-center gap-2" onSubmit={handleSubmit}>
+          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+          <div className="form-control">
+            <label className="label" htmlFor="email">
+              <span className="label-text">Username</span>
+            </label>
+            <input
+              id="email"
+              placeholder="john@doe.com"
+              className="input input-bordered"
+              name="email"
+              type="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+            />
           </div>
-        ))}
-    </>
+          <div className="form-control">
+            <label className="label" htmlFor="password">
+              <span className="label-text">Password</span>
+            </label>
+            <input
+              id="password"
+              placeholder=""
+              className="input input-bordered"
+              name="password"
+              type="password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+            />
+          </div>
+          <button className="btn" type="submit">
+            Login
+          </button>
+        </form>
+        {providers && (
+          <div className="mx-auto flex max-w-sm items-center justify-center gap-2">
+            {Object.values(providers).map((provider) => (
+              <>
+                <button key={provider.name} onClick={() => signIn(provider.id, { callbackUrl: getCallbackUrl() })}>
+                  Sign in with {provider.name}
+                </button>
+              </>
+            ))}
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 }
 

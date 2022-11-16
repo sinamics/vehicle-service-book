@@ -28,32 +28,36 @@ const Header = ({ user, links }: Props) => {
   return (
     <header className="fixed z-40 justify-center px-6 shadow-lg navbar bg-base-300">
       <div className="navbar-start">
-        <button
-          onClick={() => setOpened((prev) => !prev)}
-          className="flex cursor-pointer flex-col items-start gap-1 btn btn-ghost group md:hidden">
-          <span className="w-4 h-[2px] bg-current d-block transition" />
-          <span
-            className={
-              "w-4 h-[2px] bg-current d-block scale-x-50 origin-left transition group-focus:scale-x-100 group-hover:scale-x-100"
-            }
-          />
-          <span className="bg-current d-block transition w-4 h-[2px]" />
-        </button>
-        <ul
-          className={cx(
-            "p-0 menu flex md:menu-horizontal absolute top-20 left-6 bg-base-300 rounded-lg transition duration-500 md:translate-y-0 md:static md:top-0 md:left-0 md:bg-transparent md:opacity-100",
-            {
-              "opacity-0 -translate-y-6": !isDesktop && !opened,
-            }
-          )}>
-          {links.map((link) => (
-            <li key={link.id}>
-              <Link tabIndex={!isDesktop && !opened ? -1 : undefined} className="btn btn-ghost" href={link.href}>
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {pathname !== "/auth/login" && (
+          <>
+            <button
+              onClick={() => setOpened((prev) => !prev)}
+              className="flex cursor-pointer flex-col items-start gap-1 btn btn-ghost group md:hidden">
+              <span className="w-4 h-[2px] bg-current d-block transition" />
+              <span
+                className={
+                  "w-4 h-[2px] bg-current d-block scale-x-50 origin-left transition group-focus:scale-x-100 group-hover:scale-x-100"
+                }
+              />
+              <span className="bg-current d-block transition w-4 h-[2px]" />
+            </button>
+            <ul
+              className={cx(
+                "p-0 menu flex md:menu-horizontal absolute top-20 left-6 bg-base-300 rounded-lg transition duration-500 md:translate-y-0 md:static md:top-0 md:left-0 md:bg-transparent md:opacity-100",
+                {
+                  "opacity-0 -translate-y-6": !isDesktop && !opened,
+                }
+              )}>
+              {links.map((link) => (
+                <li key={link.id}>
+                  <Link tabIndex={!isDesktop && !opened ? -1 : undefined} className="btn btn-ghost" href={link.href}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
       <div className="navbar-center">
         <Link href="/" className="normal-case t ext-xl btn btn-ghost">
@@ -61,7 +65,7 @@ const Header = ({ user, links }: Props) => {
         </Link>
       </div>
       <div className="navbar-end">
-        {user && pathname !== "/" ? (
+        {user && pathname !== "/" && (
           <div className="flex items-center gap-3">
             {user.image ? (
               <Image
@@ -77,12 +81,12 @@ const Header = ({ user, links }: Props) => {
               <FiLogOut size={20} />
             </button>
           </div>
-        ) : null}
-        {pathname === "/" ? (
+        )}
+        {pathname === "/" && (
           <Link href="/app" className="btn btn-outline">
             Go to app
           </Link>
-        ) : null}
+        )}
       </div>
     </header>
   );
