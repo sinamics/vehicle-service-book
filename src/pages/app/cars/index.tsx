@@ -1,24 +1,21 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type { Car } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
 
-import { formatEngineCapacity } from "@/common/formatters";
-import { getServerSideUser } from "@/common/getServerSideUser";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
-import { carsService } from "@/services/carsService";
+import { formatEngineCapacity } from "@/utils/formatters";
 
-const CarsList = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const CarsList = () => {
+  const cars: Car[] = [];
   return (
-    <Layout user={user}>
+    <Layout>
       <Seo title="Cars" description="cars list" />
-      <div className="container py-6 min-h-app">
-        <Breadcrumbs />
+      <div className="container min-h-app py-6">
         {cars ? (
           <div className="overflow-x-auto">
-            <table className="table w-full table-compact">
+            <table className="table-compact table w-full">
               <thead>
                 <tr>
                   <th></th>
@@ -48,10 +45,16 @@ const CarsList = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSi
                     <td>{car.enginePower} HP</td>
                     <td>{car.gearboxType}</td>
                     <th>
-                      <Link href={`/app/cars/${car.id}/repairs`} className="mr-2 btn btn-info btn-outline btn-sm">
+                      <Link
+                        href={`/app/cars/${car.id}/repairs`}
+                        className="btn btn-info btn-outline btn-sm mr-2"
+                      >
                         <FiTool />
                       </Link>
-                      <Link href={`/app/cars/${car.id}`} className="mr-2 btn btn-success btn-outline btn-sm">
+                      <Link
+                        href={`/app/cars/${car.id}`}
+                        className="btn btn-success btn-outline btn-sm mr-2"
+                      >
                         <FiEdit />
                       </Link>
                       <button className="btn btn-error btn-outline btn-sm">
@@ -69,19 +72,6 @@ const CarsList = ({ user, cars }: InferGetServerSidePropsType<typeof getServerSi
       </div>
     </Layout>
   );
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const user = await getServerSideUser(context);
-  const { getCars } = await carsService(context);
-  const cars = await getCars();
-
-  return {
-    props: {
-      user,
-      cars,
-    },
-  };
 };
 
 export default CarsList;

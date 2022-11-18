@@ -1,32 +1,24 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getSession } from "next-auth/react";
+import { type NextPage } from "next";
+import React from "react";
 
-import { getServerSideUser } from "@/common/getServerSideUser";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 
-const Index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home: NextPage = () => {
   return (
-    <Layout user={props.user}>
-      <Seo title="Home" description="Description of Home" />
-      <div className="min-h-app hero bg-base-200">
-        <div className="text-center hero-content">
-          <div className="max-w-md">
-            <h1 className="text-5xl font-bold">Car service book</h1>
+    <>
+      <Layout>
+        <Seo title="Home" description="Description of Home" />
+        <div className="hero bg-base-200 min-h-app">
+          <div className="hero-content text-center">
+            <div className="max-w-md">
+              <h1 className="text-5xl font-bold">Car service book</h1>
+            </div>
           </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 };
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const user = await getServerSideUser(context);
-  return {
-    props: {
-      user,
-    },
-  };
-};
-
-export default Index;
+export default Home;

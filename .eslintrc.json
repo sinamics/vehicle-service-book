@@ -1,24 +1,25 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
   "globals": {
     "React": true,
     "JSX": true
   },
-  "extends": [
-    "next",
-    "next/core-web-vitals",
-    "plugin:import/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
-    "prettier"
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "react-hooks",
+    "jsx-a11y"
   ],
-  "plugins": ["import", "simple-import-sort", "jsx-a11y", "react-hooks", "prettier"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
+    "@typescript-eslint/consistent-type-imports": "warn",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
@@ -27,12 +28,5 @@
         "aspects": ["invalidHref", "preferButton"]
       }
     ]
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
   }
 }

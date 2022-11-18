@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,31 +26,37 @@ const Header = ({ user, links }: Props) => {
   const { pathname } = useRouter();
 
   return (
-    <header className="fixed z-40 justify-center px-6 shadow-lg navbar bg-base-300">
+    <header className="navbar bg-base-300 fixed z-40 justify-center px-6 shadow-lg">
       <div className="navbar-start">
         {pathname !== "/auth/login" && (
           <>
             <button
               onClick={() => setOpened((prev) => !prev)}
-              className="flex cursor-pointer flex-col items-start gap-1 btn btn-ghost group md:hidden">
-              <span className="w-4 h-[2px] bg-current d-block transition" />
+              className="btn btn-ghost group flex cursor-pointer flex-col items-start gap-1 md:hidden"
+            >
+              <span className="d-block h-[2px] w-4 bg-current transition" />
               <span
                 className={
-                  "w-4 h-[2px] bg-current d-block scale-x-50 origin-left transition group-focus:scale-x-100 group-hover:scale-x-100"
+                  "d-block h-[2px] w-4 origin-left scale-x-50 bg-current transition group-hover:scale-x-100 group-focus:scale-x-100"
                 }
               />
-              <span className="bg-current d-block transition w-4 h-[2px]" />
+              <span className="d-block h-[2px] w-4 bg-current transition" />
             </button>
             <ul
               className={cx(
-                "p-0 menu flex md:menu-horizontal absolute top-20 left-6 bg-base-300 rounded-lg transition duration-500 md:translate-y-0 md:static md:top-0 md:left-0 md:bg-transparent md:opacity-100",
+                "menu md:menu-horizontal bg-base-300 absolute top-20 left-6 flex rounded-lg p-0 transition duration-500 md:static md:top-0 md:left-0 md:translate-y-0 md:bg-transparent md:opacity-100",
                 {
-                  "opacity-0 -translate-y-6": !isDesktop && !opened,
+                  "-translate-y-6 opacity-0": !isDesktop && !opened,
                 }
-              )}>
+              )}
+            >
               {links.map((link) => (
                 <li key={link.id}>
-                  <Link tabIndex={!isDesktop && !opened ? -1 : undefined} className="btn btn-ghost" href={link.href}>
+                  <Link
+                    tabIndex={!isDesktop && !opened ? -1 : undefined}
+                    className="btn btn-ghost"
+                    href={link.href}
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -60,7 +66,7 @@ const Header = ({ user, links }: Props) => {
         )}
       </div>
       <div className="navbar-center">
-        <Link href="/" className="normal-case t ext-xl btn btn-ghost">
+        <Link href="/" className="t ext-xl btn btn-ghost normal-case">
           Car Service Book
         </Link>
       </div>
@@ -77,7 +83,11 @@ const Header = ({ user, links }: Props) => {
               />
             ) : null}
             <p>{user.name}</p>
-            <button title="Logout" className="btn btn-ghost" onClick={() => signOut()}>
+            <button
+              title="Logout"
+              className="btn btn-ghost"
+              onClick={() => signOut()}
+            >
               <FiLogOut size={20} />
             </button>
           </div>

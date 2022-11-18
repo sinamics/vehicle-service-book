@@ -35,5 +35,7 @@ export function formatEngineCapacity(
   }
 ): string | null {
   if (!engineCapacity) return null;
-  return new Intl.NumberFormat(locale, options).format(Math.round(engineCapacity / 100) / 10);
+  return new Intl.NumberFormat(locale, options).format(
+    Math.round(engineCapacity / 100) / 10
+  );
 }

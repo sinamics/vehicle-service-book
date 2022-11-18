@@ -1,13 +1,9 @@
 import { useFormik } from "formik";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import React from "react";
 
-import { getServerSideUser } from "@/common/getServerSideUser";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import Seo from "@/components/Seo";
-import Layout from "@/layouts/Layout";
 
-const AddCar = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const AddCar = () => {
   const formik = useFormik({
     initialValues: {
       brand: "",
@@ -17,17 +13,15 @@ const AddCar = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>
     },
   });
 
-  console.log("formik: ", formik);
-
   return (
-    <Layout user={user}>
+    <>
       <Seo title="Add car" description="Add car" />
-      <div className="container py-6 min-h-app">
-        <Breadcrumbs />
+      <div className="container min-h-app py-6">
         <form
-          className="flex flex-col justify-center items-center mx-auto gap-2 max-w-sm"
-          onSubmit={formik.handleSubmit}>
-          <div className="w-full form-control">
+          className="mx-auto flex max-w-sm flex-col items-center justify-center gap-2"
+          onSubmit={formik.handleSubmit}
+        >
+          <div className="form-control w-full">
             <label className="label" htmlFor="brand">
               <span className="label-text">Brand</span>
             </label>
@@ -38,7 +32,7 @@ const AddCar = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>
               value={formik.values.brand}
               type="text"
               placeholder="Mercedes"
-              className="w-full input input-bordered"
+              className="input input-bordered w-full"
             />
           </div>
           <button className="btn btn-wide" type="submit">
@@ -46,18 +40,8 @@ const AddCar = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>
           </button>
         </form>
       </div>
-    </Layout>
+    </>
   );
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const user = await getServerSideUser(context);
-
-  return {
-    props: {
-      user,
-    },
-  };
 };
 
 export default AddCar;
