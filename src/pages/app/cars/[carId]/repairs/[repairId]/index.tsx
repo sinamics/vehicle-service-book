@@ -36,7 +36,10 @@ export default function EditRepair() {
 
   const { mutate } = trpc.repair.update.useMutation({
     onSuccess: () => {
-      router.push("/app/cars");
+      router.push({
+        pathname: "/app/cars/[carId]/repairs",
+        query: { carId: router.query.carId },
+      });
     },
   });
 
@@ -77,7 +80,7 @@ export default function EditRepair() {
               <input
                 id="title"
                 type="text"
-                placeholder="Honda"
+                placeholder="Replace tires and oil"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("title")}
               />
@@ -89,7 +92,7 @@ export default function EditRepair() {
               <input
                 id="description"
                 type="text"
-                placeholder="Civic"
+                placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("description")}
               />
@@ -102,7 +105,6 @@ export default function EditRepair() {
                 id="price"
                 type="number"
                 min={0}
-                placeholder="100"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("price")}
               />
@@ -114,8 +116,7 @@ export default function EditRepair() {
               <input
                 id="date"
                 type="date"
-                min={new Date().toISOString()}
-                placeholder={new Date().toISOString()}
+                max={dayjs().format("YYYY-MM-DD")}
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("date")}
               />
@@ -128,7 +129,6 @@ export default function EditRepair() {
                 id="mileage"
                 type="number"
                 min={0}
-                placeholder="150000"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("mileage")}
               />

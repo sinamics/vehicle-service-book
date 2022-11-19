@@ -76,13 +76,45 @@ export const repairRouter = router({
 
       return repair;
     }),
+  getHighestMileage: protectedProcedure
+    .input(repairParams.pick({ carId: true }))
+    .query(async ({ input, ctx }) => {
+      const repair = await ctx.prisma.repair.findFirst({
+        where: {
+          carId: input.carId,
+          AND: {
+            car: {
+              userId: ctx.session.user.id,
+            },
+          },
+        },
+        orderBy: {
+          mileage: "desc",
+        },
+        select: {
+          id: true,
+          mileage: true,
+        },
+      });
+
+      if (!repair)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Repair not found",
+        });
+
+      return repair;
+    }),
   create: protectedProcedure
     .input(createRepairSchema)
     .mutation(async ({ input, ctx }) => {
+      const { date, ...restBody } = input.body;
+
       const repair = await ctx.prisma.repair.create({
         data: {
           carId: input.params.carId,
-          ...input.body,
+          date: date ? new Date(date) : null,
+          ...restBody,
         },
       });
 
@@ -114,12 +146,16 @@ export const repairRouter = router({
         });
       }
 
+      const { title, date, ...restBody } = input.body;
+
       return await ctx.prisma.repair.update({
         where: {
           id: input.params.repairId,
         },
         data: {
-          ...input.body,
+          title: title || repair.title,
+          date: date ? new Date(date) : null,
+          ...restBody,
         },
       });
     }),

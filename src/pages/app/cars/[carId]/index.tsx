@@ -6,6 +6,7 @@ import React from "react";
 import Seo from "@/components/Seo";
 import AppLayout from "@/layouts/AppLayout";
 import type { UpdateCarSchema } from "@/server/schema/car.schema";
+import { queryOnlyOnce } from "@/utils/react-query";
 import { trpc } from "@/utils/trpc";
 
 export default function EditCar() {
@@ -27,8 +28,8 @@ export default function EditCar() {
           gearboxType: data.gearboxType ?? "Automatic",
         });
       },
-      staleTime: Infinity,
       enabled: Boolean(router.query.carId),
+      ...queryOnlyOnce,
     }
   );
 
@@ -127,7 +128,6 @@ export default function EditCar() {
                 type="number"
                 min={0}
                 max={new Date().getFullYear()}
-                placeholder="2009"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("productionYear")}
               />
@@ -156,7 +156,6 @@ export default function EditCar() {
                 id="engineCapacity"
                 type="number"
                 min={0}
-                placeholder="1799"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("engineCapacity")}
               />
@@ -169,7 +168,6 @@ export default function EditCar() {
                 id="enginePower"
                 type="number"
                 min={0}
-                placeholder="140"
                 className="input input-bordered w-full"
                 {...formik.getFieldProps("enginePower")}
               />

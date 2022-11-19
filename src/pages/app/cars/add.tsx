@@ -105,7 +105,6 @@ export default function AddCar() {
               type="number"
               min={0}
               max={new Date().getFullYear()}
-              placeholder="2009"
               className="input input-bordered w-full"
               {...formik.getFieldProps("productionYear")}
             />
@@ -134,7 +133,6 @@ export default function AddCar() {
               id="engineCapacity"
               type="number"
               min={0}
-              placeholder="1799"
               className="input input-bordered w-full"
               {...formik.getFieldProps("engineCapacity")}
             />
@@ -147,7 +145,6 @@ export default function AddCar() {
               id="enginePower"
               type="number"
               min={0}
-              placeholder="140"
               className="input input-bordered w-full"
               {...formik.getFieldProps("enginePower")}
             />

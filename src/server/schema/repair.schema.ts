@@ -6,7 +6,7 @@ export const repairParams = z.object({
 });
 
 export const createRepairSchema = z.object({
-  params: repairParams,
+  params: repairParams.pick({ carId: true }),
   body: z.object({
     title: z.string({
       required_error: "Title is required",
