@@ -79,28 +79,28 @@ model VerificationToken {
 }
 
 enum CarType {
+  Coupe
+  Cabriolet
+  Hatchback
+  Other
   Sedan
   SUV
   Truck
   Van
-  Coupe
-  Convertible
-  Hatchback
   Wagon
-  Other
 }
 
 enum EngineType {
-  Gasoline
   Diesel
   Electric
+  Gasoline
   Hybrid
   Other
 }
 
 enum GearboxType {
-  Manual
   Automatic
+  Manual
 }
 
 model Car {
