@@ -20,7 +20,7 @@ export async function addCars(prisma: any, userUUID: string[]) {
       engineCapacity: faker.datatype.number({ min: 1000, max: 5000 }),
       enginePower: faker.datatype.number({ min: 50, max: 900 }),
       gearboxType: faker.helpers.arrayElement(Object.values(GearboxType)),
-      generation: null,
+      generation: faker.helpers.arrayElement(["I", "II", "III", "IV", "V"]),
       engineType: faker.helpers.arrayElement(Object.values(EngineType)),
       userId: faker.helpers.arrayElement(userUUID),
       createdAt: faker.date.past(),
