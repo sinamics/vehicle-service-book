@@ -1,4 +1,3 @@
-import type { Car } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
@@ -6,14 +5,22 @@ import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
 import Seo from "@/components/Seo";
 import AppLayout from "@/layouts/AppLayout";
 import { formatEngineCapacity } from "@/utils/formatters";
+import { trpc } from "@/utils/trpc";
 
-const CarsList = () => {
-  const cars: Car[] = [];
+export default function CarsList() {
+  const utils = trpc.useContext();
+  const { data: cars } = trpc.car.getAll.useQuery();
+
+  const { mutate: deleteCar } = trpc.car.delete.useMutation({
+    onSuccess: () => utils.car.getAll.invalidate(),
+  });
+
   return (
     <AppLayout>
       <Seo title="Cars" description="cars list" />
       <div className="container min-h-app py-6">
-        {cars ? (
+        <Link href="/app/cars/add">Add new car</Link>
+        {cars?.length ? (
           <div className="overflow-x-auto">
             <table className="table-compact table w-full">
               <thead>
@@ -57,7 +64,10 @@ const CarsList = () => {
                       >
                         <FiEdit />
                       </Link>
-                      <button className="btn btn-error btn-outline btn-sm">
+                      <button
+                        className="btn btn-error btn-outline btn-sm"
+                        onClick={() => deleteCar({ carId: car.id })}
+                      >
                         <FiTrash2 />
                       </button>
                     </th>
@@ -72,6 +82,4 @@ const CarsList = () => {
       </div>
     </AppLayout>
   );
-};
-
-export default CarsList;
+}

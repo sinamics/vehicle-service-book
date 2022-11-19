@@ -1,10 +1,10 @@
-import { Car } from "@prisma/client";
+import type { Car } from "@prisma/client";
 import React from "react";
 
 import Seo from "@/components/Seo";
 import AppLayout from "@/layouts/AppLayout";
 
-const Car = () => {
+export default function Car() {
   const car = {} as Car;
   return (
     <AppLayout>
@@ -20,6 +20,4 @@ const Car = () => {
       </div>
     </AppLayout>
   );
-};
-
-export default Car;
+}

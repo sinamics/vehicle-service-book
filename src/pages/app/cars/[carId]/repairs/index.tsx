@@ -1,14 +1,29 @@
-import type { Repair } from "@prisma/client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
 import AppLayout from "@/layouts/AppLayout";
 import { formatDate, formatPrice } from "@/utils/formatters";
+import { trpc } from "@/utils/trpc";
 
-const Repairs = () => {
-  const repairs: Repair[] = [];
+export default function Repairs() {
+  const { query } = useRouter();
+  const utils = trpc.useContext();
+  const { data: repairs } = trpc.repair.getAll.useQuery(
+    {
+      carId: query.carId as string,
+    },
+    {
+      enabled: Boolean(query.carId),
+    }
+  );
+
+  const { mutate: deleteRepair } = trpc.repair.delete.useMutation({
+    onSuccess: () => utils.repair.getAll.invalidate(),
+  });
+
   return (
     <AppLayout>
       <Seo title="Repairs" description="repairs list" />
@@ -45,7 +60,15 @@ const Repairs = () => {
                       >
                         <FiEdit />
                       </Link>
-                      <button className="btn btn-error btn-sm">
+                      <button
+                        className="btn btn-error btn-sm"
+                        onClick={() =>
+                          deleteRepair({
+                            carId: repair.carId,
+                            repairId: repair.id,
+                          })
+                        }
+                      >
                         <FiTrash2 />
                       </button>
                     </th>
@@ -71,6 +94,4 @@ const Repairs = () => {
       </div>
     </AppLayout>
   );
-};
-
-export default Repairs;
+}

@@ -1,6 +1,10 @@
 import { TRPCError } from "@trpc/server";
-import z from "zod";
 
+import {
+  carParams,
+  createCarSchema,
+  updateCarSchema,
+} from "@/server/schema/car.schema";
 import { protectedProcedure, router } from "@/server/trpc/trpc";
 
 export const carRouter = router({
@@ -27,52 +31,104 @@ export const carRouter = router({
     });
 
     if (!cars?.length)
-      throw new TRPCError({ code: "NOT_FOUND", message: "No cars found" });
+      throw new TRPCError({ code: "NOT_FOUND", message: "Cars not found" });
 
     return cars;
   }),
-  getOne: protectedProcedure
-    .input(z.object({ carId: z.string().min(1) }))
-    .query(async ({ input, ctx }) => {
-      const car = await ctx.prisma.car.findFirst({
-        where: {
-          id: input.carId,
+  getOne: protectedProcedure.input(carParams).query(async ({ input, ctx }) => {
+    const car = await ctx.prisma.car.findFirst({
+      where: {
+        id: input.carId,
+        userId: ctx.session.user.id,
+      },
+      select: {
+        id: true,
+        type: true,
+        brand: true,
+        model: true,
+        generation: true,
+        productionYear: true,
+        engineType: true,
+        engineCapacity: true,
+        enginePower: true,
+        gearboxType: true,
+      },
+    });
+
+    if (!car)
+      throw new TRPCError({ code: "NOT_FOUND", message: "Car not found" });
+
+    return car;
+  }),
+  create: protectedProcedure
+    .input(createCarSchema)
+    .mutation(async ({ input, ctx }) => {
+      const car = await ctx.prisma.car.create({
+        data: {
           userId: ctx.session.user.id,
-        },
-        select: {
-          id: true,
-          type: true,
-          brand: true,
-          model: true,
-          generation: true,
-          productionYear: true,
-          engineType: true,
-          engineCapacity: true,
-          enginePower: true,
-          gearboxType: true,
+          ...input,
         },
       });
 
       if (!car)
-        throw new TRPCError({ code: "NOT_FOUND", message: "No car found" });
+        throw new TRPCError({ code: "NOT_FOUND", message: "Car not added" });
 
       return car;
     }),
-  create: protectedProcedure
-    .input(
-      z.object({
-        type: z.string().optional(),
-        brand: z.string().optional(),
-        model: z.string().optional(),
-        generation: z.string().optional(),
-        productionYear: z.number().optional(),
-        engineType: z.string().optional(),
-        engineCapacity: z.number().optional(),
-        enginePower: z.number().optional(),
-        gearboxType: z.string().optional(),
-      })
-    )
+  update: protectedProcedure
+    .input(updateCarSchema)
     .mutation(async ({ input, ctx }) => {
+      const car = await ctx.prisma.car.findUnique({
+        where: {
+          id: input.params.carId,
+        },
+      });
+
+      if (!car) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Car not found" });
+      }
+
+      if (car.userId !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Denied access to resources",
+        });
+      }
+
+      return await ctx.prisma.car.update({
+        where: {
+          id: input.params.carId,
+        },
+        data: {
+          ...input.body,
+        },
+      });
+    }),
+  delete: protectedProcedure
+    .input(carParams)
+    .mutation(async ({ input, ctx }) => {
+      const car = await ctx.prisma.car.findUnique({
+        where: {
+          id: input.carId,
+        },
+      });
+
+      if (!car) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Car not found" });
+      }
+
+      if (car.userId !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Denied access to resources",
+        });
+      }
+      await ctx.prisma.car.delete({
+        where: {
+          id: input.carId,
+        },
+      });
+
       return {};
     }),
 });
