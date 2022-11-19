@@ -4,13 +4,13 @@ import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
-import Layout from "@/layouts/Layout";
+import AppLayout from "@/layouts/AppLayout";
 import { formatDate, formatPrice } from "@/utils/formatters";
 
 const Repairs = () => {
   const repairs: Repair[] = [];
   return (
-    <Layout>
+    <AppLayout>
       <Seo title="Repairs" description="repairs list" />
       <div className="container min-h-app py-6">
         {repairs ? (
@@ -69,7 +69,7 @@ const Repairs = () => {
           <h2 className="text-3xl font-bold text-red-200">No services 🤷‍♂️</h2>
         )}
       </div>
-    </Layout>
+    </AppLayout>
   );
 };
 

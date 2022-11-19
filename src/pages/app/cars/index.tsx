@@ -4,13 +4,13 @@ import React from "react";
 import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
-import Layout from "@/layouts/Layout";
+import AppLayout from "@/layouts/AppLayout";
 import { formatEngineCapacity } from "@/utils/formatters";
 
 const CarsList = () => {
   const cars: Car[] = [];
   return (
-    <Layout>
+    <AppLayout>
       <Seo title="Cars" description="cars list" />
       <div className="container min-h-app py-6">
         {cars ? (
@@ -70,7 +70,7 @@ const CarsList = () => {
           <h2 className="text-3xl font-bold text-red-200">No cars 🤷🏼‍♂️</h2>
         )}
       </div>
-    </Layout>
+    </AppLayout>
   );
 };
 
