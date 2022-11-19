@@ -6,36 +6,34 @@ export const carParams = z.object({
 });
 
 export const createCarSchema = z.object({
-  type: z.nativeEnum(CarType).optional(),
+  type: z.nativeEnum(CarType).optional().nullable(),
   brand: z.string({
     required_error: "Brand is required",
   }),
   model: z.string({
     required_error: "Model is required",
   }),
-  generation: z.string().optional(),
-  productionYear: z.number().optional(),
-  engineType: z.nativeEnum(EngineType).optional(),
-  engineCapacity: z.number().optional(),
-  enginePower: z.number().optional(),
-  gearboxType: z.nativeEnum(GearboxType).optional(),
+  generation: z.string().optional().nullable(),
+  productionYear: z.number().optional().nullable(),
+  engineType: z.nativeEnum(EngineType).optional().nullable(),
+  engineCapacity: z.number().optional().nullable(),
+  enginePower: z.number().optional().nullable(),
+  gearboxType: z.nativeEnum(GearboxType).optional().nullable(),
 });
 
 export const updateCarSchema = z.object({
   params: carParams,
-  body: z
-    .object({
-      type: z.nativeEnum(CarType),
-      brand: z.string(),
-      model: z.string(),
-      generation: z.string(),
-      productionYear: z.number(),
-      engineType: z.nativeEnum(EngineType),
-      engineCapacity: z.number(),
-      enginePower: z.number(),
-      gearboxType: z.nativeEnum(GearboxType),
-    })
-    .partial(),
+  body: z.object({
+    type: z.nativeEnum(CarType).optional().nullable(),
+    brand: z.string().optional().nullable(),
+    model: z.string().optional().nullable(),
+    generation: z.string().optional().nullable(),
+    productionYear: z.number().optional().nullable(),
+    engineType: z.nativeEnum(EngineType).optional().nullable(),
+    engineCapacity: z.number().optional().nullable(),
+    enginePower: z.number().optional().nullable(),
+    gearboxType: z.nativeEnum(GearboxType).optional().nullable(),
+  }),
 });
 
 export type CarParams = z.infer<typeof carParams>;

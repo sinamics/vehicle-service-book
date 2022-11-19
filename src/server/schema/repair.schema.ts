@@ -8,25 +8,25 @@ export const repairParams = z.object({
 export const createRepairSchema = z.object({
   params: repairParams,
   body: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    price: z.number().optional(),
-    date: z.string().optional(),
-    mileage: z.number().optional(),
+    title: z.string({
+      required_error: "Title is required",
+    }),
+    description: z.string().optional().nullable(),
+    price: z.number().optional().nullable(),
+    date: z.string().optional().nullable(),
+    mileage: z.number().optional().nullable(),
   }),
 });
 
 export const updateRepairSchema = z.object({
   params: repairParams,
-  body: z
-    .object({
-      title: z.string(),
-      description: z.string(),
-      price: z.number(),
-      date: z.string(),
-      mileage: z.number(),
-    })
-    .partial(),
+  body: z.object({
+    title: z.string().optional().nullable(),
+    description: z.string().optional().nullable(),
+    price: z.number().optional().nullable(),
+    date: z.string().optional().nullable(),
+    mileage: z.number().optional().nullable(),
+  }),
 });
 
 export type RepairParams = z.infer<typeof repairParams>;

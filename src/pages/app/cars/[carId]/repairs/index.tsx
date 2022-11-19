@@ -28,6 +28,13 @@ export default function Repairs() {
     <AppLayout>
       <Seo title="Repairs" description="repairs list" />
       <div className="container min-h-app py-6">
+        <Link
+          href={`/app/cars/${encodeURIComponent(
+            query.carId as string
+          )}/repairs/add`}
+        >
+          Add new repair
+        </Link>
         {repairs ? (
           <div className="overflow-x-auto">
             <table className="table-compact table w-full">
@@ -55,7 +62,7 @@ export default function Repairs() {
                     <td>{repair.mileage}</td>
                     <th>
                       <Link
-                        href={`/app/car/${repair.carId}/repairs/${repair.id}`}
+                        href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
                         className="btn btn-success btn-sm mr-2"
                       >
                         <FiEdit />
