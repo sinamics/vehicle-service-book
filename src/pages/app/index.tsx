@@ -5,18 +5,18 @@ import type {
 import React from "react";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 
 const AppIndex = ({}: InferGetServerSidePropsType<
   typeof getServerSideProps
 >) => {
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Dashboard" description="car service book dashboard" />
       <div className="container min-h-app py-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>
-    </AppLayout>
+    </Layout>
   );
 };
 

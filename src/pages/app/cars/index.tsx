@@ -3,7 +3,7 @@ import React from "react";
 import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 import { formatEngineCapacity } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
@@ -16,7 +16,7 @@ export default function CarsList() {
   });
 
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Cars" description="cars list" />
       <div className="container min-h-app py-6">
         <Link href="/app/cars/add">Add new car</Link>
@@ -54,18 +54,18 @@ export default function CarsList() {
                     <th>
                       <Link
                         href={`/app/cars/${car.id}/repairs`}
-                        className="btn btn-info btn-outline btn-sm mr-2"
+                        className="btn-outline btn-info btn-sm btn mr-2"
                       >
                         <FiTool />
                       </Link>
                       <Link
                         href={`/app/cars/${car.id}`}
-                        className="btn btn-success btn-outline btn-sm mr-2"
+                        className="btn-outline btn-success btn-sm btn mr-2"
                       >
                         <FiEdit />
                       </Link>
                       <button
-                        className="btn btn-error btn-outline btn-sm"
+                        className="btn-outline btn-error btn-sm btn"
                         onClick={() => deleteCar({ carId: car.id })}
                       >
                         <FiTrash2 />
@@ -80,6 +80,6 @@ export default function CarsList() {
           <h2 className="text-3xl font-bold text-red-200">No cars 🤷🏼‍♂️</h2>
         )}
       </div>
-    </AppLayout>
+    </Layout>
   );
 }

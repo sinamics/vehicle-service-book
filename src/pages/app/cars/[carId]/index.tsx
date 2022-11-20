@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 import type { UpdateCarSchema } from "@/server/schema/car.schema";
 import { queryOnlyOnce } from "@/utils/react-query";
 import { trpc } from "@/utils/trpc";
@@ -59,7 +59,7 @@ export default function EditCar() {
   });
 
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Edit car" description="Edit car" />
       <div className="container min-h-app py-6">
         {!isLoading && (
@@ -73,7 +73,7 @@ export default function EditCar() {
               </label>
               <select
                 id="type"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("type")}
               >
                 {Object.values(CarType).map((type) => (
@@ -91,7 +91,7 @@ export default function EditCar() {
                 id="brand"
                 type="text"
                 placeholder="Honda"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("brand")}
               />
             </div>
@@ -103,7 +103,7 @@ export default function EditCar() {
                 id="model"
                 type="text"
                 placeholder="Civic"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("model")}
               />
             </div>
@@ -115,7 +115,7 @@ export default function EditCar() {
                 id="generation"
                 type="text"
                 placeholder="VIII"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("generation")}
               />
             </div>
@@ -128,7 +128,7 @@ export default function EditCar() {
                 type="number"
                 min={0}
                 max={new Date().getFullYear()}
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("productionYear")}
               />
             </div>
@@ -138,7 +138,7 @@ export default function EditCar() {
               </label>
               <select
                 id="type"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("engineType")}
               >
                 {Object.values(EngineType).map((type) => (
@@ -156,7 +156,7 @@ export default function EditCar() {
                 id="engineCapacity"
                 type="number"
                 min={0}
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("engineCapacity")}
               />
             </div>
@@ -168,7 +168,7 @@ export default function EditCar() {
                 id="enginePower"
                 type="number"
                 min={0}
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("enginePower")}
               />
             </div>
@@ -178,7 +178,7 @@ export default function EditCar() {
               </label>
               <select
                 id="type"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("gearboxType")}
               >
                 {Object.values(GearboxType).map((type) => (
@@ -188,12 +188,12 @@ export default function EditCar() {
                 ))}
               </select>
             </div>
-            <button className="btn btn-wide" type="submit">
+            <button className="btn-wide btn" type="submit">
               {formik.isSubmitting ? "Editing..." : "Edit"}
             </button>
           </form>
         )}
       </div>
-    </AppLayout>
+    </Layout>
   );
 }

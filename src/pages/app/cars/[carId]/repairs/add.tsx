@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 import type { CreateRepairSchema } from "@/server/schema/repair.schema";
 import { trpc } from "@/utils/trpc";
 
@@ -53,7 +53,7 @@ export default function AddRepair() {
   });
 
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Add repair" description="Add repair" />
       <div className="container min-h-app py-6">
         <form
@@ -68,7 +68,7 @@ export default function AddRepair() {
               id="title"
               type="text"
               placeholder="Replace tires and oil"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("title")}
             />
           </div>
@@ -80,7 +80,7 @@ export default function AddRepair() {
               id="description"
               type="text"
               placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("description")}
             />
           </div>
@@ -92,7 +92,7 @@ export default function AddRepair() {
               id="price"
               type="number"
               min={0}
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("price")}
             />
           </div>
@@ -104,7 +104,7 @@ export default function AddRepair() {
               id="date"
               type="date"
               max={dayjs().format("YYYY-MM-DD")}
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("date")}
             />
           </div>
@@ -116,15 +116,15 @@ export default function AddRepair() {
               id="mileage"
               type="number"
               min={lastMileage?.mileage ? lastMileage.mileage : 0}
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("mileage")}
             />
           </div>
-          <button className="btn btn-wide" type="submit">
+          <button className="btn-wide btn" type="submit">
             {formik.isSubmitting ? "Adding..." : "Add"}
           </button>
         </form>
       </div>
-    </AppLayout>
+    </Layout>
   );
 }

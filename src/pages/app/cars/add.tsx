@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 import type { CreateCarSchema } from "@/server/schema/car.schema";
 import { trpc } from "@/utils/trpc";
 
@@ -37,7 +37,7 @@ export default function AddCar() {
   });
 
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Add car" description="Add car" />
       <div className="container min-h-app py-6">
         <form
@@ -50,7 +50,7 @@ export default function AddCar() {
             </label>
             <select
               id="type"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("type")}
             >
               {Object.values(CarType).map((type) => (
@@ -68,7 +68,7 @@ export default function AddCar() {
               id="brand"
               type="text"
               placeholder="Honda"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("brand")}
             />
           </div>
@@ -80,7 +80,7 @@ export default function AddCar() {
               id="model"
               type="text"
               placeholder="Civic"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("model")}
             />
           </div>
@@ -92,7 +92,7 @@ export default function AddCar() {
               id="generation"
               type="text"
               placeholder="VIII"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("generation")}
             />
           </div>
@@ -105,7 +105,7 @@ export default function AddCar() {
               type="number"
               min={0}
               max={new Date().getFullYear()}
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("productionYear")}
             />
           </div>
@@ -115,7 +115,7 @@ export default function AddCar() {
             </label>
             <select
               id="type"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("engineType")}
             >
               {Object.values(EngineType).map((type) => (
@@ -133,7 +133,7 @@ export default function AddCar() {
               id="engineCapacity"
               type="number"
               min={0}
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("engineCapacity")}
             />
           </div>
@@ -145,7 +145,7 @@ export default function AddCar() {
               id="enginePower"
               type="number"
               min={0}
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("enginePower")}
             />
           </div>
@@ -155,7 +155,7 @@ export default function AddCar() {
             </label>
             <select
               id="type"
-              className="input input-bordered w-full"
+              className="input-bordered input w-full"
               {...formik.getFieldProps("gearboxType")}
             >
               {Object.values(GearboxType).map((type) => (
@@ -165,11 +165,11 @@ export default function AddCar() {
               ))}
             </select>
           </div>
-          <button className="btn btn-wide" type="submit">
+          <button className="btn-wide btn" type="submit">
             {formik.isSubmitting ? "Adding..." : "Add"}
           </button>
         </form>
       </div>
-    </AppLayout>
+    </Layout>
   );
 }

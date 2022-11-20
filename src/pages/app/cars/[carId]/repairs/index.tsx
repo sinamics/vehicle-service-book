@@ -4,7 +4,7 @@ import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 import { formatDate, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
@@ -25,7 +25,7 @@ export default function Repairs() {
   });
 
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Repairs" description="repairs list" />
       <div className="container min-h-app py-6">
         <Link
@@ -63,12 +63,12 @@ export default function Repairs() {
                     <th>
                       <Link
                         href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
-                        className="btn btn-success btn-sm mr-2"
+                        className="btn-success btn-sm btn mr-2"
                       >
                         <FiEdit />
                       </Link>
                       <button
-                        className="btn btn-error btn-sm"
+                        className="btn-error btn-sm btn"
                         onClick={() =>
                           deleteRepair({
                             carId: repair.carId,
@@ -99,6 +99,6 @@ export default function Repairs() {
           <h2 className="text-3xl font-bold text-red-200">No services 🤷‍♂️</h2>
         )}
       </div>
-    </AppLayout>
+    </Layout>
   );
 }

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import Seo from "@/components/Seo";
-import AppLayout from "@/layouts/AppLayout";
+import Layout from "@/layouts/Layout";
 import type { UpdateRepairSchema } from "@/server/schema/repair.schema";
 import { queryOnlyOnce } from "@/utils/react-query";
 import { trpc } from "@/utils/trpc";
@@ -65,7 +65,7 @@ export default function EditRepair() {
   });
 
   return (
-    <AppLayout>
+    <Layout>
       <Seo title="Edit repair" description="Edit repair" />
       <div className="container min-h-app py-6">
         {!isLoading && (
@@ -81,7 +81,7 @@ export default function EditRepair() {
                 id="title"
                 type="text"
                 placeholder="Replace tires and oil"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("title")}
               />
             </div>
@@ -93,7 +93,7 @@ export default function EditRepair() {
                 id="description"
                 type="text"
                 placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("description")}
               />
             </div>
@@ -105,7 +105,7 @@ export default function EditRepair() {
                 id="price"
                 type="number"
                 min={0}
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("price")}
               />
             </div>
@@ -117,7 +117,7 @@ export default function EditRepair() {
                 id="date"
                 type="date"
                 max={dayjs().format("YYYY-MM-DD")}
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("date")}
               />
             </div>
@@ -129,16 +129,16 @@ export default function EditRepair() {
                 id="mileage"
                 type="number"
                 min={0}
-                className="input input-bordered w-full"
+                className="input-bordered input w-full"
                 {...formik.getFieldProps("mileage")}
               />
             </div>
-            <button className="btn btn-wide" type="submit">
+            <button className="btn-wide btn" type="submit">
               {formik.isSubmitting ? "Editing..." : "Edit"}
             </button>
           </form>
         )}
       </div>
-    </AppLayout>
+    </Layout>
   );
 }
