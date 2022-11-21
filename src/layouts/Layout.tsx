@@ -1,34 +1,16 @@
-import { User } from "@prisma/client";
-import { useRouter } from "next/router";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import Footer from "@/components/Footer";
-import Header, { Link } from "@/components/Header";
+import Header from "@/components/Header";
 
-type Props = PropsWithChildren & {
-  user?: Partial<User> | null;
-};
+type Props = PropsWithChildren;
 
-const Layout = ({ user, children }: Props) => {
-  const { pathname } = useRouter();
-
+export default function Layout({ children }: Props) {
   return (
     <>
-      <Header links={pathname === "/" ? homeLinks : appLinks} user={user} />
-      <main className="pt-16">{children}</main>
+      <Header />
+      <main className="px-4 pt-16">{children}</main>
       <Footer />
     </>
   );
-};
-
-const homeLinks: Link[] = [];
-
-const appLinks: Link[] = [
-  {
-    id: 1,
-    href: "/app/cars",
-    label: "Cars",
-  },
-];
-
-export default Layout;
+}

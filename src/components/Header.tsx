@@ -1,90 +1,117 @@
-import { User } from "@prisma/client";
 import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
+import { FiLogOut } from "react-icons/fi";
 
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { trpc } from "@/utils/trpc";
 
-export type Link = {
+type HeaderLink = {
   id: number;
   href: string;
   label: string;
 };
 
-type Props = {
-  user?: Partial<User> | null;
-  links: Link[];
+const links: Record<string, HeaderLink[]> = {
+  home: [],
+  app: [
+    {
+      id: 1,
+      href: "/app",
+      label: "Dashboard",
+    },
+    {
+      id: 2,
+      href: "/app/cars",
+      label: "Cars",
+    },
+  ],
 };
 
-const Header = ({ user, links }: Props) => {
+export default function Header() {
+  const { pathname } = useRouter();
   const [opened, setOpened] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const { pathname } = useRouter();
+
+  const { data: user } = trpc.auth.getUser.useQuery();
 
   return (
-    <header className="fixed z-40 justify-center px-6 shadow-lg navbar bg-base-300">
+    <header className="navbar fixed z-40 justify-center bg-base-300 px-6 shadow-lg">
       <div className="navbar-start">
-        <button
-          onClick={() => setOpened((prev) => !prev)}
-          className="flex cursor-pointer flex-col items-start gap-1 btn btn-ghost group md:hidden">
-          <span className="w-4 h-[2px] bg-current d-block transition" />
-          <span
-            className={
-              "w-4 h-[2px] bg-current d-block scale-x-50 origin-left transition group-focus:scale-x-100 group-hover:scale-x-100"
-            }
-          />
-          <span className="bg-current d-block transition w-4 h-[2px]" />
-        </button>
-        <ul
-          className={cx(
-            "p-0 menu flex md:menu-horizontal absolute top-20 left-6 bg-base-300 rounded-lg transition duration-500 md:translate-y-0 md:static md:top-0 md:left-0 md:bg-transparent md:opacity-100",
-            {
-              "opacity-0 -translate-y-6": !isDesktop && !opened,
-            }
-          )}>
-          {links.map((link) => (
-            <li key={link.id}>
-              <Link tabIndex={!isDesktop && !opened ? -1 : undefined} className="btn btn-ghost" href={link.href}>
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {pathname !== "/auth/login" && (
+          <>
+            <button
+              onClick={() => setOpened((prev) => !prev)}
+              className="group btn-ghost btn flex cursor-pointer flex-col items-start gap-1 md:hidden"
+            >
+              <span className="d-block h-[2px] w-4 bg-current transition" />
+              <span
+                className={
+                  "d-block h-[2px] w-4 origin-left scale-x-50 bg-current transition group-hover:scale-x-100 group-focus:scale-x-100"
+                }
+              />
+              <span className="d-block h-[2px] w-4 bg-current transition" />
+            </button>
+            <ul
+              className={cx(
+                "menu absolute top-20 left-6 flex rounded-lg bg-base-300 p-0 transition duration-500 md:static md:top-0 md:left-0 md:translate-y-0 md:bg-transparent md:opacity-100 md:menu-horizontal",
+                {
+                  "-translate-y-6 opacity-0": !isDesktop && !opened,
+                }
+              )}
+            >
+              {links[pathname === "/" ? "home" : "app"]?.map((link) => (
+                <li key={link.id}>
+                  <Link
+                    tabIndex={!isDesktop && !opened ? -1 : undefined}
+                    href={link.href}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
       <div className="navbar-center">
-        <Link href="/" className="normal-case t ext-xl btn btn-ghost">
+        <Link href="/" className="t ext-xl btn-ghost btn normal-case">
           Car Service Book
         </Link>
       </div>
       <div className="navbar-end">
-        {user && pathname !== "/" ? (
+        {user && pathname !== "/" && (
           <div className="flex items-center gap-3">
-            {user.image ? (
-              <Image
-                className="rounded-full ring-2"
-                src={user.image}
-                width={36}
-                height={36}
-                alt={`Profile picture of ${user.name}`}
-              />
-            ) : null}
-            <p>{user.name}</p>
-            <button className="btn btn-outline" onClick={() => signOut()}>
-              Logout
+            {user.image && (
+              <>
+                <p>{user.name}</p>
+                <Image
+                  className="rounded-full ring-2"
+                  src={user.image}
+                  width={36}
+                  height={36}
+                  alt={`Profile picture of ${user.name}`}
+                />
+              </>
+            )}
+            <button
+              title="Logout"
+              className="btn-ghost btn"
+              onClick={() => signOut()}
+            >
+              <FiLogOut size={20} />
             </button>
           </div>
-        ) : null}
-        {pathname === "/" ? (
-          <Link href="/app" className="btn btn-outline">
+        )}
+        {pathname === "/" && (
+          <Link href="/app" className="btn-outline btn">
             Go to app
           </Link>
-        ) : null}
+        )}
       </div>
     </header>
   );
-};
-
-export default Header;
+}

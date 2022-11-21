@@ -1,16 +1,14 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getSession } from "next-auth/react";
+import React from "react";
 
-import { getServerSideUser } from "@/common/getServerSideUser";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 
-const Index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+export default function Home() {
   return (
-    <Layout user={props.user}>
-      <Seo title="Home" description="Description of Home" />
-      <div className="min-h-screen hero bg-base-200">
-        <div className="text-center hero-content">
+    <Layout>
+      <Seo title="Layout" description="Description of Layout" />
+      <div className="hero min-h-app bg-base-200">
+        <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Car service book</h1>
           </div>
@@ -18,15 +16,4 @@ const Index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) =>
       </div>
     </Layout>
   );
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const user = await getServerSideUser(context);
-  return {
-    props: {
-      user,
-    },
-  };
-};
-
-export default Index;
+}

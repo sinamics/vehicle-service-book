@@ -1,9 +1,12 @@
 import { hash } from "argon2";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import prisma from "@/lib/prismadb";
+import { prisma } from "@/server/db/client";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const { email, password } = req.body;
 

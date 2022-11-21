@@ -7,7 +7,11 @@ type Props = {
   image?: string;
 };
 
-const Seo = ({ title, description, image = "/placeholder-social.jpg" }: Props) => {
+const Seo = ({
+  title,
+  description,
+  image = "/placeholder-social.jpg",
+}: Props) => {
   const url = process.env.NEXT_PUBLIC_URL;
   const canonicalURL = url + useRouter().pathname;
 
@@ -19,8 +23,16 @@ const Seo = ({ title, description, image = "/placeholder-social.jpg" }: Props) =
 
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
-      <meta name="og:title" property="og:title" content={`${title} | Car Service Book`} />
-      <meta name="og:description" property="og:description" content={description} />
+      <meta
+        name="og:title"
+        property="og:title"
+        content={`${title} | Car Service Book`}
+      />
+      <meta
+        name="og:description"
+        property="og:description"
+        content={description}
+      />
       <meta property="og:image" content={new URL(image, url).href} />
       <meta property="og:site_name" content="Jakub Soboczyński" />
       <meta name="og:locale" property="og:locale" content="pl_PL" />

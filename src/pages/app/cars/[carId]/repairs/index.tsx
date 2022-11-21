@@ -1,24 +1,43 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
-import { formatDate, formatPrice } from "@/common/filters";
-import { getServerSideUser } from "@/common/getServerSideUser";
-import { sumByField } from "@/common/helpers";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
-import { repairsService } from "@/services/repairsService";
+import { formatDate, formatPrice } from "@/utils/formatters";
+import { trpc } from "@/utils/trpc";
 
-const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+export default function Repairs() {
+  const { query } = useRouter();
+  const utils = trpc.useContext();
+  const { data: repairs } = trpc.repair.getAll.useQuery(
+    {
+      carId: query.carId as string,
+    },
+    {
+      enabled: Boolean(query.carId),
+    }
+  );
+
+  const { mutate: deleteRepair } = trpc.repair.delete.useMutation({
+    onSuccess: () => utils.repair.getAll.invalidate(),
+  });
+
   return (
-    <Layout user={user}>
+    <Layout>
       <Seo title="Repairs" description="repairs list" />
-      <div className="container py-6">
-        <Breadcrumbs />
+      <div className="container min-h-app py-6">
+        <Link
+          href={`/app/cars/${encodeURIComponent(
+            query.carId as string
+          )}/repairs/add`}
+        >
+          Add new repair
+        </Link>
         {repairs ? (
           <div className="overflow-x-auto">
-            <table className="table table-compact w-full">
+            <table className="table-compact table w-full">
               <thead>
                 <tr>
                   <th></th>
@@ -35,17 +54,30 @@ const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServer
                   <tr className="break-words" key={repair.id}>
                     <th>{index + 1}</th>
                     <td>{repair.title}</td>
-                    <td className="max-w-prose whitespace-normal">{repair.description}</td>
+                    <td className="max-w-prose whitespace-normal">
+                      {repair.description}
+                    </td>
                     <td>{formatDate(repair.date)}</td>
                     <td>{formatPrice(repair.price)}</td>
                     <td>{repair.mileage}</td>
                     <th>
                       <Link
-                        href={`/app/car/${repair.carId}/repairs/${repair.id}`}
-                        className="btn btn-success btn-xs mr-2">
-                        repairs
+                        href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
+                        className="btn-success btn-sm btn mr-2"
+                      >
+                        <FiEdit />
                       </Link>
-                      <button className="btn btn-error btn-xs">delete</button>
+                      <button
+                        className="btn-error btn-sm btn"
+                        onClick={() =>
+                          deleteRepair({
+                            carId: repair.carId,
+                            repairId: repair.id,
+                          })
+                        }
+                      >
+                        <FiTrash2 />
+                      </button>
                     </th>
                   </tr>
                 ))}
@@ -56,7 +88,7 @@ const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServer
                   <th></th>
                   <th></th>
                   <th className="text-right">SUM:</th>
-                  <th>{formatPrice(sumByField(repairs, "price"))}</th>
+                  <th>sum of prices</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -64,24 +96,9 @@ const Repairs = ({ user, repairs }: InferGetServerSidePropsType<typeof getServer
             </table>
           </div>
         ) : (
-          <h2 className="text-3xl font-bold text-red-200">Brak samochodów</h2>
+          <h2 className="text-3xl font-bold text-red-200">No services 🤷‍♂️</h2>
         )}
       </div>
     </Layout>
   );
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const user = await getServerSideUser(context);
-  const { getRepairs } = await repairsService(context);
-  const repairs = await getRepairs();
-
-  return {
-    props: {
-      user,
-      repairs,
-    },
-  };
-};
-
-export default Repairs;
+}

@@ -1,15 +1,16 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { verify } from "argon2";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 
-import prisma from "@/lib/prismadb";
+import { env } from "@/env/server.mjs";
+import { prisma } from "@/server/db/client";
 
-export const nextAuthOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24 * 30, // 30 days
   },
   jwt: {
     maxAge: 60 * 60 * 24 * 30, // 30 days
@@ -20,12 +21,16 @@ export const nextAuthOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Address email", type: "email", placeholder: "john@doe.com" },
+        email: {
+          label: "Address email",
+          type: "email",
+          placeholder: "john@doe.com",
+        },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const user = await prisma.user.findUnique({
-          where: { email: credentials?.email },
+          where: { email: credentials?.email.toLowerCase() },
         });
 
         if (!user) {
@@ -51,24 +56,46 @@ export const nextAuthOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
     }),
+    DiscordProvider({
+      clientId: env.DISCORD_CLIENT_ID,
+      clientSecret: env.DISCORD_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
-    async jwt({ token, user, profile, account, isNewUser }) {
-      if (user) {
-        token = {
-          id: user.id,
-          email: user.email,
-        };
+    async redirect({ baseUrl }) {
+      return `${baseUrl}/app`;
+    },
+    async jwt({ token }) {
+      if (token.email) {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: token?.email?.toLowerCase(),
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            emailVerified: true,
+            firstName: true,
+            lastName: true,
+            image: true,
+          },
+        });
+
+        if (existingUser) {
+          return {
+            user: existingUser,
+          };
+        }
       }
-      if (account) {
-        token.accessToken = account.access_token;
-      }
+
       return token;
     },
-    async session({ session, token, user }) {
-      if (token) {
-        session.user = token;
+    session({ session, token }) {
+      if (token.user) {
+        session.user = token.user;
       }
+
       return session;
     },
   },
@@ -77,4 +104,4 @@ export const nextAuthOptions: NextAuthOptions = {
   },
 };
 
-export default NextAuth(nextAuthOptions);
+export default NextAuth(authOptions);
