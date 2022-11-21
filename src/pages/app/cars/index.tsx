@@ -19,7 +19,9 @@ export default function CarsList() {
     <Layout>
       <Seo title="Cars" description="cars list" />
       <div className="container min-h-app py-6">
-        <Link href="/app/cars/add">Add new car</Link>
+        <Link className="btn-outline btn mb-2" href="/app/cars/add">
+          Add new car
+        </Link>
         {cars?.length ? (
           <div className="overflow-x-auto">
             <table className="table-compact table w-full">

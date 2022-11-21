@@ -29,6 +29,7 @@ export default function Repairs() {
       <Seo title="Repairs" description="repairs list" />
       <div className="container min-h-app py-6">
         <Link
+          className="btn-outline btn mb-2"
           href={`/app/cars/${encodeURIComponent(
             query.carId as string
           )}/repairs/add`}
@@ -52,7 +53,7 @@ export default function Repairs() {
               <tbody>
                 {repairs.map((repair, index) => (
                   <tr className="break-words" key={repair.id}>
-                    <th>{index + 1}</th>
+                    <td>{index + 1}</td>
                     <td>{repair.title}</td>
                     <td className="max-w-prose whitespace-normal">
                       {repair.description}
@@ -60,7 +61,7 @@ export default function Repairs() {
                     <td>{formatDate(repair.date)}</td>
                     <td>{formatPrice(repair.price)}</td>
                     <td>{repair.mileage}</td>
-                    <th>
+                    <td>
                       <Link
                         href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
                         className="btn-success btn-sm btn mr-2"
@@ -78,7 +79,7 @@ export default function Repairs() {
                       >
                         <FiTrash2 />
                       </button>
-                    </th>
+                    </td>
                   </tr>
                 ))}
               </tbody>

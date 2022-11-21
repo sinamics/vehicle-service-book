@@ -5,7 +5,15 @@ const Footer = ({ ...props }) => {
       {...props}
     >
       <div>
-        <p>Copyright © 2022 - All right reserved by Jakub Soboczyński</p>
+        <p>
+          Copyright © 2022 - All right reserved by{" "}
+          <a
+            className="link-hover link-info link"
+            href="https://github.com/teziovsky/"
+          >
+            Jakub Soboczyński
+          </a>
+        </p>
       </div>
     </footer>
   );
