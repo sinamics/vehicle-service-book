@@ -17,7 +17,7 @@ const config = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.",
+        hostname: "**",
       },
     ],
   },

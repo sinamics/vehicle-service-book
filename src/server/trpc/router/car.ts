@@ -9,7 +9,7 @@ import { protectedProcedure, router } from "@/server/trpc/trpc";
 
 export const carRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    const cars = await ctx.prisma.car.findMany({
+    return await ctx.prisma.car.findMany({
       where: {
         userId: ctx.session.user.id,
       },
@@ -29,14 +29,9 @@ export const carRouter = router({
         gearboxType: true,
       },
     });
-
-    if (!cars?.length)
-      throw new TRPCError({ code: "NOT_FOUND", message: "Cars not found" });
-
-    return cars;
   }),
   getOne: protectedProcedure.input(carParams).query(async ({ input, ctx }) => {
-    const car = await ctx.prisma.car.findFirst({
+    return await ctx.prisma.car.findFirst({
       where: {
         id: input.carId,
         userId: ctx.session.user.id,
@@ -54,11 +49,6 @@ export const carRouter = router({
         gearboxType: true,
       },
     });
-
-    if (!car)
-      throw new TRPCError({ code: "NOT_FOUND", message: "Car not found" });
-
-    return car;
   }),
   create: protectedProcedure
     .input(createCarSchema)
@@ -96,7 +86,7 @@ export const carRouter = router({
       }
 
       const { brand, model, ...restBody } = input.body;
-      
+
       return await ctx.prisma.car.update({
         where: {
           id: input.params.carId,

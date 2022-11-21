@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import { Repair } from "@prisma/client";
+import type { PrismaClient, Repair } from "@prisma/client";
 
-export async function addRepairs(prisma: any, carUUID: string[]) {
+export async function addRepairs(prisma: PrismaClient, carUUID: string[]) {
   await prisma.repair.deleteMany({});
 
   const repairs: Repair[] = [];

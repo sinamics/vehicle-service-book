@@ -1,3 +1,4 @@
+import { Container } from "@nextui-org/react";
 import type { PropsWithChildren } from "react";
 
 import Footer from "@/components/Footer";
@@ -9,7 +10,9 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <main className="px-4 pt-16">{children}</main>
+      <Container fluid css={{ minHeight: "calc(100vh - 152px)" }}>
+        {children}
+      </Container>
       <Footer />
     </>
   );

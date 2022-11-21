@@ -1,6 +1,6 @@
-import Link from "next/link";
-import React from "react";
-import { FiEdit, FiTool, FiTrash2 } from "react-icons/fi";
+import { Button, Card, Grid, Row, Spacer, Text } from "@nextui-org/react";
+import NextLink from "next/link";
+import { FiEdit, FiPlus, FiTool, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -9,7 +9,7 @@ import { trpc } from "@/utils/trpc";
 
 export default function CarsList() {
   const utils = trpc.useContext();
-  const { data: cars } = trpc.car.getAll.useQuery();
+  const { isLoading, isSuccess, data: cars } = trpc.car.getAll.useQuery();
 
   const { mutate: deleteCar } = trpc.car.delete.useMutation({
     onSuccess: () => utils.car.getAll.invalidate(),
@@ -18,70 +18,92 @@ export default function CarsList() {
   return (
     <Layout>
       <Seo title="Cars" description="cars list" />
-      <div className="container min-h-app py-6">
-        <Link className="btn-outline btn mb-2" href="/app/cars/add">
-          Add new car
-        </Link>
-        {cars?.length ? (
-          <div className="overflow-x-auto">
-            <table className="table-compact table w-full">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Type</th>
-                  <th>Brand</th>
-                  <th>Model</th>
-                  <th>Generation</th>
-                  <th>Production Year</th>
-                  <th>Engine Type</th>
-                  <th>Engine Capacity</th>
-                  <th>Engine Power</th>
-                  <th>Gearbox Type</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {cars.map((car, index) => (
-                  <tr key={car.id}>
-                    <th>{index + 1}</th>
-                    <td>{car.type}</td>
-                    <td>{car.brand}</td>
-                    <td>{car.model}</td>
-                    <td>{car.generation}</td>
-                    <td>{car.productionYear}</td>
-                    <td>{car.engineType}</td>
-                    <td>{formatEngineCapacity(car.engineCapacity)}</td>
-                    <td>{car.enginePower} HP</td>
-                    <td>{car.gearboxType}</td>
-                    <th>
-                      <Link
+      <>
+        <Grid.Container gap={2}>
+          <Grid xs={12} sm={6} md={4} lg={3}>
+            <Card
+              as={NextLink}
+              href="/app/cars/add"
+              css={{ h: "100%", minHeight: "245px" }}
+              variant="bordered"
+              isPressable
+              isHoverable
+            >
+              <Card.Body>
+                <Row justify="center" css={{ h: "100%", alignItems: "center" }}>
+                  <FiPlus size={48} />
+                </Row>
+              </Card.Body>
+            </Card>
+          </Grid>
+          {cars?.length &&
+            cars.map((car) => (
+              <Grid key={car.id} xs={12} sm={6} md={4} lg={3}>
+                <Card variant="bordered" css={{ p: "$6" }}>
+                  <Card.Header>
+                    <Grid.Container>
+                      <Grid justify="space-between" xs={12}>
+                        <Grid.Container>
+                          <Grid justify="space-between" xs={12}>
+                            <Text h4 css={{ lineHeight: "$xs" }}>
+                              {car.brand} {car.model} {car.generation}{" "}
+                              {car.productionYear}
+                            </Text>
+                          </Grid>
+                          <Grid xs={12}>
+                            <Text css={{ color: "$accents8" }}>{car.type}</Text>
+                          </Grid>
+                        </Grid.Container>
+                        <Button
+                          color="success"
+                          icon={<FiEdit />}
+                          auto
+                          flat
+                          as={NextLink}
+                          href={`/app/cars/${car.id}`}
+                        />
+                      </Grid>
+                    </Grid.Container>
+                  </Card.Header>
+                  <Card.Body css={{ pt: "$2", pb: "$6" }}>
+                    <Text>
+                      <strong>Engine:</strong> {car.engineType}{" "}
+                      {formatEngineCapacity(car.engineCapacity)}{" "}
+                      {car.enginePower}
+                      HP
+                    </Text>
+                    <Text>
+                      <strong>Gearbox:</strong> {car.gearboxType}
+                    </Text>
+                  </Card.Body>
+                  <Card.Divider />
+                  <Card.Footer>
+                    <Row justify="space-between">
+                      <Button
+                        auto
+                        icon={<FiTool />}
+                        as={NextLink}
                         href={`/app/cars/${car.id}/repairs`}
-                        className="btn-outline btn-info btn-sm btn mr-2"
                       >
-                        <FiTool />
-                      </Link>
-                      <Link
-                        href={`/app/cars/${car.id}`}
-                        className="btn-outline btn-success btn-sm btn mr-2"
-                      >
-                        <FiEdit />
-                      </Link>
-                      <button
-                        className="btn-outline btn-error btn-sm btn"
+                        Repairs
+                      </Button>
+                      <Spacer x={0.5} />
+                      <Button
+                        color="error"
+                        auto
+                        flat
+                        icon={<FiTrash2 />}
                         onClick={() => deleteCar({ carId: car.id })}
                       >
-                        <FiTrash2 />
-                      </button>
-                    </th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <h2 className="text-3xl font-bold text-red-200">No cars 🤷🏼‍♂️</h2>
-        )}
-      </div>
+                        Delete
+                      </Button>
+                    </Row>
+                  </Card.Footer>
+                </Card>
+              </Grid>
+            ))}
+        </Grid.Container>
+      </>
     </Layout>
   );
 }

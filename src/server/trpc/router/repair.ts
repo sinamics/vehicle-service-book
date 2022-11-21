@@ -12,7 +12,7 @@ export const repairRouter = router({
   getAll: protectedProcedure
     .input(repairParams.pick({ carId: true }))
     .query(async ({ input, ctx }) => {
-      const repairs = await ctx.prisma.repair.findMany({
+      return await ctx.prisma.repair.findMany({
         where: {
           carId: input.carId,
           AND: {
@@ -34,19 +34,11 @@ export const repairRouter = router({
           carId: true,
         },
       });
-
-      if (!repairs?.length)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Repairs not found",
-        });
-
-      return repairs;
     }),
   getOne: protectedProcedure
     .input(repairParams)
     .query(async ({ input, ctx }) => {
-      const repair = await ctx.prisma.repair.findFirst({
+      return await ctx.prisma.repair.findFirst({
         where: {
           id: input.repairId,
           carId: input.carId,
@@ -70,11 +62,6 @@ export const repairRouter = router({
           },
         },
       });
-
-      if (!repair)
-        throw new TRPCError({ code: "NOT_FOUND", message: "Repair not found" });
-
-      return repair;
     }),
   getHighestMileage: protectedProcedure
     .input(repairParams.pick({ carId: true }))
