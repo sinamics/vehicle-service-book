@@ -95,12 +95,16 @@ export const carRouter = router({
         });
       }
 
+      const { brand, model, ...restBody } = input.body;
+      
       return await ctx.prisma.car.update({
         where: {
           id: input.params.carId,
         },
         data: {
-          ...input.body,
+          brand: brand || car.brand,
+          model: model || car.model,
+          ...restBody,
         },
       });
     }),
