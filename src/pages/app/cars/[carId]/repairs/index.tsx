@@ -1,11 +1,20 @@
+import {
+  Button,
+  Card,
+  Grid,
+  Row,
+  Spacer,
+  Text,
+  Tooltip,
+} from "@nextui-org/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
-import { formatDate, formatPrice } from "@/utils/formatters";
+import { formatDate, formatMileage, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
 export default function Repairs() {
@@ -27,79 +36,90 @@ export default function Repairs() {
   return (
     <Layout>
       <Seo title="Repairs" description="repairs list" />
-      <div className="container min-h-app py-6">
-        <NextLink
-          className="btn-outline btn mb-2"
-          href={`/app/cars/${encodeURIComponent(
-            query.carId as string
-          )}/repairs/add`}
-        >
-          Add new repair
-        </NextLink>
-        {repairs ? (
-          <div className="overflow-x-auto">
-            <table className="table-compact table w-full">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Date</th>
-                  <th>Mileage</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {repairs.map((repair, index) => (
-                  <tr className="break-words" key={repair.id}>
-                    <td>{index + 1}</td>
-                    <td>{repair.title}</td>
-                    <td className="max-w-prose whitespace-normal">
-                      {repair.description}
-                    </td>
-                    <td>{formatDate(repair.date)}</td>
-                    <td>{formatPrice(repair.price)}</td>
-                    <td>{repair.mileage}</td>
-                    <td>
-                      <NextLink
-                        href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
-                        className="btn-success btn-sm btn mr-2"
-                      >
-                        <FiEdit />
-                      </NextLink>
-                      <button
-                        className="btn-error btn-sm btn"
-                        onClick={() =>
-                          deleteRepair({
-                            carId: repair.carId,
-                            repairId: repair.id,
-                          })
-                        }
-                      >
-                        <FiTrash2 />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th className="text-right">SUM:</th>
-                  <th>sum of prices</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        ) : (
-          <h2 className="text-3xl font-bold text-red-200">No services 🤷‍♂️</h2>
-        )}
-      </div>
+      <>
+        <Grid.Container gap={2}>
+          <Grid xs={12} sm={6} md={4} lg={3}>
+            <Card
+              as={NextLink}
+              href={`/app/cars/${encodeURIComponent(
+                query.carId as string
+              )}/repairs/add`}
+              css={{ h: "100%", minHeight: "245px" }}
+              variant="bordered"
+              isPressable
+              isHoverable
+            >
+              <Card.Body>
+                <Row justify="center" css={{ h: "100%", alignItems: "center" }}>
+                  <FiPlus size={48} />
+                </Row>
+              </Card.Body>
+            </Card>
+          </Grid>
+          {repairs?.length &&
+            repairs.map((repair) => (
+              <Grid key={repair.id} xs={12} sm={6} md={4} lg={3}>
+                <Card variant="bordered" css={{ p: "$6" }}>
+                  <Card.Header>
+                    <Grid.Container>
+                      <Grid justify="space-between" xs={12}>
+                        <Text h4 css={{ lineHeight: "$xs" }}>
+                          {repair.title}
+                        </Text>
+                      </Grid>
+                      <Grid xs={12}>
+                        <Text css={{ color: "$accents8" }}>
+                          {repair.description}
+                        </Text>
+                      </Grid>
+                    </Grid.Container>
+                  </Card.Header>
+                  <Card.Body css={{ pt: "$2", pb: "$6" }}>
+                    <Text>
+                      <strong>Date:</strong> {formatDate(repair.date)}
+                    </Text>
+                    <Text>
+                      <strong>Price:</strong> {formatPrice(repair.price)}
+                    </Text>
+                    <Text>
+                      <strong>Mileage:</strong> {formatMileage(repair.mileage)}
+                    </Text>
+                  </Card.Body>
+                  <Card.Divider />
+                  <Card.Footer>
+                    <Row justify="center">
+                      <Tooltip content="Edit repair" color="success">
+                        <Button
+                          color="success"
+                          icon={<FiEdit />}
+                          auto
+                          flat
+                          as={NextLink}
+                          href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
+                        />
+                      </Tooltip>
+                      <Spacer x={0.5} />
+                      <Tooltip content="Delete repair" color="error">
+                        <Button
+                          color="error"
+                          auto
+                          flat
+                          icon={<FiTrash2 />}
+                          onClick={() =>
+                            deleteRepair({
+                              carId: repair.carId,
+                              repairId: repair.id,
+                            })
+                          }
+                        />
+                      </Tooltip>
+                    </Row>
+                  </Card.Footer>
+                </Card>
+              </Grid>
+            ))}
+        </Grid.Container>
+      </>
     </Layout>
   );
 }

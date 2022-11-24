@@ -25,6 +25,17 @@ export function formatPrice(
   return new Intl.NumberFormat(locale, options).format(price);
 }
 
+export function formatMileage(
+  mileage: number | null,
+  locale: string = DEFAULT_LOCALE,
+  options: Intl.NumberFormatOptions = {
+    style: "decimal",
+  }
+): string | null {
+  if (!mileage) return null;
+  return new Intl.NumberFormat(locale, options).format(mileage);
+}
+
 export function formatEngineCapacity(
   engineCapacity: number | null,
   locale: string = DEFAULT_LOCALE,

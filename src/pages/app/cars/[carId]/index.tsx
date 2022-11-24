@@ -17,15 +17,15 @@ export default function EditCar() {
     {
       onSuccess: (data) => {
         formik.setValues({
-          type: data.type ?? "Coupe",
-          brand: data.brand,
-          model: data.model,
-          generation: data.generation ?? "",
-          productionYear: data.productionYear ?? new Date().getFullYear(),
-          engineType: data.engineType ?? "Diesel",
-          engineCapacity: data.engineCapacity ?? 0,
-          enginePower: data.enginePower ?? 0,
-          gearboxType: data.gearboxType ?? "Automatic",
+          type: data?.type ?? "Coupe",
+          brand: data?.brand,
+          model: data?.model,
+          generation: data?.generation ?? "",
+          productionYear: data?.productionYear ?? new Date().getFullYear(),
+          engineType: data?.engineType ?? "Diesel",
+          engineCapacity: data?.engineCapacity ?? 0,
+          enginePower: data?.enginePower ?? 0,
+          gearboxType: data?.gearboxType ?? "Automatic",
         });
       },
       enabled: Boolean(router.query.carId),

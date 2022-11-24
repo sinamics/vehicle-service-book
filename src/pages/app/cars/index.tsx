@@ -1,4 +1,12 @@
-import { Button, Card, Grid, Row, Spacer, Text } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  Grid,
+  Row,
+  Spacer,
+  Text,
+  Tooltip,
+} from "@nextui-org/react";
 import NextLink from "next/link";
 import { FiEdit, FiPlus, FiTool, FiTrash2 } from "react-icons/fi";
 
@@ -9,7 +17,7 @@ import { trpc } from "@/utils/trpc";
 
 export default function CarsList() {
   const utils = trpc.useContext();
-  const { isLoading, isSuccess, data: cars } = trpc.car.getAll.useQuery();
+  const { data: cars } = trpc.car.getAll.useQuery();
 
   const { mutate: deleteCar } = trpc.car.delete.useMutation({
     onSuccess: () => utils.car.getAll.invalidate(),
@@ -43,25 +51,13 @@ export default function CarsList() {
                   <Card.Header>
                     <Grid.Container>
                       <Grid justify="space-between" xs={12}>
-                        <Grid.Container>
-                          <Grid justify="space-between" xs={12}>
-                            <Text h4 css={{ lineHeight: "$xs" }}>
-                              {car.brand} {car.model} {car.generation}{" "}
-                              {car.productionYear}
-                            </Text>
-                          </Grid>
-                          <Grid xs={12}>
-                            <Text css={{ color: "$accents8" }}>{car.type}</Text>
-                          </Grid>
-                        </Grid.Container>
-                        <Button
-                          color="success"
-                          icon={<FiEdit />}
-                          auto
-                          flat
-                          as={NextLink}
-                          href={`/app/cars/${car.id}`}
-                        />
+                        <Text h4 css={{ lineHeight: "$xs" }}>
+                          {car.brand} {car.model} {car.generation}{" "}
+                          {car.productionYear}
+                        </Text>
+                      </Grid>
+                      <Grid xs={12}>
+                        <Text css={{ color: "$accents8" }}>{car.type}</Text>
                       </Grid>
                     </Grid.Container>
                   </Card.Header>
@@ -78,25 +74,37 @@ export default function CarsList() {
                   </Card.Body>
                   <Card.Divider />
                   <Card.Footer>
-                    <Row justify="space-between">
-                      <Button
-                        auto
-                        icon={<FiTool />}
-                        as={NextLink}
-                        href={`/app/cars/${car.id}/repairs`}
-                      >
-                        Repairs
-                      </Button>
+                    <Row justify="center">
+                      <Tooltip content="Car repairs" color="primary">
+                        <Button
+                          auto
+                          icon={<FiTool />}
+                          as={NextLink}
+                          flat
+                          href={`/app/cars/${car.id}/repairs`}
+                        />
+                      </Tooltip>
                       <Spacer x={0.5} />
-                      <Button
-                        color="error"
-                        auto
-                        flat
-                        icon={<FiTrash2 />}
-                        onClick={() => deleteCar({ carId: car.id })}
-                      >
-                        Delete
-                      </Button>
+                      <Tooltip content="Edit car" color="success">
+                        <Button
+                          color="success"
+                          icon={<FiEdit />}
+                          auto
+                          flat
+                          as={NextLink}
+                          href={`/app/cars/${car.id}`}
+                        />
+                      </Tooltip>
+                      <Spacer x={0.5} />
+                      <Tooltip content="Delete car" color="error">
+                        <Button
+                          color="error"
+                          auto
+                          flat
+                          icon={<FiTrash2 />}
+                          onClick={() => deleteCar({ carId: car.id })}
+                        />
+                      </Tooltip>
                     </Row>
                   </Card.Footer>
                 </Card>

@@ -20,13 +20,13 @@ export default function EditRepair() {
     {
       onSuccess: (data) => {
         formik.setValues({
-          title: data.title,
-          description: data.description ?? "",
-          price: data.price ?? 0,
-          date: data.date
-            ? dayjs(data.date).format("YYYY-MM-DD")
+          title: data?.title,
+          description: data?.description ?? "",
+          price: data?.price ?? 0,
+          date: data?.date
+            ? dayjs(data?.date).format("YYYY-MM-DD")
             : dayjs().format("YYYY-MM-DD"),
-          mileage: data.mileage ?? 0,
+          mileage: data?.mileage ?? 0,
         });
       },
       enabled: Boolean(router.query.carId) && Boolean(router.query.repairId),
