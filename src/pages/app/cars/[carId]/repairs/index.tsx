@@ -64,68 +64,70 @@ export default function Repairs() {
               </Card>
             </Link>
           </Grid>
-          {repairs?.length &&
-            repairs.map((repair) => (
-              <Grid key={repair.id} xs={12} sm={6} md={4} lg={3}>
-                <Card variant="bordered" css={{ p: "$6" }}>
-                  <Card.Header>
-                    <Grid.Container>
-                      <Grid justify="space-between" xs={12}>
-                        <Text h4 css={{ lineHeight: "$xs" }}>
-                          {repair.title}
-                        </Text>
-                      </Grid>
-                      <Grid xs={12}>
-                        <Text css={{ color: "$accents8" }}>
-                          {repair.description}
-                        </Text>
-                      </Grid>
-                    </Grid.Container>
-                  </Card.Header>
-                  <Card.Body css={{ pt: "$2", pb: "$6" }}>
-                    <Text>
-                      <strong>Date:</strong> {formatDate(repair.date)}
-                    </Text>
-                    <Text>
-                      <strong>Price:</strong> {formatPrice(repair.price)}
-                    </Text>
-                    <Text>
-                      <strong>Mileage:</strong> {formatMileage(repair.mileage)}
-                    </Text>
-                  </Card.Body>
-                  <Card.Divider />
-                  <Card.Footer>
-                    <Row justify="center">
-                      <Tooltip content="Edit repair" color="success">
-                        <Button
-                          color="success"
-                          icon={<FiEdit />}
-                          auto
-                          flat
-                          as={NextLink}
-                          href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
-                        />
-                      </Tooltip>
-                      <Spacer x={0.5} />
-                      <Tooltip content="Delete repair" color="error">
-                        <Button
-                          color="error"
-                          auto
-                          flat
-                          icon={<FiTrash2 />}
-                          onClick={() =>
-                            deleteRepair({
-                              carId: repair.carId,
-                              repairId: repair.id,
-                            })
-                          }
-                        />
-                      </Tooltip>
-                    </Row>
-                  </Card.Footer>
-                </Card>
-              </Grid>
-            ))}
+          {repairs?.length
+            ? repairs.map((repair) => (
+                <Grid key={repair.id} xs={12} sm={6} md={4} lg={3}>
+                  <Card variant="bordered" css={{ p: "$6" }}>
+                    <Card.Header>
+                      <Grid.Container>
+                        <Grid justify="space-between" xs={12}>
+                          <Text h4 css={{ lineHeight: "$xs" }}>
+                            {repair.title}
+                          </Text>
+                        </Grid>
+                        <Grid xs={12}>
+                          <Text css={{ color: "$accents8" }}>
+                            {repair.description}
+                          </Text>
+                        </Grid>
+                      </Grid.Container>
+                    </Card.Header>
+                    <Card.Body css={{ pt: "$2", pb: "$6" }}>
+                      <Text>
+                        <strong>Date:</strong> {formatDate(repair.date)}
+                      </Text>
+                      <Text>
+                        <strong>Price:</strong> {formatPrice(repair.price)}
+                      </Text>
+                      <Text>
+                        <strong>Mileage:</strong>{" "}
+                        {formatMileage(repair.mileage)}
+                      </Text>
+                    </Card.Body>
+                    <Card.Divider />
+                    <Card.Footer>
+                      <Row justify="center">
+                        <Tooltip content="Edit repair" color="success">
+                          <Button
+                            color="success"
+                            icon={<FiEdit />}
+                            auto
+                            flat
+                            as={NextLink}
+                            href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
+                          />
+                        </Tooltip>
+                        <Spacer x={0.5} />
+                        <Tooltip content="Delete repair" color="error">
+                          <Button
+                            color="error"
+                            auto
+                            flat
+                            icon={<FiTrash2 />}
+                            onClick={() =>
+                              deleteRepair({
+                                carId: repair.carId,
+                                repairId: repair.id,
+                              })
+                            }
+                          />
+                        </Tooltip>
+                      </Row>
+                    </Card.Footer>
+                  </Card>
+                </Grid>
+              ))
+            : null}
         </Grid.Container>
       </>
     </Layout>

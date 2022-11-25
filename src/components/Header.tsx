@@ -1,5 +1,6 @@
-import { Navbar, Text, User } from "@nextui-org/react";
+import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 import Image from "next/image";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 import { trpc } from "@/utils/trpc";
@@ -32,7 +33,14 @@ export default function Header() {
 
   return (
     <Navbar isBordered variant="sticky">
-      <Navbar.Brand>
+      <Navbar.Toggle showIn="xs" />
+      <Navbar.Brand
+        css={{
+          "@xs": {
+            w: "12%",
+          },
+        }}
+      >
         <Image
           style={{ marginRight: "1rem" }}
           src="/favicon.svg"
@@ -40,22 +48,90 @@ export default function Header() {
           height={50}
           alt=""
         />
-        <Text b color="inherit" hideIn="xs">
-          Car Service Book
-        </Text>
       </Navbar.Brand>
-      <Navbar.Content hideIn="xs" variant="highlight-rounded">
+      <Navbar.Content
+        enableCursorHighlight
+        activeColor="secondary"
+        hideIn="xs"
+        variant="highlight-rounded"
+      >
         {links[pathname === "/" ? "home" : "app"]?.map((link) => (
-          <Navbar.Link key={link.id} href={link.href}>
+          <Navbar.Link
+            as={NextLink}
+            isActive={pathname === link.href}
+            key={link.id}
+            href={link.href}
+          >
             {link.label}
           </Navbar.Link>
         ))}
       </Navbar.Content>
-      {pathname !== "/" && user && (
-        <Navbar.Content>
-          <User src={user.image} name={user.name} description={user?.email} />
-        </Navbar.Content>
-      )}
+      <Navbar.Content
+        css={{
+          "@xs": {
+            w: "12%",
+            jc: "flex-end",
+          },
+        }}
+      >
+        <Dropdown placement="bottom-right">
+          <Navbar.Item>
+            <Dropdown.Trigger>
+              <Avatar
+                bordered
+                as="button"
+                color="secondary"
+                size="md"
+                src={user.image}
+              />
+            </Dropdown.Trigger>
+          </Navbar.Item>
+          <Dropdown.Menu
+            aria-label="User menu actions"
+            color="secondary"
+            onAction={(actionKey) => console.log({ actionKey })}
+          >
+            <Dropdown.Item key="profile" css={{ height: "$18" }}>
+              <Text b color="inherit" css={{ d: "flex" }}>
+                Signed in as
+              </Text>
+              <Text b color="inherit" css={{ d: "flex" }}>
+                {user.email}
+              </Text>
+            </Dropdown.Item>
+            <Dropdown.Item key="settings" withDivider>
+              My Settings
+            </Dropdown.Item>
+            <Dropdown.Item key="help_and_feedback" withDivider>
+              Help & Feedback
+            </Dropdown.Item>
+            <Dropdown.Item key="logout" withDivider color="error">
+              Log Out
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Navbar.Content>
+      <Navbar.Collapse>
+        {links[pathname === "/" ? "home" : "app"]?.map((link, index) => (
+          <Navbar.CollapseItem
+            key={link.id}
+            activeColor="secondary"
+            isActive={index === 2}
+          >
+            <Link
+              as={NextLink}
+              color="inherit"
+              css={{
+                minWidth: "100%",
+                color: pathname === link.href ? "$primary" : "$text",
+              }}
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          </Navbar.CollapseItem>
+        ))}
+      </Navbar.Collapse>
     </Navbar>
   );
 }
