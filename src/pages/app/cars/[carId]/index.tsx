@@ -1,3 +1,4 @@
+import { Button, Container, Input, Radio } from "@nextui-org/react";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -16,7 +17,7 @@ export default function EditCar() {
     { carId: router.query.carId as string },
     {
       onSuccess: (data) => {
-        formik.setValues({
+        setValues({
           type: data?.type ?? "Coupe",
           brand: data?.brand,
           model: data?.model,
@@ -51,149 +52,147 @@ export default function EditCar() {
     gearboxType: "Automatic",
   };
 
-  const formik = useFormik({
+  const {
+    isSubmitting,
+    setValues,
+    setFieldValue,
+    handleSubmit,
+    values,
+    getFieldProps,
+  } = useFormik({
     initialValues,
     onSubmit: async (values) => {
-      mutate({ params: { carId: router.query.carId as string }, body: values });
+      mutate({
+        params: { carId: router.query.carId as string },
+        body: values,
+      });
     },
   });
 
   return (
     <Layout>
       <Seo title="Edit car" description="Edit car" />
-      <div className="container min-h-app py-6">
+      <Container>
         {!isLoading && (
-          <form
-            className="mx-auto flex max-w-sm flex-col items-center justify-center gap-2"
-            onSubmit={formik.handleSubmit}
-          >
-            <div className="form-control w-full">
-              <label className="label" htmlFor="type">
-                <span className="label-text">Type</span>
-              </label>
-              <select
+          <form onSubmit={handleSubmit}>
+            <div>
+              <Radio.Group
                 id="type"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("type")}
+                name="type"
+                label="Type"
+                orientation="horizontal"
+                value={values.type}
+                onChange={(value) => setFieldValue("type", value)}
               >
                 {Object.values(CarType).map((type) => (
-                  <option key={type} value={type}>
+                  <Radio key={type} value={type}>
                     {type}
-                  </option>
+                  </Radio>
                 ))}
-              </select>
+              </Radio.Group>
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="brand">
-                <span className="label-text">Brand</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="brand"
                 type="text"
+                bordered
+                clearable
+                label="Brand"
                 placeholder="Honda"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("brand")}
+                {...getFieldProps("brand")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="model">
-                <span className="label-text">Model</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="model"
                 type="text"
+                bordered
+                clearable
+                label="Model"
                 placeholder="Civic"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("model")}
+                {...getFieldProps("model")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="generation">
-                <span className="label-text">Generation</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="generation"
                 type="text"
+                bordered
+                clearable
+                label="Generation"
                 placeholder="VIII"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("generation")}
+                {...getFieldProps("generation")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="productionYear">
-                <span className="label-text">Production Year</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="productionYear"
                 type="number"
                 min={0}
                 max={new Date().getFullYear()}
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("productionYear")}
+                bordered
+                label="Production Year"
+                {...getFieldProps("productionYear")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="engineType">
-                <span className="label-text">Engine Type</span>
-              </label>
-              <select
-                id="type"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("engineType")}
+            <div>
+              <Radio.Group
+                id="engineType"
+                name="engineType"
+                label="Engine Type"
+                orientation="horizontal"
+                value={values.engineType}
+                onChange={(value) => setFieldValue("engineType", value)}
               >
                 {Object.values(EngineType).map((type) => (
-                  <option key={type} value={type}>
+                  <Radio key={type} value={type}>
                     {type}
-                  </option>
+                  </Radio>
                 ))}
-              </select>
+              </Radio.Group>
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="engineCapacity">
-                <span className="label-text">Engine Capacity</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="engineCapacity"
                 type="number"
                 min={0}
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("engineCapacity")}
+                bordered
+                label="Engine Capacity"
+                {...getFieldProps("engineCapacity")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="enginePower">
-                <span className="label-text">Engine Power</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="enginePower"
                 type="number"
                 min={0}
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("enginePower")}
+                bordered
+                label="Engine Power"
+                {...getFieldProps("enginePower")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="gearboxType">
-                <span className="label-text">Gearbox Type</span>
-              </label>
-              <select
-                id="type"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("gearboxType")}
+            <div>
+              <Radio.Group
+                id="gearboxType"
+                name="gearboxType"
+                label="Gearbox Type"
+                orientation="horizontal"
+                value={values.gearboxType}
+                onChange={(value) => setFieldValue("gearboxType", value)}
               >
                 {Object.values(GearboxType).map((type) => (
-                  <option key={type} value={type}>
+                  <Radio key={type} value={type}>
                     {type}
-                  </option>
+                  </Radio>
                 ))}
-              </select>
+              </Radio.Group>
             </div>
-            <button className="btn-wide btn" type="submit">
-              {formik.isSubmitting ? "Editing..." : "Edit"}
-            </button>
+            <Button type="submit">
+              {isSubmitting ? "Editing..." : "Edit"}
+            </Button>
           </form>
         )}
-      </div>
+      </Container>
     </Layout>
   );
 }

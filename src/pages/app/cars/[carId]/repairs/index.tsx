@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Grid,
+  Link,
   Row,
   Spacer,
   Text,
@@ -39,22 +40,29 @@ export default function Repairs() {
       <>
         <Grid.Container gap={2}>
           <Grid xs={12} sm={6} md={4} lg={3}>
-            <Card
+            <Link
               as={NextLink}
               href={`/app/cars/${encodeURIComponent(
                 query.carId as string
               )}/repairs/add`}
-              css={{ h: "100%", minHeight: "245px" }}
-              variant="bordered"
-              isPressable
-              isHoverable
+              css={{ minWidth: "100%", h: "100%", minHeight: "245px" }}
             >
-              <Card.Body>
-                <Row justify="center" css={{ h: "100%", alignItems: "center" }}>
-                  <FiPlus size={48} />
-                </Row>
-              </Card.Body>
-            </Card>
+              <Card
+                css={{ h: "100%", minHeight: "245px" }}
+                variant="bordered"
+                isPressable
+                isHoverable
+              >
+                <Card.Body>
+                  <Row
+                    justify="center"
+                    css={{ h: "100%", alignItems: "center" }}
+                  >
+                    <FiPlus size={48} />
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Link>
           </Grid>
           {repairs?.length &&
             repairs.map((repair) => (

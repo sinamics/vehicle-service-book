@@ -30,12 +30,13 @@ export default function AddCar() {
     gearboxType: "Automatic",
   };
 
-  const formik = useFormik({
-    initialValues,
-    onSubmit: async (values) => {
-      mutate(values);
-    },
-  });
+  const { isSubmitting, setFieldValue, handleSubmit, values, getFieldProps } =
+    useFormik({
+      initialValues,
+      onSubmit: async (values) => {
+        mutate(values);
+      },
+    });
 
   return (
     <Layout>
@@ -43,14 +44,15 @@ export default function AddCar() {
       <Container>
         <form
           className="mx-auto flex max-w-sm flex-col items-center justify-center gap-2"
-          onSubmit={formik.handleSubmit}
+          onSubmit={handleSubmit}
         >
           <div className="form-control w-full">
             <Radio.Group
               label="Type"
               defaultValue="Coupe"
               orientation="horizontal"
-              onChange={(value) => formik.setFieldValue("type", value)}
+              value={values.type}
+              onChange={(value) => setFieldValue("type", value)}
             >
               {Object.values(CarType).map((type) => (
                 <Radio key={type} value={type}>
@@ -67,7 +69,7 @@ export default function AddCar() {
               bordered
               label="Brand"
               placeholder="Honda"
-              {...formik.getFieldProps("brand")}
+              {...getFieldProps("brand")}
             />
           </div>
           <div className="form-control w-full">
@@ -78,7 +80,7 @@ export default function AddCar() {
               bordered
               label="Model"
               placeholder="Civic"
-              {...formik.getFieldProps("model")}
+              {...getFieldProps("model")}
             />
           </div>
           <div className="form-control w-full">
@@ -89,7 +91,7 @@ export default function AddCar() {
               bordered
               label="Generation"
               placeholder="VIII"
-              {...formik.getFieldProps("generation")}
+              {...getFieldProps("generation")}
             />
           </div>
           <div className="form-control w-full">
@@ -97,10 +99,10 @@ export default function AddCar() {
               id="productionYear"
               type="number"
               min={0}
+              max={new Date().getFullYear()}
               bordered
               label="Production Year"
-              max={new Date().getFullYear()}
-              {...formik.getFieldProps("productionYear")}
+              {...getFieldProps("productionYear")}
             />
           </div>
           <div className="form-control w-full">
@@ -108,7 +110,8 @@ export default function AddCar() {
               label="Engine Type"
               defaultValue="Diesel"
               orientation="horizontal"
-              onChange={(value) => formik.setFieldValue("engineType", value)}
+              value={values.engineType}
+              onChange={(value) => setFieldValue("engineType", value)}
             >
               {Object.values(EngineType).map((type) => (
                 <Radio key={type} value={type}>
@@ -124,7 +127,7 @@ export default function AddCar() {
               min={0}
               bordered
               label="Engine Capacity"
-              {...formik.getFieldProps("engineCapacity")}
+              {...getFieldProps("engineCapacity")}
             />
           </div>
           <div className="form-control w-full">
@@ -134,7 +137,7 @@ export default function AddCar() {
               min={0}
               bordered
               label="Engine Power"
-              {...formik.getFieldProps("enginePower")}
+              {...getFieldProps("enginePower")}
             />
           </div>
           <div className="form-control w-full">
@@ -142,7 +145,8 @@ export default function AddCar() {
               label="Gearbox Type"
               defaultValue="Automatic"
               orientation="horizontal"
-              onChange={(value) => formik.setFieldValue("gearboxType", value)}
+              value={values.gearboxType}
+              onChange={(value) => setFieldValue("gearboxType", value)}
             >
               {Object.values(GearboxType).map((type) => (
                 <Radio key={type} value={type}>
@@ -151,9 +155,7 @@ export default function AddCar() {
               ))}
             </Radio.Group>
           </div>
-          <Button type="submit">
-            {formik.isSubmitting ? "Adding..." : "Add"}
-          </Button>
+          <Button type="submit">{isSubmitting ? "Adding..." : "Add"}</Button>
         </form>
       </Container>
     </Layout>
