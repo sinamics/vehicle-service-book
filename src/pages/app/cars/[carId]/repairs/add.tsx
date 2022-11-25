@@ -1,3 +1,4 @@
+import { Button, Container, Input } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -55,76 +56,68 @@ export default function AddRepair() {
   return (
     <Layout>
       <Seo title="Add repair" description="Add repair" />
-      <div className="container min-h-app py-6">
+      <Container>
         <form
           className="mx-auto flex max-w-sm flex-col items-center justify-center gap-2"
           onSubmit={formik.handleSubmit}
         >
           <div className="form-control w-full">
-            <label className="label" htmlFor="title">
-              <span className="label-text">Title</span>
-            </label>
-            <input
+            <Input
               id="title"
               type="text"
+              clearable
+              bordered
+              label="Title"
               placeholder="Replace tires and oil"
-              className="input-bordered input w-full"
               {...formik.getFieldProps("title")}
             />
           </div>
           <div className="form-control w-full">
-            <label className="label" htmlFor="description">
-              <span className="label-text">Description</span>
-            </label>
-            <input
+            <Input
               id="description"
               type="text"
+              clearable
+              bordered
+              label="Description"
               placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
-              className="input-bordered input w-full"
               {...formik.getFieldProps("description")}
             />
           </div>
           <div className="form-control w-full">
-            <label className="label" htmlFor="price">
-              <span className="label-text">Price</span>
-            </label>
-            <input
+            <Input
               id="price"
               type="number"
               min={0}
-              className="input-bordered input w-full"
+              bordered
+              label="Price"
               {...formik.getFieldProps("price")}
             />
           </div>
           <div className="form-control w-full">
-            <label className="label" htmlFor="date">
-              <span className="label-text">Date</span>
-            </label>
-            <input
+            <Input
               id="date"
               type="date"
+              bordered
+              label="Date"
               max={dayjs().format("YYYY-MM-DD")}
-              className="input-bordered input w-full"
               {...formik.getFieldProps("date")}
             />
           </div>
           <div className="form-control w-full">
-            <label className="label" htmlFor="mileage">
-              <span className="label-text">Mileage</span>
-            </label>
-            <input
+            <Input
               id="mileage"
               type="number"
+              bordered
               min={lastMileage?.mileage ? lastMileage.mileage : 0}
-              className="input-bordered input w-full"
+              label="Mileage"
               {...formik.getFieldProps("mileage")}
             />
           </div>
-          <button className="btn-wide btn" type="submit">
+          <Button type="submit">
             {formik.isSubmitting ? "Adding..." : "Add"}
-          </button>
+          </Button>
         </form>
-      </div>
+      </Container>
     </Layout>
   );
 }

@@ -1,3 +1,4 @@
+import { Button, Container, Input } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -19,14 +20,14 @@ export default function EditRepair() {
     },
     {
       onSuccess: (data) => {
-        formik.setValues({
-          title: data.title,
-          description: data.description ?? "",
-          price: data.price ?? 0,
-          date: data.date
-            ? dayjs(data.date).format("YYYY-MM-DD")
+        setValues({
+          title: data?.title,
+          description: data?.description ?? "",
+          price: data?.price ?? 0,
+          date: data?.date
+            ? dayjs(data?.date).format("YYYY-MM-DD")
             : dayjs().format("YYYY-MM-DD"),
-          mileage: data.mileage ?? 0,
+          mileage: data?.mileage ?? 0,
         });
       },
       enabled: Boolean(router.query.carId) && Boolean(router.query.repairId),
@@ -51,7 +52,7 @@ export default function EditRepair() {
     mileage: 0,
   };
 
-  const formik = useFormik({
+  const { isSubmitting, handleSubmit, getFieldProps, setValues } = useFormik({
     initialValues,
     onSubmit: async (values) => {
       mutate({
@@ -67,78 +68,70 @@ export default function EditRepair() {
   return (
     <Layout>
       <Seo title="Edit repair" description="Edit repair" />
-      <div className="container min-h-app py-6">
+      <Container>
         {!isLoading && (
           <form
             className="mx-auto flex max-w-sm flex-col items-center justify-center gap-2"
-            onSubmit={formik.handleSubmit}
+            onSubmit={handleSubmit}
           >
-            <div className="form-control w-full">
-              <label className="label" htmlFor="title">
-                <span className="label-text">Title</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="title"
                 type="text"
+                bordered
+                clearable
+                label="Title"
                 placeholder="Replace tires and oil"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("title")}
+                {...getFieldProps("title")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="description">
-                <span className="label-text">Description</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="description"
                 type="text"
+                bordered
+                clearable
+                label="Description"
                 placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("description")}
+                {...getFieldProps("description")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="price">
-                <span className="label-text">Price</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="price"
                 type="number"
                 min={0}
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("price")}
+                bordered
+                label="Price"
+                {...getFieldProps("price")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="date">
-                <span className="label-text">Date</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="date"
                 type="date"
                 max={dayjs().format("YYYY-MM-DD")}
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("date")}
+                bordered
+                label="Date"
+                {...getFieldProps("date")}
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label" htmlFor="mileage">
-                <span className="label-text">Mileage</span>
-              </label>
-              <input
+            <div>
+              <Input
                 id="mileage"
                 type="number"
                 min={0}
-                className="input-bordered input w-full"
-                {...formik.getFieldProps("mileage")}
+                bordered
+                label="Mileage"
+                {...getFieldProps("mileage")}
               />
             </div>
-            <button className="btn-wide btn" type="submit">
-              {formik.isSubmitting ? "Editing..." : "Edit"}
-            </button>
+            <Button type="submit">
+              {isSubmitting ? "Editing..." : "Edit"}
+            </Button>
           </form>
         )}
-      </div>
+      </Container>
     </Layout>
   );
 }

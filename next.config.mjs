@@ -14,7 +14,12 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    domains: ["avatars.githubusercontent.com", "cloudflare-ipfs.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
 };
 export default config;

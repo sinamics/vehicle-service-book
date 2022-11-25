@@ -1,12 +1,8 @@
-import cx from "classnames";
+import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 import Image from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { signOut } from "next-auth/react";
-import { useState } from "react";
-import { FiLogOut } from "react-icons/fi";
 
-import useMediaQuery from "@/hooks/useMediaQuery";
 import { trpc } from "@/utils/trpc";
 
 type HeaderLink = {
@@ -33,85 +29,109 @@ const links: Record<string, HeaderLink[]> = {
 
 export default function Header() {
   const { pathname } = useRouter();
-  const [opened, setOpened] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
   const { data: user } = trpc.auth.getUser.useQuery();
 
   return (
-    <header className="navbar fixed z-40 justify-center bg-base-300 px-6 shadow-lg">
-      <div className="navbar-start">
-        {pathname !== "/auth/login" && (
-          <>
-            <button
-              onClick={() => setOpened((prev) => !prev)}
-              className="group btn-ghost btn flex cursor-pointer flex-col items-start gap-1 md:hidden"
-            >
-              <span className="d-block h-[2px] w-4 bg-current transition" />
-              <span
-                className={
-                  "d-block h-[2px] w-4 origin-left scale-x-50 bg-current transition group-hover:scale-x-100 group-focus:scale-x-100"
-                }
+    <Navbar isBordered variant="sticky">
+      <Navbar.Toggle showIn="xs" />
+      <Navbar.Brand
+        css={{
+          "@xs": {
+            w: "12%",
+          },
+        }}
+      >
+        <Image
+          style={{ marginRight: "1rem" }}
+          src="/favicon.svg"
+          width={50}
+          height={50}
+          alt=""
+        />
+      </Navbar.Brand>
+      <Navbar.Content
+        enableCursorHighlight
+        activeColor="secondary"
+        hideIn="xs"
+        variant="highlight-rounded"
+      >
+        {links[pathname === "/" ? "home" : "app"]?.map((link) => (
+          <Navbar.Link
+            as={NextLink}
+            isActive={pathname === link.href}
+            key={link.id}
+            href={link.href}
+          >
+            {link.label}
+          </Navbar.Link>
+        ))}
+      </Navbar.Content>
+      <Navbar.Content
+        css={{
+          "@xs": {
+            w: "12%",
+            jc: "flex-end",
+          },
+        }}
+      >
+        <Dropdown placement="bottom-right">
+          <Navbar.Item>
+            <Dropdown.Trigger>
+              <Avatar
+                bordered
+                as="button"
+                color="secondary"
+                size="md"
+                src={user.image}
               />
-              <span className="d-block h-[2px] w-4 bg-current transition" />
-            </button>
-            <ul
-              className={cx(
-                "menu absolute top-20 left-6 flex rounded-lg bg-base-300 p-0 transition duration-500 md:static md:top-0 md:left-0 md:translate-y-0 md:bg-transparent md:opacity-100 md:menu-horizontal",
-                {
-                  "-translate-y-6 opacity-0": !isDesktop && !opened,
-                }
-              )}
+            </Dropdown.Trigger>
+          </Navbar.Item>
+          <Dropdown.Menu
+            aria-label="User menu actions"
+            color="secondary"
+            onAction={(actionKey) => console.log({ actionKey })}
+          >
+            <Dropdown.Item key="profile" css={{ height: "$18" }}>
+              <Text b color="inherit" css={{ d: "flex" }}>
+                Signed in as
+              </Text>
+              <Text b color="inherit" css={{ d: "flex" }}>
+                {user.email}
+              </Text>
+            </Dropdown.Item>
+            <Dropdown.Item key="settings" withDivider>
+              My Settings
+            </Dropdown.Item>
+            <Dropdown.Item key="help_and_feedback" withDivider>
+              Help & Feedback
+            </Dropdown.Item>
+            <Dropdown.Item key="logout" withDivider color="error">
+              Log Out
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Navbar.Content>
+      <Navbar.Collapse>
+        {links[pathname === "/" ? "home" : "app"]?.map((link, index) => (
+          <Navbar.CollapseItem
+            key={link.id}
+            activeColor="secondary"
+            isActive={index === 2}
+          >
+            <Link
+              as={NextLink}
+              color="inherit"
+              css={{
+                minWidth: "100%",
+                color: pathname === link.href ? "$primary" : "$text",
+              }}
+              href={link.href}
             >
-              {links[pathname === "/" ? "home" : "app"]?.map((link) => (
-                <li key={link.id}>
-                  <Link
-                    tabIndex={!isDesktop && !opened ? -1 : undefined}
-                    href={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
-      <div className="navbar-center">
-        <Link href="/" className="t ext-xl btn-ghost btn normal-case">
-          Car Service Book
-        </Link>
-      </div>
-      <div className="navbar-end">
-        {user && pathname !== "/" && (
-          <div className="flex items-center gap-3">
-            {user.image && (
-              <>
-                <p>{user.name}</p>
-                <Image
-                  className="rounded-full ring-2"
-                  src={user.image}
-                  width={36}
-                  height={36}
-                  alt={`Profile picture of ${user.name}`}
-                />
-              </>
-            )}
-            <button
-              title="Logout"
-              className="btn-ghost btn"
-              onClick={() => signOut()}
-            >
-              <FiLogOut size={20} />
-            </button>
-          </div>
-        )}
-        {pathname === "/" && (
-          <Link href="/app" className="btn-outline btn">
-            Go to app
-          </Link>
-        )}
-      </div>
-    </header>
+              {link.label}
+            </Link>
+          </Navbar.CollapseItem>
+        ))}
+      </Navbar.Collapse>
+    </Navbar>
   );
 }

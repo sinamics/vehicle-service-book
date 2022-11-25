@@ -1,14 +1,9 @@
-const Footer = ({ ...props }) => {
-  return (
-    <footer
-      className="footer footer-center bg-base-300 text-base-content p-4"
-      {...props}
-    >
-      <div>
-        <p>Copyright © 2022 - All right reserved by Jakub Soboczyński</p>
-      </div>
-    </footer>
-  );
-};
+import { Row, Text } from "@nextui-org/react";
 
-export default Footer;
+export default function Footer() {
+  return (
+    <Row justify="center" as="footer" css={{ padding: "$10 0" }}>
+      <Text>Copyright © 2022 - All right reserved</Text>
+    </Row>
+  );
+}
