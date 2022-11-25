@@ -18,6 +18,7 @@ import { trpc } from "@/utils/trpc";
 const overpass = Overpass({
   weight: ["400", "700"],
   style: ["normal", "italic"],
+  subsets: ["latin"],
 });
 
 const MyApp: AppType<{ session: Session | null }> = ({
