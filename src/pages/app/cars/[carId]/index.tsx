@@ -1,4 +1,4 @@
-import { Button, Container, Input, Radio } from "@nextui-org/react";
+import { Button, Container, Grid, Input, Radio } from "@nextui-org/react";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -75,121 +75,131 @@ export default function EditCar() {
       <Container>
         {!isLoading && (
           <form onSubmit={handleSubmit}>
-            <div>
-              <Radio.Group
-                id="type"
-                name="type"
-                label="Type"
-                orientation="horizontal"
-                value={values.type}
-                onChange={(value) => setFieldValue("type", value)}
-              >
-                {Object.values(CarType).map((type) => (
-                  <Radio key={type} value={type}>
-                    {type}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </div>
-            <div>
-              <Input
-                id="brand"
-                type="text"
-                bordered
-                clearable
-                label="Brand"
-                placeholder="Honda"
-                {...getFieldProps("brand")}
-              />
-            </div>
-            <div>
-              <Input
-                id="model"
-                type="text"
-                bordered
-                clearable
-                label="Model"
-                placeholder="Civic"
-                {...getFieldProps("model")}
-              />
-            </div>
-            <div>
-              <Input
-                id="generation"
-                type="text"
-                bordered
-                clearable
-                label="Generation"
-                placeholder="VIII"
-                {...getFieldProps("generation")}
-              />
-            </div>
-            <div>
-              <Input
-                id="productionYear"
-                type="number"
-                min={0}
-                max={new Date().getFullYear()}
-                bordered
-                label="Production Year"
-                {...getFieldProps("productionYear")}
-              />
-            </div>
-            <div>
-              <Radio.Group
-                id="engineType"
-                name="engineType"
-                label="Engine Type"
-                orientation="horizontal"
-                value={values.engineType}
-                onChange={(value) => setFieldValue("engineType", value)}
-              >
-                {Object.values(EngineType).map((type) => (
-                  <Radio key={type} value={type}>
-                    {type}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </div>
-            <div>
-              <Input
-                id="engineCapacity"
-                type="number"
-                min={0}
-                bordered
-                label="Engine Capacity"
-                {...getFieldProps("engineCapacity")}
-              />
-            </div>
-            <div>
-              <Input
-                id="enginePower"
-                type="number"
-                min={0}
-                bordered
-                label="Engine Power"
-                {...getFieldProps("enginePower")}
-              />
-            </div>
-            <div>
-              <Radio.Group
-                id="gearboxType"
-                name="gearboxType"
-                label="Gearbox Type"
-                orientation="horizontal"
-                value={values.gearboxType}
-                onChange={(value) => setFieldValue("gearboxType", value)}
-              >
-                {Object.values(GearboxType).map((type) => (
-                  <Radio key={type} value={type}>
-                    {type}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </div>
-            <Button type="submit">
-              {isSubmitting ? "Editing..." : "Edit"}
-            </Button>
+            <Grid.Container css={{ mt: "$10" }} gap={1} justify="center">
+              <Grid xs={12} justify="center">
+                <Radio.Group
+                  id="type"
+                  name="type"
+                  label="Type"
+                  css={{ minWidth: "300px" }}
+                  orientation="vertical"
+                  value={values.type}
+                  onChange={(value) => setFieldValue("type", value)}
+                >
+                  {Object.values(CarType).map((type) => (
+                    <Radio key={type} value={type}>
+                      {type}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="brand"
+                  type="text"
+                  bordered
+                  label="Brand"
+                  css={{ minWidth: "300px" }}
+                  placeholder="Honda"
+                  {...getFieldProps("brand")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="model"
+                  type="text"
+                  bordered
+                  label="Model"
+                  css={{ minWidth: "300px" }}
+                  placeholder="Civic"
+                  {...getFieldProps("model")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="generation"
+                  type="text"
+                  bordered
+                  label="Generation"
+                  css={{ minWidth: "300px" }}
+                  placeholder="VIII"
+                  {...getFieldProps("generation")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="productionYear"
+                  type="number"
+                  min={0}
+                  max={new Date().getFullYear()}
+                  bordered
+                  label="Production Year"
+                  css={{ minWidth: "300px" }}
+                  {...getFieldProps("productionYear")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Radio.Group
+                  id="engineType"
+                  name="engineType"
+                  label="Engine Type"
+                  css={{ minWidth: "300px" }}
+                  orientation="vertical"
+                  value={values.engineType}
+                  onChange={(value) => setFieldValue("engineType", value)}
+                >
+                  {Object.values(EngineType).map((type) => (
+                    <Radio key={type} value={type}>
+                      {type}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="engineCapacity"
+                  type="number"
+                  min={0}
+                  bordered
+                  label="Engine Capacity"
+                  css={{ minWidth: "300px" }}
+                  {...getFieldProps("engineCapacity")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="enginePower"
+                  type="number"
+                  min={0}
+                  bordered
+                  label="Engine Power"
+                  css={{ minWidth: "300px" }}
+                  {...getFieldProps("enginePower")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Radio.Group
+                  id="gearboxType"
+                  name="gearboxType"
+                  label="Gearbox Type"
+                  css={{ minWidth: "300px" }}
+                  orientation="vertical"
+                  value={values.gearboxType}
+                  onChange={(value) => setFieldValue("gearboxType", value)}
+                >
+                  {Object.values(GearboxType).map((type) => (
+                    <Radio key={type} value={type}>
+                      {type}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Button css={{ minWidth: "300px" }} type="submit">
+                  {isSubmitting ? "Editing..." : "Edit"}
+                </Button>
+              </Grid>
+            </Grid.Container>
           </form>
         )}
       </Container>

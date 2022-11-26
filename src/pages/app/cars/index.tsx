@@ -3,12 +3,14 @@ import {
   Card,
   Grid,
   Link,
+  Modal,
   Row,
   Spacer,
   Text,
   Tooltip,
 } from "@nextui-org/react";
 import NextLink from "next/link";
+import { useState } from "react";
 import { FiEdit, FiPlus, FiTool, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
@@ -17,6 +19,11 @@ import { formatEngineCapacity } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
 export default function CarsList() {
+  const [deleteModal, setDeleteModal] = useState({
+    visible: false,
+    carId: "",
+  });
+
   const utils = trpc.useContext();
   const { data: cars } = trpc.car.getAll.useQuery();
 
@@ -27,33 +34,29 @@ export default function CarsList() {
   return (
     <Layout>
       <Seo title="Cars" description="cars list" />
-      <>
-        <Grid.Container gap={2}>
-          <Grid xs={12} sm={6} md={4} lg={3}>
-            <Link
-              as={NextLink}
-              href="/app/cars/add"
-              css={{ minWidth: "100%", h: "100%", minHeight: "245px" }}
+      <Grid.Container gap={2}>
+        <Grid xs={12} sm={6} md={4} lg={3}>
+          <Link
+            as={NextLink}
+            href="/app/cars/add"
+            css={{ minWidth: "100%", h: "100%", minHeight: "245px" }}
+          >
+            <Card
+              css={{ h: "100%", minHeight: "245px" }}
+              variant="bordered"
+              isPressable
+              isHoverable
             >
-              <Card
-                css={{ h: "100%", minHeight: "245px" }}
-                variant="bordered"
-                isPressable
-                isHoverable
-              >
-                <Card.Body>
-                  <Row
-                    justify="center"
-                    css={{ h: "100%", alignItems: "center" }}
-                  >
-                    <FiPlus size={48} />
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Grid>
-          {cars?.length &&
-            cars.map((car) => (
+              <Card.Body>
+                <Row justify="center" css={{ h: "100%", alignItems: "center" }}>
+                  <FiPlus size={48} />
+                </Row>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Grid>
+        {cars?.length
+          ? cars.map((car) => (
               <Grid key={car.id} xs={12} sm={6} md={4} lg={3}>
                 <Card variant="bordered" css={{ p: "$6" }}>
                   <Card.Header>
@@ -110,16 +113,67 @@ export default function CarsList() {
                           auto
                           flat
                           icon={<FiTrash2 />}
-                          onClick={() => deleteCar({ carId: car.id })}
+                          onClick={() => {
+                            setDeleteModal({
+                              visible: true,
+                              carId: car.id,
+                            });
+                          }}
                         />
+                        <Modal
+                          closeButton
+                          blur
+                          aria-labelledby="modal-title"
+                          open={Boolean(deleteModal.visible)}
+                          onClose={() => {
+                            setDeleteModal({
+                              visible: false,
+                              carId: "",
+                            });
+                          }}
+                        >
+                          <Modal.Header>
+                            <Text id="modal-title" size={18}>
+                              Delete car?
+                            </Text>
+                          </Modal.Header>
+                          <Modal.Footer>
+                            <Button
+                              auto
+                              flat
+                              onClick={() => {
+                                setDeleteModal({
+                                  visible: false,
+                                  carId: "",
+                                });
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              auto
+                              flat
+                              color="error"
+                              onClick={() => {
+                                deleteCar({ carId: deleteModal.carId });
+                                setDeleteModal({
+                                  visible: false,
+                                  carId: "",
+                                });
+                              }}
+                            >
+                              Delete
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </Tooltip>
                     </Row>
                   </Card.Footer>
                 </Card>
               </Grid>
-            ))}
-        </Grid.Container>
-      </>
+            ))
+          : null}
+      </Grid.Container>
     </Layout>
   );
 }

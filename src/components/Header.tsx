@@ -2,6 +2,7 @@ import { Avatar, Dropdown, Link, Navbar, Text } from "@nextui-org/react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 import { trpc } from "@/utils/trpc";
 
@@ -82,21 +83,29 @@ export default function Header() {
                 as="button"
                 color="secondary"
                 size="md"
-                src={user.image}
+                src={user?.image}
               />
             </Dropdown.Trigger>
           </Navbar.Item>
           <Dropdown.Menu
             aria-label="User menu actions"
             color="secondary"
-            onAction={(actionKey) => console.log({ actionKey })}
+            onAction={(actionKey) => {
+              switch (actionKey) {
+                case "sign-out":
+                  signOut();
+                  break;
+                default:
+                  break;
+              }
+            }}
           >
             <Dropdown.Item key="profile" css={{ height: "$18" }}>
               <Text b color="inherit" css={{ d: "flex" }}>
                 Signed in as
               </Text>
               <Text b color="inherit" css={{ d: "flex" }}>
-                {user.email}
+                {user?.email}
               </Text>
             </Dropdown.Item>
             <Dropdown.Item key="settings" withDivider>
@@ -105,7 +114,7 @@ export default function Header() {
             <Dropdown.Item key="help_and_feedback" withDivider>
               Help & Feedback
             </Dropdown.Item>
-            <Dropdown.Item key="logout" withDivider color="error">
+            <Dropdown.Item key="sign-out" withDivider color="error">
               Log Out
             </Dropdown.Item>
           </Dropdown.Menu>
