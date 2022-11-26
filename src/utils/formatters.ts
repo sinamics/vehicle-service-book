@@ -43,6 +43,8 @@ export function formatEngineCapacity(
     style: "unit",
     unit: "liter",
     unitDisplay: "short",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
   }
 ): string | null {
   if (!engineCapacity) return null;

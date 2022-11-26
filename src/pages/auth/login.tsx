@@ -1,7 +1,7 @@
+import { Button, Container, Input } from "@nextui-org/react";
 import { useFormik } from "formik";
 import type { InferGetServerSidePropsType } from "next";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
-import React from "react";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
@@ -24,7 +24,7 @@ export default function Login({
   providers,
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { values, handleSubmit, handleChange, handleBlur } = useFormik({
+  const { handleSubmit, getFieldProps } = useFormik({
     initialValues: formInitialValues,
     validationSchema: toFormikValidationSchema(formValidationSchema),
     onSubmit: async (values) => {
@@ -42,68 +42,47 @@ export default function Login({
 
   return (
     <>
-      <div className="container min-h-app py-6">
-        <form
-          className="mx-auto flex max-w-sm flex-col items-stretch justify-center gap-2"
-          onSubmit={handleSubmit}
-        >
+      <Container>
+        <form onSubmit={handleSubmit}>
           <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-          <div className="form-control">
-            <label className="label" htmlFor="email">
-              <span className="label-text">Username</span>
-            </label>
-            <input
+          <div>
+            <Input
               id="email"
-              placeholder="john@doe.com"
-              className="input-bordered input"
-              name="email"
               type="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
+              label="Address e-mail"
+              placeholder="john@doe.com"
+              {...getFieldProps("email")}
             />
-            <label htmlFor="email" className="label">
-              <span className="label-text-alt">Label for errors</span>
-            </label>
           </div>
-          <div className="form-control">
-            <label className="label" htmlFor="password">
-              <span className="label-text">Password</span>
-            </label>
-            <input
+          <div>
+            <Input.Password
               id="password"
-              placeholder=""
-              className="input-bordered input"
-              name="password"
               type="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
+              label="Password"
+              {...getFieldProps("password")}
             />
           </div>
-          <button className="btn" type="submit">
-            Login
-          </button>
+          <Button type="submit">Login</Button>
         </form>
         {providers && (
-          <div className="mx-auto flex max-w-sm items-center justify-center gap-2">
+          <div>
             {Object.values(providers).map((provider) => {
               if (provider.name === "Credentials") return null;
 
               return (
-                <button
+                <Button
                   key={provider.name}
                   onClick={() =>
                     signIn(provider.id, { callbackUrl: getCallbackUrl() })
                   }
                 >
                   Sign in with {provider.name}
-                </button>
+                </Button>
               );
             })}
           </div>
         )}
-      </div>
+      </Container>
     </>
   );
 }

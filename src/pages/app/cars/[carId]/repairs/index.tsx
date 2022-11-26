@@ -3,6 +3,7 @@ import {
   Card,
   Grid,
   Link,
+  Modal,
   Row,
   Spacer,
   Text,
@@ -10,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
@@ -19,6 +20,12 @@ import { formatDate, formatMileage, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
 export default function Repairs() {
+  const [deleteModal, setDeleteModal] = useState({
+    visible: false,
+    carId: "",
+    repairId: "",
+  });
+
   const { query } = useRouter();
   const utils = trpc.useContext();
   const { data: repairs } = trpc.repair.getAll.useQuery(
@@ -114,13 +121,66 @@ export default function Repairs() {
                             auto
                             flat
                             icon={<FiTrash2 />}
-                            onClick={() =>
-                              deleteRepair({
+                            onClick={() => {
+                              setDeleteModal({
+                                visible: true,
                                 carId: repair.carId,
                                 repairId: repair.id,
-                              })
-                            }
+                              });
+                            }}
                           />
+                          <Modal
+                            closeButton
+                            blur
+                            aria-labelledby="modal-title"
+                            open={Boolean(deleteModal.visible)}
+                            onClose={() => {
+                              setDeleteModal({
+                                visible: false,
+                                carId: "",
+                                repairId: "",
+                              });
+                            }}
+                          >
+                            <Modal.Header>
+                              <Text id="modal-title" size={18}>
+                                Delete car?
+                              </Text>
+                            </Modal.Header>
+                            <Modal.Footer>
+                              <Button
+                                auto
+                                flat
+                                onClick={() => {
+                                  setDeleteModal({
+                                    visible: false,
+                                    carId: "",
+                                    repairId: "",
+                                  });
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                auto
+                                flat
+                                color="error"
+                                onClick={() => {
+                                  deleteRepair({
+                                    carId: deleteModal.carId,
+                                    repairId: deleteModal.repairId,
+                                  });
+                                  setDeleteModal({
+                                    visible: false,
+                                    carId: "",
+                                    repairId: "",
+                                  });
+                                }}
+                              >
+                                Delete
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
                         </Tooltip>
                       </Row>
                     </Card.Footer>

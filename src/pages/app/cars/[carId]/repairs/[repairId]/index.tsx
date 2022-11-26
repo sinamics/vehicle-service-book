@@ -1,8 +1,7 @@
-import { Button, Container, Input } from "@nextui-org/react";
+import { Button, Container, Grid, Input, Textarea } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import React from "react";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -70,65 +69,69 @@ export default function EditRepair() {
       <Seo title="Edit repair" description="Edit repair" />
       <Container>
         {!isLoading && (
-          <form
-            className="mx-auto flex max-w-sm flex-col items-center justify-center gap-2"
-            onSubmit={handleSubmit}
-          >
-            <div>
-              <Input
-                id="title"
-                type="text"
-                bordered
-                clearable
-                label="Title"
-                placeholder="Replace tires and oil"
-                {...getFieldProps("title")}
-              />
-            </div>
-            <div>
-              <Input
-                id="description"
-                type="text"
-                bordered
-                clearable
-                label="Description"
-                placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
-                {...getFieldProps("description")}
-              />
-            </div>
-            <div>
-              <Input
-                id="price"
-                type="number"
-                min={0}
-                bordered
-                label="Price"
-                {...getFieldProps("price")}
-              />
-            </div>
-            <div>
-              <Input
-                id="date"
-                type="date"
-                max={dayjs().format("YYYY-MM-DD")}
-                bordered
-                label="Date"
-                {...getFieldProps("date")}
-              />
-            </div>
-            <div>
-              <Input
-                id="mileage"
-                type="number"
-                min={0}
-                bordered
-                label="Mileage"
-                {...getFieldProps("mileage")}
-              />
-            </div>
-            <Button type="submit">
-              {isSubmitting ? "Editing..." : "Edit"}
-            </Button>
+          <form onSubmit={handleSubmit}>
+            <Grid.Container css={{ mt: "$10" }} gap={1} justify="center">
+              <Grid xs={12} justify="center">
+                <Input
+                  id="title"
+                  type="text"
+                  bordered
+                  label="Title"
+                  css={{ minWidth: "300px" }}
+                  placeholder="Replace tires and oil"
+                  {...getFieldProps("title")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Textarea
+                  id="description"
+                  rows={3}
+                  bordered
+                  label="Description"
+                  css={{ minWidth: "300px" }}
+                  placeholder="Replaced summer tires to winter and changed oil from 5W30 to 5W40"
+                  {...getFieldProps("description")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="price"
+                  type="number"
+                  min={0}
+                  bordered
+                  label="Price"
+                  css={{ minWidth: "300px" }}
+                  {...getFieldProps("price")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="date"
+                  type="date"
+                  max={dayjs().format("YYYY-MM-DD")}
+                  bordered
+                  label="Date"
+                  css={{ minWidth: "300px" }}
+                  {...getFieldProps("date")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Input
+                  id="mileage"
+                  type="number"
+                  min={0}
+                  bordered
+                  label="Mileage"
+                  css={{ minWidth: "300px" }}
+                  {...getFieldProps("mileage")}
+                />
+              </Grid>
+              <Grid xs={12} justify="center">
+                <Button css={{ minWidth: "300px" }} type="submit">
+                  {isSubmitting ? "Editing..." : "Edit"}
+                </Button>
+              </Grid>
+            </Grid.Container>
           </form>
         )}
       </Container>
