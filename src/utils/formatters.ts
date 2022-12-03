@@ -29,7 +29,8 @@ export function formatMileage(
   mileage: number | null,
   locale: string = DEFAULT_LOCALE,
   options: Intl.NumberFormatOptions = {
-    style: "decimal",
+    style: "unit",
+    unit: "kilometer",
   }
 ): string | null {
   if (!mileage) return null;
