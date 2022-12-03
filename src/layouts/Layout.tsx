@@ -1,18 +1,20 @@
-import { Container } from "@nextui-org/react";
+import { useRouter } from "next/router";
 import type { PropsWithChildren } from "react";
 
+import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import HomeHeader from "@/components/HomeHeader";
 
 type Props = PropsWithChildren;
 
 export default function Layout({ children }: Props) {
+  const { pathname } = useRouter();
   return (
     <>
-      <Header />
-      <Container fluid css={{ minHeight: "calc(100vh - 152px)" }}>
+      {pathname === "/" ? <HomeHeader /> : <AppHeader />}
+      <main className="container min-h-layout-mobile pt-24 pb-8 sm:min-h-layout">
         {children}
-      </Container>
+      </main>
       <Footer />
     </>
   );
