@@ -27,7 +27,7 @@ export default function CarsList() {
       <Seo title="Cars" description="cars list" />
       <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Link
-          className="flex min-h-[250px] items-center justify-center rounded-lg border bg-white shadow-md transition-transform hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:max-w-xl md:flex-row"
+          className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-all hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900 md:max-w-xl md:flex-row"
           href="/app/cars/add"
         >
           <div className="flex items-center justify-center">
@@ -37,16 +37,18 @@ export default function CarsList() {
         {cars?.length
           ? cars.map((car) => (
               <div
-                className="min-h-[250px] rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
+                className="min-h-[250px] rounded-2xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
                 key={car.id}
               >
                 <div className="flex h-full flex-col divide-y divide-gray-600 p-5">
-                  <div className="flex flex-grow flex-col pb-3">
+                  <div className="flex flex-grow flex-col gap-1 pb-3">
                     <h4 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                       {car.brand} {car.model} {car.generation}{" "}
                       {car.productionYear}
                     </h4>
-                    <p className="mb-4 font-light text-gray-400">{car.type}</p>
+                    <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
+                      {car.type}
+                    </p>
                     <p>
                       <span className="font-medium">Engine:</span>{" "}
                       {car.engineType}{" "}
@@ -61,21 +63,21 @@ export default function CarsList() {
                   </div>
                   <div className="flex items-end justify-center gap-2 pt-3">
                     <Link
-                      className="rounded-lg p-3 text-blue-800 hover:bg-blue-900 dark:text-blue-600 hover:dark:bg-blue-900/40"
+                      className="rounded-lg p-3 text-lg text-blue-800 hover:bg-blue-200 dark:text-blue-600 hover:dark:bg-blue-900/40"
                       aria-label="Show car repairs"
                       href={`/app/cars/${car.id}/repairs`}
                     >
                       <FiTool />
                     </Link>
                     <Link
-                      className="rounded-lg p-3 text-green-800 hover:bg-green-900 dark:text-green-600 hover:dark:bg-green-900/40"
+                      className="rounded-lg p-3 text-lg text-green-800 hover:bg-green-200 dark:text-green-600 hover:dark:bg-green-900/40"
                       aria-label="Edit car"
                       href={`/app/cars/${car.id}`}
                     >
                       <FiEdit />
                     </Link>
                     <button
-                      className="rounded-lg p-3 text-red-800 hover:bg-red-900 dark:text-red-600 hover:dark:bg-red-900/40"
+                      className="rounded-lg p-3 text-lg text-red-800 hover:bg-red-200 dark:text-red-600 hover:dark:bg-red-900/40"
                       aria-label="Delete car"
                       onClick={() => {
                         setDeleteModal({

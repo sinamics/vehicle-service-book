@@ -242,7 +242,7 @@ export default function EditCar() {
               </p>
             </div>
             <button
-              className="mx-auto mt-2 w-full max-w-[200px] rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:col-span-2 xl:col-span-3"
+              className="mx-auto mt-2 w-full max-w-[200px] rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:col-span-2 xl:col-span-3"
               type="submit"
             >
               {isSubmitting ? "Updating..." : "Update"}

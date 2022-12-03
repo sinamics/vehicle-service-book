@@ -37,7 +37,7 @@ export default function Repairs() {
       <Seo title="Repairs" description="repairs list" />
       <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Link
-          className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-transform hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:max-w-xl md:flex-row"
+          className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-all hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900 md:max-w-xl md:flex-row"
           href={`/app/cars/${encodeURIComponent(
             query.carId as string
           )}/repairs/add`}
@@ -75,14 +75,14 @@ export default function Repairs() {
                   </div>
                   <div className="flex items-end justify-center gap-2 pt-3">
                     <Link
-                      className="rounded-xl p-3 text-green-800 hover:bg-green-900 dark:text-green-600 hover:dark:bg-green-900/40"
+                      className="rounded-xl p-3 text-lg text-green-800 hover:bg-green-200 dark:text-green-600 hover:dark:bg-green-900/40"
                       aria-label="Edit repair"
                       href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
                     >
                       <FiEdit />
                     </Link>
                     <button
-                      className="rounded-xl p-3 text-red-800 hover:bg-red-900 dark:text-red-600 hover:dark:bg-red-900/40"
+                      className="rounded-xl p-3 text-lg text-red-800 hover:bg-red-200 dark:text-red-600 hover:dark:bg-red-900/40"
                       aria-label="Delete repair"
                       onClick={() => {
                         setDeleteModal({
@@ -94,48 +94,6 @@ export default function Repairs() {
                     >
                       <FiTrash2 />
                     </button>
-                    {/* <Modal
-                          aria-labelledby="modal-title"
-                          isOpen={Boolean(deleteModal.visible)}
-                          onClose={() => {
-                            setDeleteModal({
-                              visible: false,
-                              carId: "",
-                            });
-                          }}
-                        >
-                          <ModalHeader>
-                            <Text id="modal-title" size="xl">
-                              Delete repair?
-                            </Text>
-                          </ModalHeader>
-                          <ModalFooter>
-                            <Button
-                              variant="ghost"
-                              onClick={() => {
-                                setDeleteModal({
-                                  visible: false,
-                                  carId: "",
-                                });
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              colorScheme="red"
-                              onClick={() => {
-                                deleteCar({ carId: deleteModal.carId });
-                                setDeleteModal({
-                                  visible: false,
-                                  carId: "",
-                                });
-                              }}
-                            >
-                              Delete
-                            </Button>
-                          </ModalFooter>
-                        </Modal> */}
                   </div>
                 </div>
               </div>
@@ -154,7 +112,10 @@ export default function Repairs() {
           })
         }
       >
-        <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
+        <div
+          className="fixed inset-0 bg-black/20 dark:bg-black/80"
+          aria-hidden="true"
+        />
         <div className="fixed inset-0 flex items-center justify-center p-4 ">
           <Dialog.Panel className="rounded-lg bg-white p-6 text-center shadow dark:bg-gray-700">
             <svg

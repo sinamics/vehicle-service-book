@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <Disclosure
       as="header"
-      className="fixed inset-x-0 top-0 z-10 bg-gray-900 shadow-sm shadow-gray-800"
+      className="fixed inset-x-0 top-0 z-10 bg-gray-100 shadow-sm shadow-gray-300 dark:bg-gray-900 dark:shadow-gray-800"
     >
       {({ open }) => (
         <>
@@ -57,8 +57,8 @@ export default function Header() {
                           href={item.href}
                           className={cx(
                             item.current
-                              ? "bg-gray-800 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              ? "bg-gray-300 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
+                              : "text-gray-800 hover:bg-gray-300 hover:text-gray-800 dark:text-gray-200 hover:dark:bg-gray-700 hover:dark:text-gray-300",
                             "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
@@ -93,14 +93,14 @@ export default function Header() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
                       <Menu.Item>
                         {({ active }) => (
                           <Link
                             href="/"
                             className={cx(
-                              active && "bg-gray-100",
-                              "block px-4 py-2 text-sm text-gray-700"
+                              active && "bg-gray-100 dark:bg-gray-600/30",
+                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                             )}
                           >
                             Your Profile
@@ -112,8 +112,8 @@ export default function Header() {
                           <Link
                             href="/"
                             className={cx(
-                              active && "bg-gray-100",
-                              "block px-4 py-2 text-sm text-gray-700"
+                              active && "bg-gray-100 dark:bg-gray-600/30",
+                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
                             )}
                           >
                             Settings
@@ -125,7 +125,7 @@ export default function Header() {
                           <button
                             onClick={() => signOut()}
                             className={cx(
-                              active && "bg-red-100",
+                              active && "bg-red-100 dark:bg-red-900/20",
                               "block w-full px-4 py-2 text-left text-sm text-red-700"
                             )}
                           >
