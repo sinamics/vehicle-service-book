@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 
