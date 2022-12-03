@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["Authed", "dbpush", "ipfs", "nextlint"]
+  "cSpell.words": ["Authed", "dbpush", "ipfs", "nextlint"],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
 }

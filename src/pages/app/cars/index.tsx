@@ -1,16 +1,6 @@
-import {
-  Button,
-  Card,
-  Grid,
-  Link,
-  Modal,
-  Row,
-  Spacer,
-  Text,
-  Tooltip,
-} from "@nextui-org/react";
-import NextLink from "next/link";
-import { useState } from "react";
+import { Dialog } from "@headlessui/react";
+import Link from "next/link";
+import { Fragment, useRef, useState } from "react";
 import { FiEdit, FiPlus, FiTool, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
@@ -19,6 +9,7 @@ import { formatEngineCapacity } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
 export default function CarsList() {
+  const completeButtonRef = useRef(null);
   const [deleteModal, setDeleteModal] = useState({
     visible: false,
     carId: "",
@@ -34,146 +25,137 @@ export default function CarsList() {
   return (
     <Layout>
       <Seo title="Cars" description="cars list" />
-      <Grid.Container gap={2}>
-        <Grid xs={12} sm={6} md={4} lg={3}>
-          <Link
-            as={NextLink}
-            href="/app/cars/add"
-            css={{ minWidth: "100%", h: "100%", minHeight: "245px" }}
-          >
-            <Card
-              css={{ h: "100%", minHeight: "245px" }}
-              variant="bordered"
-              isPressable
-              isHoverable
-            >
-              <Card.Body>
-                <Row justify="center" css={{ h: "100%", alignItems: "center" }}>
-                  <FiPlus size={48} />
-                </Row>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Grid>
+      <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Link
+          className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-all hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900 md:max-w-xl md:flex-row"
+          href="/app/cars/add"
+        >
+          <div className="flex items-center justify-center">
+            <FiPlus className="h-12 w-12" size={12} />
+          </div>
+        </Link>
         {cars?.length
           ? cars.map((car) => (
-              <Grid key={car.id} xs={12} sm={6} md={4} lg={3}>
-                <Card variant="bordered" css={{ p: "$6" }}>
-                  <Card.Header>
-                    <Grid.Container>
-                      <Grid justify="space-between" xs={12}>
-                        <Text h4 css={{ lineHeight: "$xs" }}>
-                          {car.brand} {car.model} {car.generation}{" "}
-                          {car.productionYear}
-                        </Text>
-                      </Grid>
-                      <Grid xs={12}>
-                        <Text css={{ color: "$accents8" }}>{car.type}</Text>
-                      </Grid>
-                    </Grid.Container>
-                  </Card.Header>
-                  <Card.Body css={{ pt: "$2", pb: "$6" }}>
-                    <Text>
-                      <strong>Engine:</strong> {car.engineType}{" "}
+              <div
+                className="min-h-[250px] rounded-2xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
+                key={car.id}
+              >
+                <div className="flex h-full flex-col divide-y divide-gray-600 p-5">
+                  <div className="flex flex-grow flex-col gap-1 pb-3">
+                    <h4 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                      {car.brand} {car.model} {car.generation}{" "}
+                      {car.productionYear}
+                    </h4>
+                    <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
+                      {car.type}
+                    </p>
+                    <p>
+                      <span className="font-medium">Engine:</span>{" "}
+                      {car.engineType}{" "}
                       {formatEngineCapacity(car.engineCapacity)}{" "}
                       {car.enginePower}
                       HP
-                    </Text>
-                    <Text>
-                      <strong>Gearbox:</strong> {car.gearboxType}
-                    </Text>
-                  </Card.Body>
-                  <Card.Divider />
-                  <Card.Footer>
-                    <Row justify="center">
-                      <Tooltip content="Car repairs" color="primary">
-                        <Button
-                          auto
-                          icon={<FiTool />}
-                          as={NextLink}
-                          flat
-                          href={`/app/cars/${car.id}/repairs`}
-                        />
-                      </Tooltip>
-                      <Spacer x={0.5} />
-                      <Tooltip content="Edit car" color="success">
-                        <Button
-                          color="success"
-                          icon={<FiEdit />}
-                          auto
-                          flat
-                          as={NextLink}
-                          href={`/app/cars/${car.id}`}
-                        />
-                      </Tooltip>
-                      <Spacer x={0.5} />
-                      <Tooltip content="Delete car" color="error">
-                        <Button
-                          color="error"
-                          auto
-                          flat
-                          icon={<FiTrash2 />}
-                          onClick={() => {
-                            setDeleteModal({
-                              visible: true,
-                              carId: car.id,
-                            });
-                          }}
-                        />
-                        <Modal
-                          closeButton
-                          blur
-                          aria-labelledby="modal-title"
-                          open={Boolean(deleteModal.visible)}
-                          onClose={() => {
-                            setDeleteModal({
-                              visible: false,
-                              carId: "",
-                            });
-                          }}
-                        >
-                          <Modal.Header>
-                            <Text id="modal-title" size={18}>
-                              Delete car?
-                            </Text>
-                          </Modal.Header>
-                          <Modal.Footer>
-                            <Button
-                              auto
-                              flat
-                              onClick={() => {
-                                setDeleteModal({
-                                  visible: false,
-                                  carId: "",
-                                });
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              auto
-                              flat
-                              color="error"
-                              onClick={() => {
-                                deleteCar({ carId: deleteModal.carId });
-                                setDeleteModal({
-                                  visible: false,
-                                  carId: "",
-                                });
-                              }}
-                            >
-                              Delete
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </Tooltip>
-                    </Row>
-                  </Card.Footer>
-                </Card>
-              </Grid>
+                    </p>
+                    <p>
+                      <span className="font-medium">Gearbox:</span>{" "}
+                      {car.gearboxType}
+                    </p>
+                  </div>
+                  <div className="flex items-end justify-center gap-2 pt-3">
+                    <Link
+                      className="rounded-lg p-3 text-lg text-blue-800 hover:bg-blue-200 dark:text-blue-600 hover:dark:bg-blue-900/40"
+                      aria-label="Show car repairs"
+                      href={`/app/cars/${car.id}/repairs`}
+                    >
+                      <FiTool />
+                    </Link>
+                    <Link
+                      className="rounded-lg p-3 text-lg text-green-800 hover:bg-green-200 dark:text-green-600 hover:dark:bg-green-900/40"
+                      aria-label="Edit car"
+                      href={`/app/cars/${car.id}`}
+                    >
+                      <FiEdit />
+                    </Link>
+                    <button
+                      className="rounded-lg p-3 text-lg text-red-800 hover:bg-red-200 dark:text-red-600 hover:dark:bg-red-900/40"
+                      aria-label="Delete car"
+                      onClick={() => {
+                        setDeleteModal({
+                          visible: true,
+                          carId: car.id,
+                        });
+                      }}
+                    >
+                      <FiTrash2 />
+                    </button>
+                  </div>
+                </div>
+              </div>
             ))
           : null}
-      </Grid.Container>
+      </div>
+      <Dialog
+        open={Boolean(deleteModal.visible)}
+        initialFocus={completeButtonRef}
+        className="relative z-50"
+        onClose={() =>
+          setDeleteModal({
+            visible: false,
+            carId: "",
+          })
+        }
+      >
+        <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4 ">
+          <Dialog.Panel className="rounded-lg bg-white p-6 text-center shadow dark:bg-gray-700">
+            <svg
+              aria-hidden="true"
+              className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <Dialog.Title className="mb-2 text-xl font-normal text-gray-500 dark:text-gray-300">
+              Delete car?
+            </Dialog.Title>
+            <Dialog.Description className="mb-5 text-base font-normal text-gray-500 dark:text-gray-400">
+              This will permanently delete this car, including all of repairs.
+            </Dialog.Description>
+            <button
+              ref={completeButtonRef}
+              className="mr-2 inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+              onClick={() => {
+                deleteCar({ carId: deleteModal.carId });
+                setDeleteModal({
+                  visible: false,
+                  carId: "",
+                });
+              }}
+            >
+              Yes I&apos;m sure
+            </button>
+            <button
+              className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
+              onClick={() => {
+                setDeleteModal({
+                  visible: false,
+                  carId: "",
+                });
+              }}
+            >
+              No, cancel
+            </button>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </Layout>
   );
 }

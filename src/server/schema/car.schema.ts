@@ -7,33 +7,24 @@ export const carParams = z.object({
 
 export const createCarSchema = z.object({
   type: z.nativeEnum(CarType).optional(),
-  brand: z.string({
-    required_error: "Brand is required",
-  }),
-  model: z.string({
-    required_error: "Model is required",
-  }),
+  brand: z.string().min(1),
+  model: z.string().min(1),
   generation: z.string().optional(),
-  productionYear: z.number().optional(),
+  productionYear: z
+    .number()
+    .nonnegative()
+    .gte(1000)
+    .lte(new Date().getFullYear())
+    .optional(),
   engineType: z.nativeEnum(EngineType).optional(),
-  engineCapacity: z.number().optional(),
-  enginePower: z.number().optional(),
+  engineCapacity: z.number().nonnegative().optional(),
+  enginePower: z.number().nonnegative().optional(),
   gearboxType: z.nativeEnum(GearboxType).optional(),
 });
 
 export const updateCarSchema = z.object({
   params: carParams,
-  body: z.object({
-    type: z.nativeEnum(CarType).optional(),
-    brand: z.string().optional(),
-    model: z.string().optional(),
-    generation: z.string().optional(),
-    productionYear: z.number().optional(),
-    engineType: z.nativeEnum(EngineType).optional(),
-    engineCapacity: z.number().optional(),
-    enginePower: z.number().optional(),
-    gearboxType: z.nativeEnum(GearboxType).optional(),
-  }),
+  body: createCarSchema,
 });
 
 export type CarParams = z.infer<typeof carParams>;
