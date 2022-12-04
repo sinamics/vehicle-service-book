@@ -35,29 +35,28 @@ export default function Repairs() {
   return (
     <Layout>
       <Seo title="Repairs" description="repairs list" />
-      <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mb-4 flex justify-between">
+        <h2 className="font-mono text-3xl">Your repairs</h2>
         <Link
-          className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-all hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900 md:max-w-xl md:flex-row"
           href={`/app/cars/${encodeURIComponent(
             query.carId as string
           )}/repairs/add`}
+          className="btn"
         >
-          <div className="flex items-center justify-center">
-            <FiPlus className="h-12 w-12" size={12} />
-          </div>
+          <FiPlus className="mr-2" size={20} />
+          Add repair
         </Link>
+      </div>
+      <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {repairs?.length
           ? repairs.map((repair) => (
-              <div
-                className="min-h-[250px] rounded-2xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
-                key={repair.id}
-              >
-                <div className="flex h-full flex-col divide-y divide-gray-600 p-5">
+              <div className="card min-h-[240px] bg-base-200" key={repair.id}>
+                <div className="flex h-full flex-col divide-y divide-secondary p-5">
                   <div className="flex flex-grow flex-col gap-1 pb-3">
-                    <h4 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                    <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                       {repair.title}
                     </h4>
-                    <p className="mb-4 font-light text-gray-400">
+                    <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
                       {repair.description}
                     </p>
                     <p>
@@ -68,21 +67,21 @@ export default function Repairs() {
                       <span className="font-medium">Price:</span>{" "}
                       {formatPrice(repair.price)}
                     </p>
-                    <p>
+                    <p className="mb-2">
                       <span className="font-medium">Mileage:</span>{" "}
                       {formatMileage(repair.mileage)}
                     </p>
                   </div>
                   <div className="flex items-end justify-center gap-2 pt-3">
                     <Link
-                      className="rounded-xl p-3 text-lg text-green-800 hover:bg-green-200 dark:text-green-600 hover:dark:bg-green-900/40"
+                      className="btn-outline btn-success btn border-none"
                       aria-label="Edit repair"
                       href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
                     >
-                      <FiEdit />
+                      <FiEdit size={18} />
                     </Link>
                     <button
-                      className="rounded-xl p-3 text-lg text-red-800 hover:bg-red-200 dark:text-red-600 hover:dark:bg-red-900/40"
+                      className="btn-outline btn-error btn border-none"
                       aria-label="Delete repair"
                       onClick={() => {
                         setDeleteModal({
@@ -92,7 +91,7 @@ export default function Repairs() {
                         });
                       }}
                     >
-                      <FiTrash2 />
+                      <FiTrash2 size={18} />
                     </button>
                   </div>
                 </div>
@@ -112,24 +111,18 @@ export default function Repairs() {
           })
         }
       >
-        <div
-          className="fixed inset-0 bg-black/20 dark:bg-black/80"
-          aria-hidden="true"
-        />
+        <div className="fixed inset-0 bg-base-100/90" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4 ">
-          <Dialog.Panel className="rounded-lg bg-white p-6 text-center shadow dark:bg-gray-700">
-            <FiAlertCircle
-              className="mx-auto mb-4 text-gray-400 dark:text-gray-200"
-              size={56}
-            />
-            <Dialog.Title className="mb-2 text-xl font-normal text-gray-500 dark:text-gray-300">
+          <Dialog.Panel className="rounded-lg bg-base-200 p-6 text-center shadow">
+            <FiAlertCircle className="mx-auto mb-4" size={56} />
+            <Dialog.Title className="mb-2 text-xl font-normal text-accent">
               Delete repair?
             </Dialog.Title>
-            <Dialog.Description className="mb-5 text-base font-normal text-gray-500 dark:text-gray-400">
+            <Dialog.Description className="mb-5 text-base font-normal">
               This will permanently delete this repair.
             </Dialog.Description>
             <button
-              className="mr-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
+              className="btn-ghost btn mr-2"
               onClick={() => {
                 setDeleteModal({
                   visible: false,
@@ -142,7 +135,7 @@ export default function Repairs() {
             </button>
             <button
               ref={completeButtonRef}
-              className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+              className="btn-error btn"
               onClick={() => {
                 deleteRepair({
                   carId: deleteModal.carId,

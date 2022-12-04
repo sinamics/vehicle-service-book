@@ -65,8 +65,8 @@ export default function Header() {
                           href={item.href}
                           className={cx(
                             item.current
-                              ? "bg-gray-300 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
-                              : "text-gray-800 hover:bg-gray-300 hover:text-gray-800 dark:text-gray-200 hover:dark:bg-gray-700 hover:dark:text-gray-300",
+                              ? "bg-primary text-white"
+                              : "hover:bg-primary",
                             "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
@@ -149,24 +149,27 @@ export default function Header() {
           </div>
           <Transition
             as={Fragment}
-            enter="transition transition-[max-height] duration-300 ease-in"
-            enterFrom="transform max-h-0"
-            enterTo="transform max-h-screen"
-            leave="transition transition-[max-height] duration-500 ease-out"
-            leaveFrom="transform max-h-screen"
-            leaveTo="transform max-h-0"
+            enter="transition duration-300 ease"
+            enterFrom="transform opacity-0 translate-y-10"
+            enterTo="transform opacity-100 translate-y-0"
+            leave="transition duration-500 ease"
+            leaveFrom="transform opacity-100 translate-y-0"
+            leaveTo="transform opacity-0 translate-y-10"
           >
-            <Disclosure.Panel as="nav" className="overflow-hidden sm:hidden">
-              <ul className="space-y-1 px-2 pt-2 pb-3">
+            <Disclosure.Panel
+              as="nav"
+              className="container fixed top-20 overflow-hidden sm:hidden"
+            >
+              <ul className="space-y-4 rounded-md bg-white p-2 shadow-lg ring-black ring-opacity-5 dark:bg-gray-800">
                 {links.map((item) => (
-                  <li key={item.name} className="flex">
+                  <li key={item.name} className="text-center">
                     <Disclosure.Button
                       as={Link}
                       href={item.href}
                       className={cx(
                         item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          ? "bg-primary text-white"
+                          : "hover:bg-primary",
                         "block rounded-md px-3 py-2 text-base font-medium"
                       )}
                       aria-current={item.current && "page"}

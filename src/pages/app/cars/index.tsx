@@ -1,5 +1,4 @@
 import { Dialog } from "@headlessui/react";
-import { Button } from "flowbite-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {
@@ -33,27 +32,19 @@ export default function CarsList() {
     <Layout>
       <Seo title="Cars" description="cars list" />
       <div className="mb-4 flex justify-between">
-        <h2>Your cars</h2>
-        <Button>Add car</Button>
+        <h2 className="font-mono text-3xl">Your cars</h2>
+        <Link href="/app/cars/add" className="btn">
+          <FiPlus className="mr-2" size={20} />
+          Add car
+        </Link>
       </div>
       <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <Link
-          className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-all hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900 md:max-w-xl md:flex-row"
-          href="/app/cars/add"
-        >
-          <div className="flex items-center justify-center">
-            <FiPlus className="h-12 w-12" size={12} />
-          </div>
-        </Link>
         {cars?.length
           ? cars.map((car) => (
-              <div
-                className="min-h-[250px] rounded-2xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800"
-                key={car.id}
-              >
-                <div className="flex h-full flex-col divide-y divide-gray-600 p-5">
+              <div className="card min-h-[240px] bg-base-200" key={car.id}>
+                <div className="flex h-full flex-col divide-y divide-secondary p-5">
                   <div className="flex flex-grow flex-col gap-1 pb-3">
-                    <h4 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                    <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                       {car.brand} {car.model} {car.generation}{" "}
                       {car.productionYear}
                     </h4>
@@ -67,28 +58,28 @@ export default function CarsList() {
                       {car.enginePower}
                       HP
                     </p>
-                    <p>
+                    <p className="mb-2">
                       <span className="font-medium">Gearbox:</span>{" "}
                       {car.gearboxType}
                     </p>
                   </div>
                   <div className="flex items-end justify-center gap-2 pt-3">
                     <Link
-                      className="rounded-lg p-3 text-lg text-blue-800 hover:bg-blue-200 dark:text-blue-600 hover:dark:bg-blue-900/40"
+                      className="btn-outline btn-info btn border-none"
                       aria-label="Show car repairs"
                       href={`/app/cars/${car.id}/repairs`}
                     >
-                      <FiTool />
+                      <FiTool size={18} />
                     </Link>
                     <Link
-                      className="rounded-lg p-3 text-lg text-green-800 hover:bg-green-200 dark:text-green-600 hover:dark:bg-green-900/40"
+                      className="btn-outline btn-success btn border-none"
                       aria-label="Edit car"
                       href={`/app/cars/${car.id}`}
                     >
-                      <FiEdit />
+                      <FiEdit size={18} />
                     </Link>
                     <button
-                      className="rounded-lg p-3 text-lg text-red-800 hover:bg-red-200 dark:text-red-600 hover:dark:bg-red-900/40"
+                      className="btn-outline btn-error btn border-none"
                       aria-label="Delete car"
                       onClick={() => {
                         setDeleteModal({
@@ -97,7 +88,7 @@ export default function CarsList() {
                         });
                       }}
                     >
-                      <FiTrash2 />
+                      <FiTrash2 size={18} />
                     </button>
                   </div>
                 </div>
@@ -116,21 +107,18 @@ export default function CarsList() {
           })
         }
       >
-        <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
+        <div className="fixed inset-0 bg-base-100/90" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4 ">
-          <Dialog.Panel className="rounded-lg bg-white p-6 text-center shadow dark:bg-gray-700">
-            <FiAlertCircle
-              className="mx-auto mb-4 text-gray-400 dark:text-gray-200"
-              size={56}
-            />
-            <Dialog.Title className="mb-2 text-xl font-normal text-gray-500 dark:text-gray-300">
+          <Dialog.Panel className="rounded-lg bg-base-200 p-6 text-center shadow">
+            <FiAlertCircle className="mx-auto mb-4" size={56} />
+            <Dialog.Title className="mb-2 text-xl font-normal text-accent">
               Delete car?
             </Dialog.Title>
-            <Dialog.Description className="mb-5 text-base font-normal text-gray-500 dark:text-gray-400">
+            <Dialog.Description className="mb-5 text-base font-normal">
               This will permanently delete this car, including all of repairs.
             </Dialog.Description>
             <button
-              className="mr-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
+              className="btn-ghost btn mr-2"
               onClick={() => {
                 setDeleteModal({
                   visible: false,
@@ -142,7 +130,7 @@ export default function CarsList() {
             </button>
             <button
               ref={completeButtonRef}
-              className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+              className="btn-error btn"
               onClick={() => {
                 deleteCar({ carId: deleteModal.carId });
                 setDeleteModal({
