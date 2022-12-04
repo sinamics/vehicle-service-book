@@ -140,8 +140,20 @@ export default function Repairs() {
               This will permanently delete this repair.
             </Dialog.Description>
             <button
+              className="mr-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
+              onClick={() => {
+                setDeleteModal({
+                  visible: false,
+                  carId: "",
+                  repairId: "",
+                });
+              }}
+            >
+              No, cancel
+            </button>
+            <button
               ref={completeButtonRef}
-              className="mr-2 inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+              className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
               onClick={() => {
                 deleteRepair({
                   carId: deleteModal.carId,
@@ -155,18 +167,6 @@ export default function Repairs() {
               }}
             >
               Yes I&apos;m sure
-            </button>
-            <button
-              className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
-              onClick={() => {
-                setDeleteModal({
-                  visible: false,
-                  carId: "",
-                  repairId: "",
-                });
-              }}
-            >
-              No, cancel
             </button>
           </Dialog.Panel>
         </div>

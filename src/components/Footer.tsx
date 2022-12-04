@@ -43,7 +43,7 @@ const SocialLink = ({ href, alt, children }: SocialLinkProps) => (
 
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-7xl bg-gray-100 p-4 dark:bg-gray-900 sm:p-6">
+    <footer className="container bg-gray-100 p-4 px-8 dark:bg-gray-900 sm:py-6">
       <div className="flex flex-col items-center justify-center sm:flex-row sm:items-center sm:justify-between">
         <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
           © 2022{" "}
