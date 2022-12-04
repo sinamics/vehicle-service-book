@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <Disclosure
       as="header"
-      className="fixed inset-x-0 top-0 z-10 bg-gray-100 shadow-sm shadow-gray-300 dark:bg-gray-900 dark:shadow-gray-800"
+      className="fixed inset-x-0 top-0 z-10 shadow-sm shadow-primary"
     >
       {({ open }) => (
         <>
@@ -27,14 +27,22 @@ export default function Header() {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="swap swap-rotate inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
                   <span className="sr-only">Open main menu</span>
-
-                  {open ? (
-                    <FiX className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <FiMenu className="block h-6 w-6" aria-hidden="true" />
-                  )}
+                  <FiX
+                    className={cx("absolute h-6 w-6", {
+                      "swap-on": !open,
+                      "swap-off": open,
+                    })}
+                    aria-hidden="true"
+                  />
+                  <FiMenu
+                    className={cx("absolute h-6 w-6", {
+                      "swap-on": open,
+                      "swap-off": !open,
+                    })}
+                    aria-hidden="true"
+                  />
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -72,7 +80,7 @@ export default function Header() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Menu as="div" className="relative ml-3">
-                  <Menu.Button className="flex rounded-full bg-gray-800 text-sm transition-all hover:outline-none hover:ring-2 hover:ring-white hover:ring-offset-2 hover:ring-offset-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <Menu.Button className="flex rounded-full bg-gray-800 text-sm transition-all hover:outline-none hover:ring-2 hover:ring-white hover:ring-offset-2 hover:ring-offset-gray-800">
                     <span className="sr-only">Open user menu</span>
                     {user?.image && (
                       <Image
@@ -93,7 +101,7 @@ export default function Header() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-800">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
                       <Menu.Item>
                         {({ active }) => (
                           <Link

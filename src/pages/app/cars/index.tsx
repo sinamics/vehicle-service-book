@@ -1,7 +1,14 @@
 import { Dialog } from "@headlessui/react";
+import { Button } from "flowbite-react";
 import Link from "next/link";
-import { Fragment, useRef, useState } from "react";
-import { FiEdit, FiPlus, FiTool, FiTrash2 } from "react-icons/fi";
+import { useRef, useState } from "react";
+import {
+  FiAlertCircle,
+  FiEdit,
+  FiPlus,
+  FiTool,
+  FiTrash2,
+} from "react-icons/fi";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -25,6 +32,10 @@ export default function CarsList() {
   return (
     <Layout>
       <Seo title="Cars" description="cars list" />
+      <div className="mb-4 flex justify-between">
+        <h2>Your cars</h2>
+        <Button>Add car</Button>
+      </div>
       <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Link
           className="flex min-h-[250px] items-center justify-center rounded-2xl border bg-white shadow-md transition-all hover:-translate-y-1 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900 md:max-w-xl md:flex-row"
@@ -108,21 +119,10 @@ export default function CarsList() {
         <div className="fixed inset-0 bg-black/80" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4 ">
           <Dialog.Panel className="rounded-lg bg-white p-6 text-center shadow dark:bg-gray-700">
-            <svg
-              aria-hidden="true"
-              className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
+            <FiAlertCircle
+              className="mx-auto mb-4 text-gray-400 dark:text-gray-200"
+              size={56}
+            />
             <Dialog.Title className="mb-2 text-xl font-normal text-gray-500 dark:text-gray-300">
               Delete car?
             </Dialog.Title>

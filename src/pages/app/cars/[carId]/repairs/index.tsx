@@ -2,7 +2,7 @@ import { Dialog } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiAlertCircle, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -118,21 +118,10 @@ export default function Repairs() {
         />
         <div className="fixed inset-0 flex items-center justify-center p-4 ">
           <Dialog.Panel className="rounded-lg bg-white p-6 text-center shadow dark:bg-gray-700">
-            <svg
-              aria-hidden="true"
-              className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
+            <FiAlertCircle
+              className="mx-auto mb-4 text-gray-400 dark:text-gray-200"
+              size={56}
+            />
             <Dialog.Title className="mb-2 text-xl font-normal text-gray-500 dark:text-gray-300">
               Delete repair?
             </Dialog.Title>

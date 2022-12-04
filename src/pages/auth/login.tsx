@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, Label, TextInput } from "flowbite-react";
+import cx from "classnames";
 import type { InferGetServerSidePropsType } from "next";
 import type { ClientSafeProvider } from "next-auth/react";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { DiGithubBadge } from "react-icons/di";
 import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
 
-import ErrorMessage from "@/components/ErrorMessage";
 import type { AuthSchema } from "@/server/schema/auth.schema";
 import { authSchema } from "@/server/schema/auth.schema";
 
@@ -28,21 +27,20 @@ function providerIcon(providerName: ClientSafeProvider["name"]) {
     case "GitHub":
       return <DiGithubBadge className="mr-2 -ml-1 h-6 w-6" />;
     default:
-      return "/images/flowbite.svg";
+      return undefined;
   }
 }
 
 function providerButton(provider: ClientSafeProvider) {
   return (
-    <Button
+    <button
+      className="btn"
       key={provider.name}
-      color="gray"
-      size="xs"
       onClick={() => signIn(provider.id, { callbackUrl: getCallbackUrl() })}
     >
       {providerIcon(provider.name)}
       Sign in with {provider.name}
-    </Button>
+    </button>
   );
 }
 
@@ -74,44 +72,71 @@ export default function Login({
   return (
     <>
       <div className="container flex min-h-screen items-center justify-center">
-        <Card className="w-full max-w-sm">
-          <div className="flex flex-col gap-4 divide-y divide-gray-600">
+        <div className="card w-full max-w-sm bg-secondary dark:bg-primary">
+          <div className="card-body flex flex-col gap-0">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-2"
             >
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-              <div>
-                <div className="mb-2 block">
-                  <Label htmlFor="email" value="Your email" />
-                </div>
-                <TextInput
+              <div className="form-control">
+                <label className="label" htmlFor="email">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.email?.message),
+                    })}
+                  >
+                    Your email
+                  </span>
+                </label>
+                <input
                   id="email"
                   type="text"
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.email?.message),
+                    "input-accent": !Boolean(errors.password?.message),
+                  })}
                   placeholder="example@gmail.com"
-                  color={errors.email?.message ? "failure" : undefined}
                   {...register("email")}
                 />
-                <ErrorMessage error={errors.email?.message} />
+                <label htmlFor="email" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.email?.message}
+                  </span>
+                </label>
               </div>
-              <div>
-                <div className="mb-2 block">
-                  <Label htmlFor="password" value="Your password" />
-                </div>
-                <TextInput
+              <div className="form-control">
+                <label className="label" htmlFor="password">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.password?.message),
+                    })}
+                  >
+                    Your password
+                  </span>
+                </label>
+                <input
                   id="password"
                   type="password"
-                  color={errors.password?.message ? "failure" : undefined}
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.password?.message),
+                    "input-accent": !Boolean(errors.password?.message),
+                  })}
                   {...register("password")}
                 />
-                <ErrorMessage error={errors.password?.message} />
+                <label htmlFor="password" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.password?.message}
+                  </span>
+                </label>
               </div>
-              <Button className="mt-2" type="submit">
+              <button className="btn-accent btn mt-2" type="submit">
                 {isSubmitting ? "Loading..." : "Login"}
-              </Button>
+              </button>
             </form>
+            <div className="divider"></div>
             {providers && (
-              <div className="flex flex-col gap-2 pt-4">
+              <div className="flex flex-col gap-2">
                 {Object.values(providers).map((provider) => {
                   if (provider.name === "Credentials") return null;
                   return providerButton(provider);
@@ -119,7 +144,7 @@ export default function Login({
               </div>
             )}
           </div>
-        </Card>
+        </div>
       </div>
     </>
   );
