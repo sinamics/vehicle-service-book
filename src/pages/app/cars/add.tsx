@@ -1,3 +1,4 @@
+import { Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 import cx from "classnames";
@@ -36,9 +37,10 @@ export default function AddCar() {
     <Layout>
       <Seo title="Add car" description="Add car" />
       <div className="container">
+        <h2 className="mb-5 text-xl">Add car</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mx-auto grid max-w-6xl gap-x-4 gap-y-2 md:grid-cols-2 xl:grid-cols-3"
+          className="mx-auto grid max-w-6xl gap-x-4 gap-y-2 md:grid-cols-2"
         >
           <div className="flex flex-col">
             <label
@@ -66,9 +68,20 @@ export default function AddCar() {
                 </option>
               ))}
             </select>
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.type?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.type?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.type?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -92,9 +105,20 @@ export default function AddCar() {
               placeholder="Honda"
               {...register("brand")}
             />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.brand?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.brand?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.brand?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label className="mb-1 block text-sm font-medium" htmlFor="model">
@@ -108,9 +132,20 @@ export default function AddCar() {
               placeholder="Civic"
               {...register("model")}
             />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.model?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.model?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.model?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -126,9 +161,20 @@ export default function AddCar() {
               placeholder="VIII"
               {...register("generation")}
             />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.generation?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.generation?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.generation?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -141,14 +187,25 @@ export default function AddCar() {
               id="productionYear"
               type="number"
               defaultValue={new Date().getFullYear()}
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
+              className="dark:bg-green-100s block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400"
               {...register("productionYear", {
                 valueAsNumber: true,
               })}
             />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.productionYear?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.productionYear?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.productionYear?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -168,9 +225,20 @@ export default function AddCar() {
                 </option>
               ))}
             </select>
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.engineType?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.engineType?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.engineType?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -188,9 +256,20 @@ export default function AddCar() {
                 valueAsNumber: true,
               })}
             />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.engineCapacity?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.engineCapacity?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.engineCapacity?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -208,9 +287,20 @@ export default function AddCar() {
                 valueAsNumber: true,
               })}
             />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.enginePower?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.enginePower?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.enginePower?.message}
+              </Transition>
+            </div>
           </div>
           <div className="flex flex-col">
             <label
@@ -230,12 +320,24 @@ export default function AddCar() {
                 </option>
               ))}
             </select>
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.gearboxType?.message}
-            </p>
+            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
+              <Transition
+                as="span"
+                show={Boolean(errors.gearboxType?.message)}
+                enter="transition duration-150"
+                enterFrom="opacity-0 translate-y-2"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition duration-300"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-2"
+              >
+                {errors.gearboxType?.message}
+              </Transition>
+            </div>
           </div>
+
           <button
-            className="mx-auto mt-2 w-full max-w-[200px] rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:col-span-2 xl:col-span-3"
+            className="mx-auto w-full max-w-[200px] rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:col-span-2"
             type="submit"
           >
             {isSubmitting ? "Adding..." : "Add"}

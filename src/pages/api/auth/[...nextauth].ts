@@ -2,10 +2,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { verify } from "argon2";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 
-import { env } from "@/env/server.mjs";
 import { prisma } from "@/server/db/client";
 
 export const authOptions: NextAuthOptions = {
@@ -55,10 +53,6 @@ export const authOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
-    }),
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
     }),
   ],
   callbacks: {
