@@ -1,26 +1,50 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Card, Label, TextInput } from "flowbite-react";
 import type { InferGetServerSidePropsType } from "next";
+import type { ClientSafeProvider } from "next-auth/react";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import z from "zod";
+import { DiGithubBadge } from "react-icons/di";
+import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
+
+import ErrorMessage from "@/components/ErrorMessage";
+import type { AuthSchema } from "@/server/schema/auth.schema";
+import { authSchema } from "@/server/schema/auth.schema";
 
 function getCallbackUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get("callbackUrl") || `${window.location.origin}/`;
 }
 
-const formInitialValues = {
-  email: "",
-  password: "",
-};
+function providerIcon(providerName: ClientSafeProvider["name"]) {
+  switch (providerName) {
+    case "Google":
+      return <SiGoogle className="mr-2 -ml-1 h-6 w-6" />;
+    case "Facebook":
+      return <SiFacebook className="mr-2 -ml-1 h-6 w-6" />;
+    case "Twitter":
+      return <SiTwitter className="mr-2 -ml-1 h-6 w-6" />;
+    case "GitHub":
+      return <DiGithubBadge className="mr-2 -ml-1 h-6 w-6" />;
+    default:
+      return "/images/flowbite.svg";
+  }
+}
 
-const formValidationSchema = z.object({
-  email: z.string().min(3).max(255).email(),
-  password: z.string().min(3).max(255),
-});
-
-export type LoginFormSchema = z.infer<typeof formValidationSchema>;
+function providerButton(provider: ClientSafeProvider) {
+  return (
+    <Button
+      key={provider.name}
+      color="gray"
+      size="xs"
+      onClick={() => signIn(provider.id, { callbackUrl: getCallbackUrl() })}
+    >
+      {providerIcon(provider.name)}
+      Sign in with {provider.name}
+    </Button>
+  );
+}
 
 export default function Login({
   providers,
@@ -30,12 +54,11 @@ export default function Login({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormSchema>({
-    resolver: zodResolver(formValidationSchema),
-    defaultValues: formInitialValues,
+  } = useForm<AuthSchema>({
+    resolver: zodResolver(authSchema),
   });
 
-  const onSubmit: SubmitHandler<LoginFormSchema> = async (values) => {
+  const onSubmit: SubmitHandler<AuthSchema> = async (values) => {
     console.log("values:", values);
     const result = await signIn("credentials", {
       redirect: true,
@@ -50,69 +73,53 @@ export default function Login({
 
   return (
     <>
-      <div className="container">
-        <form
-          className="mx-auto grid max-w-md gap-x-4 gap-y-2"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-          <div>
-            <label className="mb-1 block text-sm font-medium" htmlFor="email">
-              Address e-mail
-            </label>
-            <input
-              id="email"
-              type="email"
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              placeholder="john@doe.com"
-              {...register("email")}
-            />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.email?.message}
-            </p>
-          </div>
-          <div>
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="password"
+      <div className="container flex min-h-screen items-center justify-center">
+        <Card className="w-full max-w-sm">
+          <div className="flex flex-col gap-4 divide-y divide-gray-600">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-2"
             >
-              Password
-            </label>
-            <input
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              id="password"
-              type="password"
-              {...register("password")}
-            />
-            <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-              {errors.password?.message}
-            </p>
+              <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="email" value="Your email" />
+                </div>
+                <TextInput
+                  id="email"
+                  type="text"
+                  placeholder="example@gmail.com"
+                  color={errors.email?.message ? "failure" : undefined}
+                  {...register("email")}
+                />
+                <ErrorMessage error={errors.email?.message} />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="password" value="Your password" />
+                </div>
+                <TextInput
+                  id="password"
+                  type="password"
+                  color={errors.password?.message ? "failure" : undefined}
+                  {...register("password")}
+                />
+                <ErrorMessage error={errors.password?.message} />
+              </div>
+              <Button className="mt-2" type="submit">
+                {isSubmitting ? "Loading..." : "Login"}
+              </Button>
+            </form>
+            {providers && (
+              <div className="flex flex-col gap-2 pt-4">
+                {Object.values(providers).map((provider) => {
+                  if (provider.name === "Credentials") return null;
+                  return providerButton(provider);
+                })}
+              </div>
+            )}
           </div>
-          <button
-            className="mx-auto mt-2 w-full max-w-[200px] rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            type="submit"
-          >
-            Login
-          </button>
-        </form>
-        {providers && (
-          <div>
-            {Object.values(providers).map((provider) => {
-              if (provider.name === "Credentials") return null;
-
-              return (
-                <button
-                  key={provider.name}
-                  onClick={() =>
-                    signIn(provider.id, { callbackUrl: getCallbackUrl() })
-                  }
-                >
-                  Sign in with {provider.name}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        </Card>
       </div>
     </>
   );
