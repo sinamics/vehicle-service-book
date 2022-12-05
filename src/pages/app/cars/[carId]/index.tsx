@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
+import cx from "classnames";
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -21,6 +22,7 @@ export default function EditCar() {
         setValue("type", data?.type ?? CarType.Coupe);
         setValue("brand", data?.brand ?? "");
         setValue("model", data?.model ?? "");
+        setValue("generation", data?.generation ?? "");
         setValue(
           "productionYear",
           data?.productionYear ?? new Date().getFullYear()
@@ -63,191 +65,276 @@ export default function EditCar() {
       <Seo title="Edit car" description="Edit car" />
       <div className="container">
         {!isLoading && (
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mx-auto grid max-w-6xl gap-x-4 gap-y-2 md:grid-cols-2 xl:grid-cols-3"
-          >
-            <div className="flex flex-col">
-              <label className="mb-1 block text-sm font-medium" htmlFor="type">
-                Type
-              </label>
-              <select
-                id="type"
-                defaultValue="Coupe"
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                {...register("type")}
+          <div className="card w-full bg-secondary dark:bg-primary">
+            <div className="card-body flex flex-col gap-0">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid gap-x-4 gap-y-2 sm:grid-cols-2 lg:grid-cols-3"
               >
-                {Object.values(CarType).map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.type?.message}
-              </p>
+                <div className="form-control">
+                  <label className="label" htmlFor="type">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.type?.message),
+                      })}
+                    >
+                      Type
+                    </span>
+                  </label>
+                  <select
+                    id="type"
+                    defaultValue="Coupe"
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.type?.message),
+                      "input-accent": !Boolean(errors.type?.message),
+                    })}
+                    {...register("type")}
+                  >
+                    {Object.values(CarType).map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor="type" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.type?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="brand">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.brand?.message),
+                      })}
+                    >
+                      Brand
+                    </span>
+                  </label>
+                  <input
+                    id="brand"
+                    type="text"
+                    defaultValue=""
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.brand?.message),
+                      "input-accent": !Boolean(errors.brand?.message),
+                    })}
+                    placeholder="Honda"
+                    {...register("brand")}
+                  />
+                  <label htmlFor="brand" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.brand?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="model">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.model?.message),
+                      })}
+                    >
+                      Model
+                    </span>
+                  </label>
+                  <input
+                    id="model"
+                    type="text"
+                    defaultValue=""
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.model?.message),
+                      "input-accent": !Boolean(errors.model?.message),
+                    })}
+                    placeholder="Civic"
+                    {...register("model")}
+                  />
+                  <label htmlFor="model" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.model?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="generation">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.generation?.message),
+                      })}
+                    >
+                      Generation
+                    </span>
+                  </label>
+                  <input
+                    id="generation"
+                    type="text"
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.generation?.message),
+                      "input-accent": !Boolean(errors.generation?.message),
+                    })}
+                    placeholder="VIII"
+                    {...register("generation")}
+                  />
+                  <label htmlFor="generation" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.generation?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="productionYear">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.productionYear?.message),
+                      })}
+                    >
+                      Production Year
+                    </span>
+                  </label>
+                  <input
+                    id="productionYear"
+                    type="number"
+                    defaultValue={new Date().getFullYear()}
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.productionYear?.message),
+                      "input-accent": !Boolean(errors.productionYear?.message),
+                    })}
+                    {...register("productionYear", {
+                      valueAsNumber: true,
+                    })}
+                  />
+                  <label htmlFor="productionYear" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.productionYear?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="engineType">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.engineType?.message),
+                      })}
+                    >
+                      Engine Type
+                    </span>
+                  </label>
+                  <select
+                    id="engineType"
+                    {...register("engineType")}
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.engineType?.message),
+                      "input-accent": !Boolean(errors.engineType?.message),
+                    })}
+                  >
+                    {Object.values(EngineType).map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor="engineType" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.engineType?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="engineCapacity">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.engineCapacity?.message),
+                      })}
+                    >
+                      Engine Capacity
+                    </span>
+                  </label>
+                  <input
+                    id="engineCapacity"
+                    type="number"
+                    defaultValue={0}
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.engineCapacity?.message),
+                      "input-accent": !Boolean(errors.engineCapacity?.message),
+                    })}
+                    {...register("engineCapacity", {
+                      valueAsNumber: true,
+                    })}
+                  />
+                  <label htmlFor="engineCapacity" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.engineCapacity?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="enginePower">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.enginePower?.message),
+                      })}
+                    >
+                      Engine Power
+                    </span>
+                  </label>
+                  <input
+                    id="enginePower"
+                    type="number"
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.enginePower?.message),
+                      "input-accent": !Boolean(errors.enginePower?.message),
+                    })}
+                    defaultValue={0}
+                    {...register("enginePower", {
+                      valueAsNumber: true,
+                    })}
+                  />
+                  <label htmlFor="enginePower" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.enginePower?.message}
+                    </span>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="gearboxType">
+                    <span
+                      className={cx("label-text", {
+                        "text-error": Boolean(errors.gearboxType?.message),
+                      })}
+                    >
+                      Gearbox Type
+                    </span>
+                  </label>
+                  <select
+                    id="gearboxType"
+                    className={cx("input-bordered input", {
+                      "input-error": Boolean(errors.gearboxType?.message),
+                      "input-accent": !Boolean(errors.gearboxType?.message),
+                    })}
+                    {...register("gearboxType")}
+                  >
+                    {Object.values(GearboxType).map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor="gearboxType" className="label">
+                    <span className="label-text-alt text-error">
+                      {errors.gearboxType?.message}
+                    </span>
+                  </label>
+                </div>
+                <button
+                  className="btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3"
+                  type="submit"
+                >
+                  {isSubmitting ? "Updating..." : "Update"}
+                </button>
+              </form>
             </div>
-            <div className="flex flex-col">
-              <label className="mb-1 block text-sm font-medium" htmlFor="brand">
-                Brand
-              </label>
-              <input
-                id="brand"
-                type="text"
-                defaultValue=""
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                placeholder="Honda"
-                {...register("brand")}
-              />
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.brand?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label className="mb-1 block text-sm font-medium" htmlFor="model">
-                Model
-              </label>
-              <input
-                id="model"
-                type="text"
-                defaultValue=""
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                placeholder="Civic"
-                {...register("model")}
-              />
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.model?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label
-                className="mb-1 block text-sm font-medium"
-                htmlFor="generation"
-              >
-                Generation
-              </label>
-              <input
-                id="generation"
-                type="text"
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                placeholder="VIII"
-                {...register("generation")}
-              />
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.generation?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label
-                className="mb-1 block text-sm font-medium"
-                htmlFor="productionYear"
-              >
-                Production Year
-              </label>
-              <input
-                id="productionYear"
-                type="number"
-                defaultValue={new Date().getFullYear()}
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                {...register("productionYear", {
-                  valueAsNumber: true,
-                })}
-              />
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.productionYear?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label
-                className="mb-1 block text-sm font-medium"
-                htmlFor="engineType"
-              >
-                Engine Type
-              </label>
-              <select
-                id="engineType"
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                {...register("engineType")}
-              >
-                {Object.values(EngineType).map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.engineType?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label
-                className="mb-1 block text-sm font-medium"
-                htmlFor="engineCapacity"
-              >
-                Engine Capacity
-              </label>
-              <input
-                id="engineCapacity"
-                type="number"
-                defaultValue={0}
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                {...register("engineCapacity", {
-                  valueAsNumber: true,
-                })}
-              />
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.engineCapacity?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label
-                className="mb-1 block text-sm font-medium"
-                htmlFor="enginePower"
-              >
-                Engine Power
-              </label>
-              <input
-                id="enginePower"
-                type="number"
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                defaultValue={0}
-                {...register("enginePower", {
-                  valueAsNumber: true,
-                })}
-              />
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.enginePower?.message}
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <label
-                className="mb-1 block text-sm font-medium"
-                htmlFor="gearboxType"
-              >
-                Gearbox Type
-              </label>
-              <select
-                id="gearboxType"
-                className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-                {...register("gearboxType")}
-              >
-                {Object.values(GearboxType).map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-              <p className="mt-1 min-h-[20px] text-sm text-red-600 dark:text-red-500">
-                {errors.gearboxType?.message}
-              </p>
-            </div>
-            <button
-              className="mx-auto mt-2 w-full max-w-[200px] rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:col-span-2 xl:col-span-3"
-              type="submit"
-            >
-              {isSubmitting ? "Updating..." : "Update"}
-            </button>
-          </form>
+          </div>
         )}
       </div>
     </Layout>
