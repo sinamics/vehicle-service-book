@@ -93,8 +93,8 @@ export default function AddRepair() {
                   id="description"
                   rows={5}
                   className={cx("textarea-bordered textarea", {
-                    "input-error": Boolean(errors.description?.message),
-                    "input-accent": !Boolean(errors.description?.message),
+                    "textarea-error": Boolean(errors.description?.message),
+                    "textarea-accent": !Boolean(errors.description?.message),
                   })}
                   {...register("description")}
                 />

@@ -56,7 +56,7 @@ export default function Repairs() {
                     <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                       {repair.title}
                     </h4>
-                    <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
+                    <p className="mb-4 flex-grow font-light text-gray-700 dark:text-gray-400">
                       {repair.description}
                     </p>
                     <p>
