@@ -66,7 +66,7 @@ export default function Header() {
                         <Link
                           href={item.href}
                           className={cx(
-                            "rounded-md px-3 py-2 text-sm font-medium hover:bg-neutral",
+                            "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-neutral",
                             {
                               "!bg-primary !text-white":
                                 router.pathname === item.href,
@@ -174,7 +174,7 @@ export default function Header() {
                       as={Link}
                       href={item.href}
                       className={cx(
-                        "w-full rounded-md px-3 py-2 text-xl font-medium text-secondary hover:bg-neutral hover:text-white",
+                        "w-full rounded-md px-3 py-2 text-xl font-medium text-secondary transition-colors hover:bg-neutral hover:text-white",
                         {
                           "!text-white": router.pathname === item.href,
                           "bg-base-200":

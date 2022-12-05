@@ -1,14 +1,19 @@
+import { Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import cx from "classnames";
 import type { InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 import type { ClientSafeProvider } from "next-auth/react";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
+import { Fragment, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { DiGithubBadge } from "react-icons/di";
+import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
 
 import Seo from "@/components/Seo";
+import Toast from "@/components/Toast";
 import type { AuthSchema } from "@/server/schema/auth.schema";
 import { authSchema } from "@/server/schema/auth.schema";
 
@@ -49,6 +54,11 @@ export default function Login({
   providers,
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -58,15 +68,20 @@ export default function Login({
   });
 
   const onSubmit: SubmitHandler<AuthSchema> = async (values) => {
-    console.log("values:", values);
     const result = await signIn("credentials", {
-      redirect: true,
+      redirect: false,
       ...values,
-      callbackUrl: getCallbackUrl(),
     });
 
     if (result?.error) {
-      alert(result?.error);
+      setError(result.error);
+      setTimeout(() => setError(""), 3000);
+    }
+
+    if (result?.ok) {
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+      router.push(result?.url ? result.url : "/app");
     }
   };
 
@@ -132,8 +147,14 @@ export default function Login({
                   </span>
                 </label>
               </div>
-              <button className="btn-accent btn mt-2" type="submit">
-                {isSubmitting ? "Loading..." : "Sign in"}
+              <button
+                className={cx("btn-accent btn mt-2", {
+                  "btn-disabled loading": isSubmitting,
+                })}
+                disabled={isSubmitting}
+                type="submit"
+              >
+                {isSubmitting ? "Loading" : "Sign in"}
               </button>
             </form>
             <div className="divider"></div>
@@ -147,6 +168,22 @@ export default function Login({
             )}
           </div>
         </div>
+        {success && (
+          <Toast color="success" top right>
+            <span className="flex items-center gap-2">
+              <FiCheckCircle size={20} />
+              Successfully logged in
+            </span>
+          </Toast>
+        )}
+        {error && (
+          <Toast color="error" top right>
+            <span className="flex items-center gap-2">
+              <FiAlertCircle size={20} />
+              {error}
+            </span>
+          </Toast>
+        )}
       </div>
     </>
   );

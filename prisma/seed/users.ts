@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
-import { User } from "@prisma/client";
+import type { PrismaClient, User } from "@prisma/client";
 import * as argon from "argon2";
 
-export async function addUsers(prisma: any) {
+export async function addUsers(prisma: PrismaClient) {
   await prisma.user.deleteMany({});
 
   const users: User[] = [];
@@ -18,7 +18,7 @@ export async function addUsers(prisma: any) {
       name: `${firstName} ${lastName}`,
       email: faker.internet.email(firstName, lastName),
       emailVerified: faker.datatype.datetime(),
-      hash: await argon.hash("Password123"),
+      hash: await argon.hash("Password1234%"),
       firstName: firstName,
       lastName: lastName,
       image: faker.image.avatar(),

@@ -32,17 +32,17 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          return null;
+          throw new Error("Incorrect username or password");
         }
 
         if (!user?.hash || !credentials?.password) {
-          return null;
+          throw new Error("Incorrect username or password");
         }
 
         const isValidPassword = await verify(user.hash, credentials.password);
 
         if (!isValidPassword) {
-          return null;
+          throw new Error("Incorrect username or password");
         }
 
         const { hash, ...userWithoutHash } = user;
