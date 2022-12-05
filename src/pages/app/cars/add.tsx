@@ -1,4 +1,3 @@
-import { Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 import cx from "classnames";
@@ -24,7 +23,7 @@ export default function AddCar() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, touchedFields },
+    formState: { errors, isSubmitting },
   } = useForm<CreateCarSchema>({
     resolver: zodResolver(createCarSchema),
   });
@@ -37,312 +36,279 @@ export default function AddCar() {
     <Layout>
       <Seo title="Add car" description="Add car" />
       <div className="container">
-        <h2 className="mb-5 text-xl">Add car</h2>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="mx-auto grid max-w-6xl gap-x-4 gap-y-2 md:grid-cols-2"
-        >
-          <div className="flex flex-col">
-            <label
-              className={cx(
-                "mb-1 block text-sm font-medium transition-colors",
-                {
-                  "text-red-400 dark:text-red-500": errors.type?.message,
-                  "text-green-400 dark:text-green-500":
-                    touchedFields.type && !errors.type?.message,
-                }
-              )}
-              htmlFor="type"
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-3xl">Add car</h2>
+        </div>
+        <div className="card w-full bg-secondary dark:bg-primary">
+          <div className="card-body flex flex-col gap-0">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid gap-x-4 gap-y-2 sm:grid-cols-2 lg:grid-cols-3"
             >
-              Type
-            </label>
-            <select
-              id="type"
-              defaultValue="Coupe"
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              {...register("type")}
-            >
-              {Object.values(CarType).map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.type?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
+              <div className="form-control">
+                <label className="label" htmlFor="type">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.type?.message),
+                    })}
+                  >
+                    Type
+                  </span>
+                </label>
+                <select
+                  id="type"
+                  defaultValue="Coupe"
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.type?.message),
+                    "input-accent": !Boolean(errors.type?.message),
+                  })}
+                  {...register("type")}
+                >
+                  {Object.values(CarType).map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="type" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.type?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="brand">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.brand?.message),
+                    })}
+                  >
+                    Brand
+                  </span>
+                </label>
+                <input
+                  id="brand"
+                  type="text"
+                  defaultValue=""
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.brand?.message),
+                    "input-accent": !Boolean(errors.brand?.message),
+                  })}
+                  placeholder="Honda"
+                  {...register("brand")}
+                />
+                <label htmlFor="brand" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.brand?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="model">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.model?.message),
+                    })}
+                  >
+                    Model
+                  </span>
+                </label>
+                <input
+                  id="model"
+                  type="text"
+                  defaultValue=""
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.model?.message),
+                    "input-accent": !Boolean(errors.model?.message),
+                  })}
+                  placeholder="Civic"
+                  {...register("model")}
+                />
+                <label htmlFor="model" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.model?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="generation">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.generation?.message),
+                    })}
+                  >
+                    Generation
+                  </span>
+                </label>
+                <input
+                  id="generation"
+                  type="text"
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.generation?.message),
+                    "input-accent": !Boolean(errors.generation?.message),
+                  })}
+                  placeholder="VIII"
+                  {...register("generation")}
+                />
+                <label htmlFor="generation" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.generation?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="productionYear">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.productionYear?.message),
+                    })}
+                  >
+                    Production Year
+                  </span>
+                </label>
+                <input
+                  id="productionYear"
+                  type="number"
+                  defaultValue={new Date().getFullYear()}
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.productionYear?.message),
+                    "input-accent": !Boolean(errors.productionYear?.message),
+                  })}
+                  {...register("productionYear", {
+                    valueAsNumber: true,
+                  })}
+                />
+                <label htmlFor="productionYear" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.productionYear?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="engineType">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.engineType?.message),
+                    })}
+                  >
+                    Engine Type
+                  </span>
+                </label>
+                <select
+                  id="engineType"
+                  {...register("engineType")}
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.engineType?.message),
+                    "input-accent": !Boolean(errors.engineType?.message),
+                  })}
+                >
+                  {Object.values(EngineType).map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="engineType" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.engineType?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="engineCapacity">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.engineCapacity?.message),
+                    })}
+                  >
+                    Engine Capacity
+                  </span>
+                </label>
+                <input
+                  id="engineCapacity"
+                  type="number"
+                  defaultValue={0}
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.engineCapacity?.message),
+                    "input-accent": !Boolean(errors.engineCapacity?.message),
+                  })}
+                  {...register("engineCapacity", {
+                    valueAsNumber: true,
+                  })}
+                />
+                <label htmlFor="engineCapacity" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.engineCapacity?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="enginePower">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.enginePower?.message),
+                    })}
+                  >
+                    Engine Power
+                  </span>
+                </label>
+                <input
+                  id="enginePower"
+                  type="number"
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.enginePower?.message),
+                    "input-accent": !Boolean(errors.enginePower?.message),
+                  })}
+                  defaultValue={0}
+                  {...register("enginePower", {
+                    valueAsNumber: true,
+                  })}
+                />
+                <label htmlFor="enginePower" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.enginePower?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="gearboxType">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.gearboxType?.message),
+                    })}
+                  >
+                    Gearbox Type
+                  </span>
+                </label>
+                <select
+                  id="gearboxType"
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.gearboxType?.message),
+                    "input-accent": !Boolean(errors.gearboxType?.message),
+                  })}
+                  {...register("gearboxType")}
+                >
+                  {Object.values(GearboxType).map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="gearboxType" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.gearboxType?.message}
+                  </span>
+                </label>
+              </div>
+              <button
+                className="btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3"
+                type="submit"
               >
-                {errors.type?.message}
-              </Transition>
-            </div>
+                {isSubmitting ? "Adding..." : "Add"}
+              </button>
+            </form>
           </div>
-          <div className="flex flex-col">
-            <label
-              className={cx(
-                "mb-1 block text-sm font-medium transition-colors",
-                {
-                  "text-red-400 dark:text-red-500": errors.brand?.message,
-                  "text-green-400 dark:text-green-500":
-                    touchedFields.brand && !errors.brand?.message,
-                }
-              )}
-              htmlFor="brand"
-            >
-              Brand
-            </label>
-            <input
-              id="brand"
-              type="text"
-              defaultValue=""
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              placeholder="Honda"
-              {...register("brand")}
-            />
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.brand?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.brand?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 block text-sm font-medium" htmlFor="model">
-              Model
-            </label>
-            <input
-              id="model"
-              type="text"
-              defaultValue=""
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              placeholder="Civic"
-              {...register("model")}
-            />
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.model?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.model?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="generation"
-            >
-              Generation
-            </label>
-            <input
-              id="generation"
-              type="text"
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              placeholder="VIII"
-              {...register("generation")}
-            />
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.generation?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.generation?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="productionYear"
-            >
-              Production Year
-            </label>
-            <input
-              id="productionYear"
-              type="number"
-              defaultValue={new Date().getFullYear()}
-              className="dark:bg-green-100s block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400"
-              {...register("productionYear", {
-                valueAsNumber: true,
-              })}
-            />
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.productionYear?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.productionYear?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="engineType"
-            >
-              Engine Type
-            </label>
-            <select
-              id="engineType"
-              {...register("engineType")}
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-            >
-              {Object.values(EngineType).map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.engineType?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.engineType?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="engineCapacity"
-            >
-              Engine Capacity
-            </label>
-            <input
-              id="engineCapacity"
-              type="number"
-              defaultValue={0}
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              {...register("engineCapacity", {
-                valueAsNumber: true,
-              })}
-            />
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.engineCapacity?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.engineCapacity?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="enginePower"
-            >
-              Engine Power
-            </label>
-            <input
-              id="enginePower"
-              type="number"
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              defaultValue={0}
-              {...register("enginePower", {
-                valueAsNumber: true,
-              })}
-            />
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.enginePower?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.enginePower?.message}
-              </Transition>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              className="mb-1 block text-sm font-medium"
-              htmlFor="gearboxType"
-            >
-              Gearbox Type
-            </label>
-            <select
-              id="gearboxType"
-              className="block w-full rounded-lg border border-green-500 bg-green-50 p-2.5 text-sm text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100"
-              {...register("gearboxType")}
-            >
-              {Object.values(GearboxType).map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-            <div className="mt-1 min-h-[16px] text-xs text-red-600 dark:text-red-500">
-              <Transition
-                as="span"
-                show={Boolean(errors.gearboxType?.message)}
-                enter="transition duration-150"
-                enterFrom="opacity-0 translate-y-2"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition duration-300"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-2"
-              >
-                {errors.gearboxType?.message}
-              </Transition>
-            </div>
-          </div>
-
-          <button
-            className="mx-auto w-full max-w-[200px] rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:col-span-2"
-            type="submit"
-          >
-            {isSubmitting ? "Adding..." : "Add"}
-          </button>
-        </form>
+        </div>
       </div>
     </Layout>
   );

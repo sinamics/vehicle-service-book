@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <Disclosure
       as="header"
-      className="fixed inset-x-0 top-0 z-10 shadow-sm shadow-primary"
+      className="fixed inset-x-0 top-0 z-10 bg-base-100 shadow-sm shadow-primary"
     >
       {({ open }) => (
         <>

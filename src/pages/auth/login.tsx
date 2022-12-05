@@ -94,7 +94,7 @@ export default function Login({
                   type="text"
                   className={cx("input-bordered input", {
                     "input-error": Boolean(errors.email?.message),
-                    "input-accent": !Boolean(errors.password?.message),
+                    "input-accent": !Boolean(errors.email?.message),
                   })}
                   placeholder="example@gmail.com"
                   {...register("email")}
