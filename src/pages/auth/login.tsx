@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { DiGithubBadge } from "react-icons/di";
 import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
 
+import Seo from "@/components/Seo";
 import type { AuthSchema } from "@/server/schema/auth.schema";
 import { authSchema } from "@/server/schema/auth.schema";
 
@@ -71,6 +72,7 @@ export default function Login({
 
   return (
     <>
+      <Seo title="Sign in" description="Sign in page" />
       <div className="container flex min-h-screen items-center justify-center">
         <div className="card w-full max-w-sm bg-secondary dark:bg-primary">
           <div className="card-body flex flex-col gap-0">
@@ -131,7 +133,7 @@ export default function Login({
                 </label>
               </div>
               <button className="btn-accent btn mt-2" type="submit">
-                {isSubmitting ? "Loading..." : "Login"}
+                {isSubmitting ? "Loading..." : "Sign in"}
               </button>
             </form>
             <div className="divider"></div>

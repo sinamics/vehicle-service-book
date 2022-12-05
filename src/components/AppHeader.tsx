@@ -2,6 +2,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -9,11 +10,12 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { trpc } from "@/utils/trpc";
 
 const links = [
-  { name: "Dashboard", href: "/app", current: true },
-  { name: "Cars", href: "/app/cars", current: false },
+  { name: "Dashboard", href: "/app", exact: true },
+  { name: "Cars", href: "/app/cars" },
 ];
 
 export default function Header() {
+  const router = useRouter();
   const { data: user } = trpc.auth.getUser.useQuery();
 
   return (
@@ -64,12 +66,17 @@ export default function Header() {
                         <Link
                           href={item.href}
                           className={cx(
-                            item.current
-                              ? "bg-primary text-white"
-                              : "hover:bg-primary",
-                            "rounded-md px-3 py-2 text-sm font-medium"
+                            "rounded-md px-3 py-2 text-sm font-medium hover:bg-neutral",
+                            {
+                              "!bg-primary !text-white":
+                                router.pathname === item.href,
+                              "bg-base-200":
+                                !item.exact &&
+                                router.pathname !== item.href &&
+                                router.pathname.startsWith(item.href),
+                            }
                           )}
-                          aria-current={item.current ? "page" : undefined}
+                          aria-current={router.pathname === item.href && "page"}
                         >
                           {item.name}
                         </Link>
@@ -150,29 +157,33 @@ export default function Header() {
           <Transition
             as={Fragment}
             enter="transition duration-300 ease"
-            enterFrom="transform opacity-0 translate-y-10"
-            enterTo="transform opacity-100 translate-y-0"
+            enterFrom="transform opacity-0 -translate-x-full"
+            enterTo="transform opacity-100 translate-x-0"
             leave="transition duration-500 ease"
-            leaveFrom="transform opacity-100 translate-y-0"
-            leaveTo="transform opacity-0 translate-y-10"
+            leaveFrom="transform opacity-100 translate-x-0"
+            leaveTo="transform opacity-0 -translate-x-full"
           >
             <Disclosure.Panel
               as="nav"
-              className="container fixed top-20 overflow-hidden sm:hidden"
+              className="fixed inset-x-0 top-[64px] bottom-0 overflow-hidden sm:hidden"
             >
-              <ul className="space-y-4 rounded-md bg-white p-2 shadow-lg ring-black ring-opacity-5 dark:bg-gray-800">
+              <ul className="container h-full space-y-4 rounded-md bg-white py-8 shadow-lg ring-black ring-opacity-5 dark:bg-base-100">
                 {links.map((item) => (
-                  <li key={item.name} className="text-center">
+                  <li key={item.name} className="flex text-center">
                     <Disclosure.Button
                       as={Link}
                       href={item.href}
                       className={cx(
-                        item.current
-                          ? "bg-primary text-white"
-                          : "hover:bg-primary",
-                        "block rounded-md px-3 py-2 text-base font-medium"
+                        "w-full rounded-md px-3 py-2 text-xl font-medium text-secondary hover:bg-neutral hover:text-white",
+                        {
+                          "!text-white": router.pathname === item.href,
+                          "bg-base-200":
+                            !item.exact &&
+                            router.pathname !== item.href &&
+                            router.pathname.startsWith(item.href),
+                        }
                       )}
-                      aria-current={item.current && "page"}
+                      aria-current={router.pathname === item.href && "page"}
                     >
                       {item.name}
                     </Disclosure.Button>
