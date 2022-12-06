@@ -56,128 +56,126 @@ export default function AddRepair() {
   return (
     <Layout>
       <Seo title="Add repair" description="Add repair" />
-      <div className="container">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-3xl">Add repair</h2>
-        </div>
-        <div className="card w-full bg-secondary dark:bg-primary">
-          <div className="card-body flex flex-col gap-0">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="grid gap-x-4 gap-y-2 sm:grid-cols-2 lg:grid-cols-3"
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-3xl">Add repair</h2>
+      </div>
+      <div className="card w-full bg-secondary dark:bg-primary">
+        <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <div className="form-control sm:col-span-2 lg:col-span-3">
+              <label className="label" htmlFor="title">
+                Title
+              </label>
+              <input
+                id="title"
+                type="text"
+                className={cx("input-bordered input", {
+                  "input-error": Boolean(errors.title?.message),
+                  "input-accent": !Boolean(errors.title?.message),
+                })}
+                {...register("title")}
+              />
+              <label htmlFor="title" className="label">
+                <span className="label-text-alt text-error">
+                  {errors.title?.message}
+                </span>
+              </label>
+            </div>
+            <div className="form-control sm:col-span-2 lg:col-span-3">
+              <label className="label" htmlFor="description">
+                Description
+              </label>
+              <textarea
+                id="description"
+                rows={5}
+                className={cx("textarea-bordered textarea", {
+                  "textarea-error": Boolean(errors.description?.message),
+                  "textarea-accent": !Boolean(errors.description?.message),
+                })}
+                {...register("description")}
+              />
+              <label htmlFor="description" className="label">
+                <span className="label-text-alt text-error">
+                  {errors.description?.message}
+                </span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label" htmlFor="price">
+                Price
+              </label>
+              <input
+                id="price"
+                type="number"
+                defaultValue={0}
+                className={cx("input-bordered input", {
+                  "input-error": Boolean(errors.price?.message),
+                  "input-accent": !Boolean(errors.price?.message),
+                })}
+                {...register("price", {
+                  valueAsNumber: true,
+                })}
+              />
+              <label htmlFor="price" className="label">
+                <span className="label-text-alt text-error">
+                  {errors.price?.message}
+                </span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label" htmlFor="date">
+                Date
+              </label>
+              <input
+                id="date"
+                type="date"
+                defaultValue={dayjs().format("YYYY-MM-DD")}
+                max={dayjs().format("YYYY-MM-DD")}
+                className={cx("input-bordered input", {
+                  "input-error": Boolean(errors.date?.message),
+                  "input-accent": !Boolean(errors.date?.message),
+                })}
+                {...register("date")}
+              />
+              <label htmlFor="date" className="label">
+                <span className="label-text-alt text-error">
+                  {errors.date?.message}
+                </span>
+              </label>
+            </div>
+            <div className="form-control">
+              <label className="label" htmlFor="mileage">
+                Mileage
+              </label>
+              <input
+                id="mileage"
+                type="number"
+                defaultValue={0}
+                min={lastMileage?.mileage ?? 0}
+                className={cx("input-bordered input", {
+                  "input-error": Boolean(errors.mileage?.message),
+                  "input-accent": !Boolean(errors.mileage?.message),
+                })}
+                {...register("mileage", {
+                  valueAsNumber: true,
+                })}
+              />
+              <label htmlFor="mileage" className="label">
+                <span className="label-text-alt text-error">
+                  {errors.mileage?.message}
+                </span>
+              </label>
+            </div>
+            <button
+              className="btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3"
+              type="submit"
             >
-              <div className="form-control sm:col-span-2 lg:col-span-3">
-                <label className="label" htmlFor="title">
-                  Title
-                </label>
-                <input
-                  id="title"
-                  type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.title?.message),
-                    "input-accent": !Boolean(errors.title?.message),
-                  })}
-                  {...register("title")}
-                />
-                <label htmlFor="title" className="label">
-                  <span className="label-text-alt text-error">
-                    {errors.title?.message}
-                  </span>
-                </label>
-              </div>
-              <div className="form-control sm:col-span-2 lg:col-span-3">
-                <label className="label" htmlFor="description">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  rows={5}
-                  className={cx("textarea-bordered textarea", {
-                    "textarea-error": Boolean(errors.description?.message),
-                    "textarea-accent": !Boolean(errors.description?.message),
-                  })}
-                  {...register("description")}
-                />
-                <label htmlFor="description" className="label">
-                  <span className="label-text-alt text-error">
-                    {errors.description?.message}
-                  </span>
-                </label>
-              </div>
-              <div className="form-control">
-                <label className="label" htmlFor="price">
-                  Price
-                </label>
-                <input
-                  id="price"
-                  type="number"
-                  defaultValue={0}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.price?.message),
-                    "input-accent": !Boolean(errors.price?.message),
-                  })}
-                  {...register("price", {
-                    valueAsNumber: true,
-                  })}
-                />
-                <label htmlFor="price" className="label">
-                  <span className="label-text-alt text-error">
-                    {errors.price?.message}
-                  </span>
-                </label>
-              </div>
-              <div className="form-control">
-                <label className="label" htmlFor="date">
-                  Date
-                </label>
-                <input
-                  id="date"
-                  type="date"
-                  defaultValue={dayjs().format("YYYY-MM-DD")}
-                  max={dayjs().format("YYYY-MM-DD")}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.date?.message),
-                    "input-accent": !Boolean(errors.date?.message),
-                  })}
-                  {...register("date")}
-                />
-                <label htmlFor="date" className="label">
-                  <span className="label-text-alt text-error">
-                    {errors.date?.message}
-                  </span>
-                </label>
-              </div>
-              <div className="form-control">
-                <label className="label" htmlFor="mileage">
-                  Mileage
-                </label>
-                <input
-                  id="mileage"
-                  type="number"
-                  defaultValue={0}
-                  min={lastMileage?.mileage ?? 0}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.mileage?.message),
-                    "input-accent": !Boolean(errors.mileage?.message),
-                  })}
-                  {...register("mileage", {
-                    valueAsNumber: true,
-                  })}
-                />
-                <label htmlFor="mileage" className="label">
-                  <span className="label-text-alt text-error">
-                    {errors.mileage?.message}
-                  </span>
-                </label>
-              </div>
-              <button
-                className="btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3"
-                type="submit"
-              >
-                {isSubmitting ? "Adding..." : "Add"}
-              </button>
-            </form>
-          </div>
+              {isSubmitting ? "Adding..." : "Add"}
+            </button>
+          </form>
         </div>
       </div>
     </Layout>

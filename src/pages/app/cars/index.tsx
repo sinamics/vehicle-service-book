@@ -1,5 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next/types";
 import { Fragment, useRef, useState } from "react";
 import {
   FiAlertCircle,
@@ -11,10 +16,15 @@ import {
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import { formatEngineCapacity } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
-export default function CarsList() {
+export default function CarsList({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+  console.log("router:", router);
   const completeButtonRef = useRef(null);
   const [deleteModal, setDeleteModal] = useState({
     visible: false,
@@ -157,4 +167,15 @@ export default function CarsList() {
       </Transition>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+  console.log("user:", session?.user);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }
