@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,6 +11,8 @@ import { formatDate, formatMileage, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
 export default function Repairs() {
+  const [animationParent] = useAutoAnimate<HTMLDivElement>();
+
   const completeButtonRef = useRef(null);
   const [deleteModal, setDeleteModal] = useState({
     visible: false,
@@ -47,7 +50,10 @@ export default function Repairs() {
           Add repair
         </Link>
       </div>
-      <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+        ref={animationParent}
+        className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      >
         {repairs?.length
           ? repairs.map((repair) => (
               <div className="card min-h-[240px] bg-base-200" key={repair.id}>
