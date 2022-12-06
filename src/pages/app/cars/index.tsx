@@ -1,6 +1,6 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -23,8 +23,8 @@ import { trpc } from "@/utils/trpc";
 export default function CarsList({
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter();
-  console.log("router:", router);
+  const [animationParent] = useAutoAnimate<HTMLDivElement>();
+
   const completeButtonRef = useRef(null);
   const [deleteModal, setDeleteModal] = useState({
     visible: false,
@@ -48,7 +48,10 @@ export default function CarsList({
           Add car
         </Link>
       </div>
-      <div className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+        ref={animationParent}
+        className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      >
         {cars?.length
           ? cars.map((car) => (
               <div className="card min-h-[240px] bg-base-200" key={car.id}>
