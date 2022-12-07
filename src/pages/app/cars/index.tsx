@@ -20,10 +20,8 @@ import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import { formatEngineCapacity } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
-export default function CarsList({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [animationParent] = useAutoAnimate<HTMLDivElement>();
+function CarsList() {
+  const [carsParent] = useAutoAnimate<HTMLDivElement>();
 
   const completeButtonRef = useRef(null);
   const [deleteModal, setDeleteModal] = useState({
@@ -32,15 +30,44 @@ export default function CarsList({
   });
 
   const utils = trpc.useContext();
-  const { data: cars } = trpc.car.getAll.useQuery();
+  const {
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+    data: cars,
+  } = trpc.car.getAll.useQuery();
 
   const { mutate: deleteCar } = trpc.car.delete.useMutation({
     onSuccess: () => utils.car.getAll.invalidate(),
   });
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+
+  if (isSuccess && !cars?.length) {
+    return (
+      <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center sm:min-h-layout-inside">
+        <FiAlertCircle className="mx-auto mb-4" size={56} />
+        <h2 className="text-center text-3xl">You don&apos;t have any cars</h2>
+        <p className="text-center">
+          Add your first car to start tracking your repairs
+        </p>
+        <Link href="/app/cars/add" className="btn mt-4">
+          <FiPlus className="mr-2" size={20} />
+          Add car
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <Layout>
-      <Seo title="Cars" description="cars list" />
+    <>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-3xl">Your cars</h2>
         <Link href="/app/cars/add" className="btn">
@@ -49,65 +76,60 @@ export default function CarsList({
         </Link>
       </div>
       <div
-        ref={animationParent}
+        ref={carsParent}
         className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       >
-        {cars?.length
-          ? cars.map((car) => (
-              <div className="card min-h-[240px] bg-base-200" key={car.id}>
-                <div className="flex h-full flex-col divide-y divide-secondary p-5">
-                  <div className="flex flex-grow flex-col gap-1 pb-3">
-                    <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-                      {car.brand} {car.model} {car.generation}{" "}
-                      {car.productionYear}
-                    </h4>
-                    <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
-                      {car.type}
-                    </p>
-                    <p>
-                      <span className="font-medium">Engine:</span>{" "}
-                      {car.engineType}{" "}
-                      {formatEngineCapacity(car.engineCapacity)}{" "}
-                      {car.enginePower}
-                      HP
-                    </p>
-                    <p className="mb-2">
-                      <span className="font-medium">Gearbox:</span>{" "}
-                      {car.gearboxType}
-                    </p>
-                  </div>
-                  <div className="flex items-end justify-center gap-2 pt-3">
-                    <Link
-                      className="btn-outline btn-info btn border-none"
-                      aria-label="Show car repairs"
-                      href={`/app/cars/${car.id}/repairs`}
-                    >
-                      <FiTool size={18} />
-                    </Link>
-                    <Link
-                      className="btn-outline btn-success btn border-none"
-                      aria-label="Edit car"
-                      href={`/app/cars/${car.id}`}
-                    >
-                      <FiEdit size={18} />
-                    </Link>
-                    <button
-                      className="btn-outline btn-error btn border-none"
-                      aria-label="Delete car"
-                      onClick={() => {
-                        setDeleteModal({
-                          visible: true,
-                          carId: car.id,
-                        });
-                      }}
-                    >
-                      <FiTrash2 size={18} />
-                    </button>
-                  </div>
-                </div>
+        {cars?.map((car) => (
+          <div className="card min-h-[240px] bg-base-200" key={car.id}>
+            <div className="flex h-full flex-col divide-y divide-secondary p-5">
+              <div className="flex flex-grow flex-col gap-1 pb-3">
+                <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                  {car.brand} {car.model} {car.generation} {car.productionYear}
+                </h4>
+                <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
+                  {car.type}
+                </p>
+                <p>
+                  <span className="font-medium">Engine:</span> {car.engineType}{" "}
+                  {formatEngineCapacity(car.engineCapacity)} {car.enginePower}
+                  HP
+                </p>
+                <p className="mb-2">
+                  <span className="font-medium">Gearbox:</span>{" "}
+                  {car.gearboxType}
+                </p>
               </div>
-            ))
-          : null}
+              <div className="flex items-end justify-center gap-2 pt-3">
+                <Link
+                  className="btn-outline btn-info btn border-none"
+                  aria-label="Show car repairs"
+                  href={`/app/cars/${car.id}/repairs`}
+                >
+                  <FiTool size={18} />
+                </Link>
+                <Link
+                  className="btn-outline btn-success btn border-none"
+                  aria-label="Edit car"
+                  href={`/app/cars/${car.id}`}
+                >
+                  <FiEdit size={18} />
+                </Link>
+                <button
+                  className="btn-outline btn-error btn border-none"
+                  aria-label="Delete car"
+                  onClick={() => {
+                    setDeleteModal({
+                      visible: true,
+                      carId: car.id,
+                    });
+                  }}
+                >
+                  <FiTrash2 size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
       <Transition
         show={Boolean(deleteModal.visible)}
@@ -168,6 +190,21 @@ export default function CarsList({
           </div>
         </Dialog>
       </Transition>
+    </>
+  );
+}
+
+export default function CarsListWrapper({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [containerParent] = useAutoAnimate<HTMLDivElement>();
+
+  return (
+    <Layout>
+      <Seo title="Cars" description="cars list" />
+      <div ref={containerParent}>
+        <CarsList />
+      </div>
     </Layout>
   );
 }
