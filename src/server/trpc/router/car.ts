@@ -30,6 +30,38 @@ export const carRouter = router({
       },
     });
   }),
+  getAllWithRepairs: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.car.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        type: true,
+        brand: true,
+        model: true,
+        generation: true,
+        productionYear: true,
+        engineType: true,
+        engineCapacity: true,
+        enginePower: true,
+        gearboxType: true,
+        repairs: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            date: true,
+            mileage: true,
+            price: true,
+          },
+        },
+      },
+    });
+  }),
   getOne: protectedProcedure.input(carParams).query(async ({ input, ctx }) => {
     return await ctx.prisma.car.findFirst({
       where: {

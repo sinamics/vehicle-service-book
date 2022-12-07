@@ -66,7 +66,7 @@ export default function Header() {
                         <Link
                           href={item.href}
                           className={cx(
-                            "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-neutral",
+                            "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-neutral hover:text-white",
                             {
                               "!bg-primary !text-white":
                                 router.pathname === item.href,
@@ -89,7 +89,7 @@ export default function Header() {
                 <Menu as="div" className="relative ml-3">
                   <Menu.Button className="flex rounded-full bg-gray-800 text-sm transition-all hover:outline-none hover:ring-2 hover:ring-white hover:ring-offset-2 hover:ring-offset-gray-800">
                     <span className="sr-only">Open user menu</span>
-                    {user?.image && (
+                    {user?.image ? (
                       <Image
                         width={32}
                         height={32}
@@ -97,7 +97,7 @@ export default function Header() {
                         src={user?.image}
                         alt=""
                       />
-                    )}
+                    ) : null}
                   </Menu.Button>
                   <Transition
                     as={Fragment}
@@ -114,8 +114,10 @@ export default function Header() {
                           <Link
                             href="/"
                             className={cx(
-                              active && "bg-gray-100 dark:bg-gray-600/30",
-                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
+                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
+                              {
+                                "bg-gray-100 dark:bg-gray-600/30": active,
+                              }
                             )}
                           >
                             Your Profile
@@ -127,8 +129,10 @@ export default function Header() {
                           <Link
                             href="/"
                             className={cx(
-                              active && "bg-gray-100 dark:bg-gray-600/30",
-                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
+                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
+                              {
+                                "bg-gray-100 dark:bg-gray-600/30": active,
+                              }
                             )}
                           >
                             Settings
@@ -174,16 +178,19 @@ export default function Header() {
                       as={Link}
                       href={item.href}
                       className={cx(
-                        "w-full rounded-md px-3 py-2 text-xl font-medium text-secondary transition-colors hover:bg-neutral hover:text-white",
+                        "w-full rounded-md px-3 py-6 text-xl font-medium text-secondary transition-colors hover:bg-primary hover:text-white",
                         {
-                          "!text-white": router.pathname === item.href,
+                          "!bg-neutral !text-white":
+                            router.pathname === item.href,
                           "bg-base-200":
                             !item.exact &&
                             router.pathname !== item.href &&
                             router.pathname.startsWith(item.href),
                         }
                       )}
-                      aria-current={router.pathname === item.href && "page"}
+                      aria-current={
+                        router.pathname === item.href ? "page" : undefined
+                      }
                     >
                       {item.name}
                     </Disclosure.Button>

@@ -68,7 +68,7 @@ export default function EditRepair() {
   return (
     <Layout>
       <Seo title="Edit repair" description="Edit repair" />
-      {!isLoading && (
+      {!isLoading ? (
         <div className="card w-full bg-secondary dark:bg-primary">
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
@@ -180,15 +180,21 @@ export default function EditRepair() {
                 </label>
               </div>
               <button
-                className="btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3"
+                className={cx(
+                  "btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3",
+                  {
+                    "btn-disabled loading": isSubmitting,
+                  }
+                )}
+                disabled={isSubmitting}
                 type="submit"
               >
-                {isSubmitting ? "Updating..." : "Update"}
+                {isSubmitting ? "Updating" : "Update"}
               </button>
             </form>
           </div>
         </div>
-      )}
+      ) : null}
     </Layout>
   );
 }
