@@ -63,7 +63,7 @@ export default function EditCar() {
   return (
     <Layout>
       <Seo title="Edit car" description="Edit car" />
-      {!isLoading && (
+      {!isLoading ? (
         <div className="card w-full bg-secondary dark:bg-primary">
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
@@ -340,7 +340,7 @@ export default function EditCar() {
             </form>
           </div>
         </div>
-      )}
+      ) : null}
     </Layout>
   );
 }

@@ -68,7 +68,7 @@ export default function EditRepair() {
   return (
     <Layout>
       <Seo title="Edit repair" description="Edit repair" />
-      {!isLoading && (
+      {!isLoading ? (
         <div className="card w-full bg-secondary dark:bg-primary">
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
@@ -194,7 +194,7 @@ export default function EditRepair() {
             </form>
           </div>
         </div>
-      )}
+      ) : null}
     </Layout>
   );
 }

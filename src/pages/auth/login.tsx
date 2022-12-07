@@ -158,32 +158,32 @@ export default function Login({
               </button>
             </form>
             <div className="divider"></div>
-            {providers && (
+            {providers ? (
               <div className="flex flex-col gap-2">
                 {Object.values(providers).map((provider) => {
                   if (provider.name === "Credentials") return null;
                   return providerButton(provider);
                 })}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
-        {success && (
+        {success ? (
           <Toast color="success" top right>
             <span className="flex items-center gap-2">
               <FiCheckCircle size={20} />
               Successfully logged in
             </span>
           </Toast>
-        )}
-        {error && (
+        ) : null}
+        {error ? (
           <Toast color="error" top right>
             <span className="flex items-center gap-2">
               <FiAlertCircle size={20} />
               {error}
             </span>
           </Toast>
-        )}
+        ) : null}
       </div>
     </>
   );
