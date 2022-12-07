@@ -10,8 +10,8 @@ import Layout from "@/layouts/Layout";
 import { formatDate, formatMileage, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
-export default function Repairs() {
-  const [animationParent] = useAutoAnimate<HTMLDivElement>();
+function RepairsList() {
+  const [repairsParent] = useAutoAnimate<HTMLDivElement>();
 
   const completeButtonRef = useRef(null);
   const [deleteModal, setDeleteModal] = useState({
@@ -22,7 +22,13 @@ export default function Repairs() {
 
   const { query } = useRouter();
   const utils = trpc.useContext();
-  const { data: repairs } = trpc.repair.getAll.useQuery(
+  const {
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+    data: repairs,
+  } = trpc.repair.getAll.useQuery(
     {
       carId: query.carId as string,
     },
@@ -35,9 +41,39 @@ export default function Repairs() {
     onSuccess: () => utils.repair.getAll.invalidate(),
   });
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+
+  if (isSuccess && !repairs?.length) {
+    return (
+      <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center sm:min-h-layout-inside">
+        <FiAlertCircle className="mx-auto mb-4" size={56} />
+        <h2 className="text-center text-3xl">
+          You don&apos;t have any repairs
+        </h2>
+        <p className="text-center">
+          Add your first repair by clicking the button below.
+        </p>
+        <Link
+          href={`/app/cars/${encodeURIComponent(
+            query.carId as string
+          )}/repairs/add`}
+          className="btn mt-4"
+        >
+          <FiPlus className="mr-2" size={20} />
+          Add repair
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <Layout>
-      <Seo title="Repairs" description="repairs list" />
+    <>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-3xl">Your repairs</h2>
         <Link
@@ -51,59 +87,57 @@ export default function Repairs() {
         </Link>
       </div>
       <div
-        ref={animationParent}
+        ref={repairsParent}
         className="grid grid-cols-1 justify-center gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       >
-        {repairs?.length
-          ? repairs.map((repair) => (
-              <div className="card min-h-[240px] bg-base-200" key={repair.id}>
-                <div className="flex h-full flex-col divide-y divide-secondary p-5">
-                  <div className="flex flex-grow flex-col gap-1 pb-3">
-                    <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-                      {repair.title}
-                    </h4>
-                    <p className="mb-4 flex-grow font-light text-gray-700 dark:text-gray-400">
-                      {repair.description}
-                    </p>
-                    <p>
-                      <span className="font-medium">Date:</span>{" "}
-                      {formatDate(repair.date)}
-                    </p>
-                    <p>
-                      <span className="font-medium">Price:</span>{" "}
-                      {formatPrice(repair.price)}
-                    </p>
-                    <p className="mb-2">
-                      <span className="font-medium">Mileage:</span>{" "}
-                      {formatMileage(repair.mileage)}
-                    </p>
-                  </div>
-                  <div className="flex items-end justify-center gap-2 pt-3">
-                    <Link
-                      className="btn-outline btn-success btn border-none"
-                      aria-label="Edit repair"
-                      href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
-                    >
-                      <FiEdit size={18} />
-                    </Link>
-                    <button
-                      className="btn-outline btn-error btn border-none"
-                      aria-label="Delete repair"
-                      onClick={() => {
-                        setDeleteModal({
-                          visible: true,
-                          carId: repair.carId,
-                          repairId: repair.id,
-                        });
-                      }}
-                    >
-                      <FiTrash2 size={18} />
-                    </button>
-                  </div>
-                </div>
+        {repairs.map((repair) => (
+          <div className="card min-h-[240px] bg-base-200" key={repair.id}>
+            <div className="flex h-full flex-col divide-y divide-secondary p-5">
+              <div className="flex flex-grow flex-col gap-1 pb-3">
+                <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                  {repair.title}
+                </h4>
+                <p className="mb-4 flex-grow font-light text-gray-700 dark:text-gray-400">
+                  {repair.description}
+                </p>
+                <p>
+                  <span className="font-medium">Date:</span>{" "}
+                  {formatDate(repair.date)}
+                </p>
+                <p>
+                  <span className="font-medium">Price:</span>{" "}
+                  {formatPrice(repair.price)}
+                </p>
+                <p className="mb-2">
+                  <span className="font-medium">Mileage:</span>{" "}
+                  {formatMileage(repair.mileage)}
+                </p>
               </div>
-            ))
-          : null}
+              <div className="flex items-end justify-center gap-2 pt-3">
+                <Link
+                  className="btn-outline btn-success btn border-none"
+                  aria-label="Edit repair"
+                  href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
+                >
+                  <FiEdit size={18} />
+                </Link>
+                <button
+                  className="btn-outline btn-error btn border-none"
+                  aria-label="Delete repair"
+                  onClick={() => {
+                    setDeleteModal({
+                      visible: true,
+                      carId: repair.carId,
+                      repairId: repair.id,
+                    });
+                  }}
+                >
+                  <FiTrash2 size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
       <Transition
         show={Boolean(deleteModal.visible)}
@@ -170,6 +204,19 @@ export default function Repairs() {
           </div>
         </Dialog>
       </Transition>
+    </>
+  );
+}
+
+export default function RepairsListWrapper() {
+  const [containerParent] = useAutoAnimate<HTMLDivElement>();
+
+  return (
+    <Layout>
+      <Seo title="Repairs" description="repairs list" />
+      <div ref={containerParent}>
+        <RepairsList />
+      </div>
     </Layout>
   );
 }
