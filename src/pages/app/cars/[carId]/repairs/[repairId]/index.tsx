@@ -180,10 +180,16 @@ export default function EditRepair() {
                 </label>
               </div>
               <button
-                className="btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3"
+                className={cx(
+                  "btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3",
+                  {
+                    "btn-disabled loading": isSubmitting,
+                  }
+                )}
+                disabled={isSubmitting}
                 type="submit"
               >
-                {isSubmitting ? "Updating..." : "Update"}
+                {isSubmitting ? "Updating" : "Update"}
               </button>
             </form>
           </div>
