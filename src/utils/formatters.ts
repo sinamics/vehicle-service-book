@@ -21,7 +21,7 @@ export function formatPrice(
     currency: "USD",
   }
 ): string | null {
-  if (!price) return null;
+  if (!price) return "0";
   return new Intl.NumberFormat(locale, options).format(price);
 }
 
@@ -33,7 +33,7 @@ export function formatMileage(
     unit: "kilometer",
   }
 ): string | null {
-  if (!mileage) return null;
+  if (!mileage) return "0";
   return new Intl.NumberFormat(locale, options).format(mileage);
 }
 
