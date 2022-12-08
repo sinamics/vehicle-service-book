@@ -1,12 +1,19 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import type { Repair } from "@prisma/client";
 import cx from "classnames";
 import dayjs from "dayjs";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import Link from "next/link";
 import { FaCalendarCheck, FaPiggyBank, FaRoad } from "react-icons/fa";
 import { FiAlertCircle, FiPlus } from "react-icons/fi";
 
+import Loader from "@/components/Loader";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import { formatDate, formatMileage, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
@@ -16,6 +23,7 @@ function TotalSpendStat(
   const totalSpend = repairs
     .map((repair) => repair.price)
     .reduce((a, b) => {
+      if (repairs.length === 1) return b;
       if (typeof a !== "number") return 0;
       if (typeof b !== "number") return 0;
       return a + b;
@@ -24,25 +32,17 @@ function TotalSpendStat(
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
-        {repairs.length ? (
-          <FaPiggyBank className="inline-block h-8 w-8 stroke-current" />
-        ) : (
-          <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
-        )}
+        <FaPiggyBank className="inline-block h-8 w-8 stroke-current" />
       </div>
       <div className="stat-title whitespace-normal text-sm md:text-base">
-        {repairs.length ? "Total spend" : "No repairs"}
+        Total spend
       </div>
-      {repairs.length && totalSpend ? (
-        <>
-          <div className="stat-value whitespace-normal text-2xl text-accent md:text-4xl">
-            {formatPrice(totalSpend)}
-          </div>
-          <div className="stat-desc whitespace-normal text-xs md:text-sm">
-            of {repairs.length} repairs
-          </div>
-        </>
-      ) : null}
+      <div className="stat-value whitespace-normal text-xl text-accent sm:text-2xl md:text-3xl lg:text-4xl">
+        {formatPrice(totalSpend)}
+      </div>
+      <div className="stat-desc whitespace-normal text-xs md:text-sm">
+        of {repairs.length} repairs
+      </div>
     </div>
   );
 }
@@ -52,45 +52,36 @@ function LastMileageStat(
 ) {
   const allMileages = repairs.map((repair) => repair.mileage);
   const lastMileage = allMileages.reduce((a, b) => {
+    if (repairs.length === 1) return b;
     if (typeof a !== "number") return 0;
     if (typeof b !== "number") return 0;
-    if (a === 0) return b;
     return a > b ? a : b;
   }, 0);
 
   const firstMileage = allMileages.reduce((a, b) => {
+    if (repairs.length) return b;
     if (typeof a !== "number") return 0;
     if (typeof b !== "number") return 0;
-    if (a === 0) return b;
     return b > a ? a : b;
   }, 0);
 
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
-        {repairs.length ? (
-          <FaRoad className="inline-block h-8 w-8 stroke-current" />
-        ) : (
-          <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
-        )}
+        <FaRoad className="inline-block h-8 w-8 stroke-current" />
       </div>
       <div className="stat-title whitespace-normal text-sm md:text-base">
-        {repairs.length ? "Last mileage" : "No repairs"}
+        Last mileage
       </div>
-      {repairs.length && lastMileage ? (
-        <>
-          <div className="stat-value whitespace-normal text-2xl text-accent md:text-4xl">
-            {formatMileage(lastMileage)}
-          </div>
-          {typeof firstMileage === "number" &&
-          typeof lastMileage === "number" ? (
-            <div className="stat-desc whitespace-normal text-xs md:text-sm">
-              {lastMileage - firstMileage !== 0
-                ? `+${formatMileage(lastMileage - firstMileage)}`
-                : null}
-            </div>
-          ) : null}
-        </>
+      <div className="stat-value whitespace-normal text-xl text-accent sm:text-2xl md:text-3xl lg:text-4xl">
+        {formatMileage(lastMileage)}
+      </div>
+      {typeof firstMileage === "number" && typeof lastMileage === "number" ? (
+        <div className="stat-desc whitespace-normal text-xs md:text-sm">
+          {lastMileage - firstMileage !== 0
+            ? `+${formatMileage(lastMileage - firstMileage)}`
+            : null}
+        </div>
       ) : null}
     </div>
   );
@@ -113,29 +104,21 @@ function LastDateStat(
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
-        {repairs.length ? (
-          <FaCalendarCheck className="inline-block h-8 w-8 stroke-current" />
-        ) : (
-          <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
-        )}
+        <FaCalendarCheck className="inline-block h-8 w-8 stroke-current" />
       </div>
       <div className="stat-title whitespace-normal text-sm md:text-base">
-        {repairs.length ? "Last repair date" : "No repairs"}
+        Last repair date
       </div>
-      {repairs.length && lastDate ? (
-        <>
-          <div className="stat-value whitespace-normal text-2xl text-accent md:text-4xl">
-            {formatDate(lastDate)}
-          </div>
-          <div className="stat-desc whitespace-normal text-xs md:text-sm">
-            {difference === 0
-              ? "Today"
-              : difference === 1
-              ? "Yesterday"
-              : `${difference} days ago`}
-          </div>
-        </>
-      ) : null}
+      <div className="stat-value whitespace-normal text-xl text-accent sm:text-2xl md:text-3xl lg:text-4xl">
+        {formatDate(lastDate)}
+      </div>
+      <div className="stat-desc whitespace-normal text-xs md:text-sm">
+        {difference === 0
+          ? "Today"
+          : difference === 1
+          ? "Yesterday"
+          : `${difference} days ago`}
+      </div>
     </div>
   );
 }
@@ -150,7 +133,11 @@ function DashboardList() {
   } = trpc.car.getAllWithRepairs.useQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Loader>
+        <span className="text-gray-400">Loading dashboard...</span>
+      </Loader>
+    );
   }
 
   if (isError) {
@@ -172,21 +159,40 @@ function DashboardList() {
   }
 
   return (
-    <div className="flex flex-col justify-center gap-16">
+    <div className="grid grid-cols-1 justify-center gap-16 sm:grid-cols-2 xl:grid-cols-3">
       {cars?.map((car, index) => (
         <div className="flex flex-col" key={car.id}>
           <h1 className="mb-4 text-center text-2xl md:text-3xl">
             {car.brand} {car.model} {car.generation} {car.productionYear}
           </h1>
           <div
-            className={cx("stats stats-vertical shadow lg:stats-horizontal", {
+            className={cx("stats stats-vertical shadow", {
               "bg-neutral": index % 2 === 0,
               "bg-base-200": index % 2 !== 0,
             })}
           >
-            {TotalSpendStat(car.repairs)}
-            {LastMileageStat(car.repairs)}
-            {LastDateStat(car.repairs)}
+            {car.repairs.length ? (
+              <>
+                {TotalSpendStat(car.repairs)}
+                {LastMileageStat(car.repairs)}
+                {LastDateStat(car.repairs)}
+              </>
+            ) : (
+              <div className="stat">
+                <div className="stat-figure text-accent">
+                  <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
+                </div>
+                <div className="stat-title whitespace-normal text-sm md:text-base">
+                  No repairs
+                </div>
+                <div className="stat-value whitespace-normal text-xl text-accent sm:text-2xl md:text-3xl lg:text-4xl">
+                  Please add repairs
+                </div>
+                <div className="stat-desc whitespace-normal text-xs md:text-sm">
+                  To show statistics
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ))}
@@ -194,11 +200,27 @@ function DashboardList() {
   );
 }
 
-export default function DashboardListWrapper() {
+export default function DashboardListWrapper({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [containerParent] = useAutoAnimate<HTMLDivElement>();
+
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Dashboard" description="car service book dashboard" />
-      <DashboardList />
+      <div ref={containerParent}>
+        <DashboardList />
+      </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }
