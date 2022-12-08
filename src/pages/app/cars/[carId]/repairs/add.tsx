@@ -1,17 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import cx from "classnames";
 import dayjs from "dayjs";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import type { CreateRepairSchema } from "@/server/schema/repair.schema";
 import { createRepairSchema } from "@/server/schema/repair.schema";
 import { trpc } from "@/utils/trpc";
 
-export default function AddRepair() {
+export default function AddRepair({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
   const { data: lastMileage } = trpc.repair.getHighestMileage.useQuery(
@@ -54,7 +61,7 @@ export default function AddRepair() {
   };
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Add repair" description="Add repair" />
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-3xl">Add repair</h2>
@@ -186,4 +193,14 @@ export default function AddRepair() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }
