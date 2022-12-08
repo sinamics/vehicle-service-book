@@ -7,11 +7,14 @@ module.exports = {
       padding: "2rem",
     },
     extend: {
+      animation: {
+        "spin-slow": "spin 2s ease infinite",
+      },
       minHeight: {
         layout: "calc(100vh - 96px)",
         "layout-mobile": "calc(100vh - 116px)",
         "layout-inside": "calc(100vh - 224px)",
-        "layout-inside-mobile": "calc(100vh - 116px)",
+        "layout-inside-mobile": "calc(100vh - 244px)",
       },
       backgroundSize: {
         "size-200": "200% 200%",
