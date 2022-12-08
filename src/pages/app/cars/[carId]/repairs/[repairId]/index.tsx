@@ -1,18 +1,25 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import cx from "classnames";
 import dayjs from "dayjs";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import type { UpdateRepairSchema } from "@/server/schema/repair.schema";
 import { updateRepairSchema } from "@/server/schema/repair.schema";
 import { queryOnlyOnce } from "@/utils/react-query";
 import { trpc } from "@/utils/trpc";
 
-export default function EditRepair() {
+export default function EditRepair({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
   const { isLoading } = trpc.repair.getOne.useQuery(
@@ -66,7 +73,7 @@ export default function EditRepair() {
   };
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Edit repair" description="Edit repair" />
       {!isLoading ? (
         <div className="card w-full bg-secondary dark:bg-primary">
@@ -197,4 +204,14 @@ export default function EditRepair() {
       ) : null}
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }

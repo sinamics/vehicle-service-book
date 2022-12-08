@@ -1,17 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 import cx from "classnames";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import type { CreateCarSchema } from "@/server/schema/car.schema";
 import { createCarSchema } from "@/server/schema/car.schema";
 import { trpc } from "@/utils/trpc";
 
-export default function AddCar() {
+export default function AddCar({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
   const { mutate } = trpc.car.create.useMutation({
@@ -33,7 +40,7 @@ export default function AddCar() {
   };
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Add car" description="Add car" />
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-3xl">Add car</h2>
@@ -316,4 +323,14 @@ export default function AddCar() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }

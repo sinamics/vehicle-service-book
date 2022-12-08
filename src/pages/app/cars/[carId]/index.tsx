@@ -1,18 +1,25 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 import cx from "classnames";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import type { UpdateCarSchema } from "@/server/schema/car.schema";
 import { updateCarSchema } from "@/server/schema/car.schema";
 import { queryOnlyOnce } from "@/utils/react-query";
 import { trpc } from "@/utils/trpc";
 
-export default function EditCar() {
+export default function EditCar({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
   const { isLoading } = trpc.car.getOne.useQuery(
@@ -53,7 +60,6 @@ export default function EditCar() {
   });
 
   const onSubmit: SubmitHandler<UpdateCarSchema["body"]> = (values) => {
-    console.log("values:", values);
     mutate({
       params: { carId: router.query.carId as string },
       body: values,
@@ -61,7 +67,7 @@ export default function EditCar() {
   };
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Edit car" description="Edit car" />
       {!isLoading ? (
         <div className="card w-full bg-secondary dark:bg-primary">
@@ -343,4 +349,14 @@ export default function EditCar() {
       ) : null}
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }

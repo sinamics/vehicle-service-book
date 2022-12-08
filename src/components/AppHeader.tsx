@@ -1,4 +1,5 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
+import type { User } from "@prisma/client";
 import cx from "classnames";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,17 +8,17 @@ import { signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
-import { trpc } from "@/utils/trpc";
+type Props = {
+  user?: User;
+};
 
 const links = [
   { name: "Dashboard", href: "/app", exact: true },
   { name: "Cars", href: "/app/cars" },
 ];
 
-export default function Header() {
+export default function Header({ user }: Props) {
   const router = useRouter();
-  const { data: user } = trpc.auth.getUser.useQuery();
-
   return (
     <Disclosure
       as="header"

@@ -1,12 +1,18 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Dialog, Transition } from "@headlessui/react";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
 import { FiAlertCircle, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
+import Loader from "@/components/Loader";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
+import { getServerAuthSession } from "@/server/common/get-server-auth-session";
 import { formatDate, formatMileage, formatPrice } from "@/utils/formatters";
 import { trpc } from "@/utils/trpc";
 
@@ -42,7 +48,11 @@ function RepairsList() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Loader>
+        <span className="text-gray-400">Loading repairs...</span>
+      </Loader>
+    );
   }
 
   if (isError) {
@@ -208,15 +218,27 @@ function RepairsList() {
   );
 }
 
-export default function RepairsListWrapper() {
+export default function RepairsListWrapper({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [containerParent] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Repairs" description="repairs list" />
       <div ref={containerParent}>
         <RepairsList />
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(context);
+
+  return {
+    props: {
+      user: session?.user,
+    },
+  };
 }

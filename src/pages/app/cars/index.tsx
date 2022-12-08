@@ -14,6 +14,7 @@ import {
   FiTrash2,
 } from "react-icons/fi";
 
+import Loader from "@/components/Loader";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 import { getServerAuthSession } from "@/server/common/get-server-auth-session";
@@ -43,7 +44,11 @@ function CarsList() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Loader>
+        <span className="text-gray-400">Loading cars...</span>
+      </Loader>
+    );
   }
 
   if (isError) {
@@ -200,7 +205,7 @@ export default function CarsListWrapper({
   const [containerParent] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <Layout>
+    <Layout user={user}>
       <Seo title="Cars" description="cars list" />
       <div ref={containerParent}>
         <CarsList />
@@ -211,7 +216,6 @@ export default function CarsListWrapper({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerAuthSession(context);
-  console.log("user:", session?.user);
 
   return {
     props: {
