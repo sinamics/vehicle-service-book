@@ -24,16 +24,16 @@ function TotalSpendStat(
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
-        {totalSpend ? (
+        {repairs.length ? (
           <FaPiggyBank className="inline-block h-8 w-8 stroke-current" />
         ) : (
           <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
         )}
       </div>
       <div className="stat-title whitespace-normal text-sm md:text-base">
-        {totalSpend ? "Total spend" : "No repairs"}
+        {repairs.length ? "Total spend" : "No repairs"}
       </div>
-      {totalSpend ? (
+      {repairs.length && totalSpend ? (
         <>
           <div className="stat-value whitespace-normal text-2xl text-accent md:text-4xl">
             {formatPrice(totalSpend)}
@@ -54,6 +54,7 @@ function LastMileageStat(
   const lastMileage = allMileages.reduce((a, b) => {
     if (typeof a !== "number") return 0;
     if (typeof b !== "number") return 0;
+    if (a === 0) return b;
     return a > b ? a : b;
   }, 0);
 
@@ -67,27 +68,28 @@ function LastMileageStat(
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
-        {lastMileage && firstMileage ? (
+        {repairs.length ? (
           <FaRoad className="inline-block h-8 w-8 stroke-current" />
         ) : (
           <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
         )}
       </div>
       <div className="stat-title whitespace-normal text-sm md:text-base">
-        {typeof lastMileage === "number" && typeof firstMileage === "number"
-          ? "Last mileage"
-          : "No repairs"}
+        {repairs.length ? "Last mileage" : "No repairs"}
       </div>
-      {typeof lastMileage === "number" && typeof firstMileage === "number" ? (
+      {repairs.length && lastMileage ? (
         <>
           <div className="stat-value whitespace-normal text-2xl text-accent md:text-4xl">
             {formatMileage(lastMileage)}
           </div>
-          <div className="stat-desc whitespace-normal text-xs md:text-sm">
-            {lastMileage - firstMileage !== 0
-              ? `+${formatMileage(lastMileage - firstMileage)}`
-              : null}
-          </div>
+          {typeof firstMileage === "number" &&
+          typeof lastMileage === "number" ? (
+            <div className="stat-desc whitespace-normal text-xs md:text-sm">
+              {lastMileage - firstMileage !== 0
+                ? `+${formatMileage(lastMileage - firstMileage)}`
+                : null}
+            </div>
+          ) : null}
         </>
       ) : null}
     </div>
@@ -111,16 +113,16 @@ function LastDateStat(
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
-        {lastDate ? (
+        {repairs.length ? (
           <FaCalendarCheck className="inline-block h-8 w-8 stroke-current" />
         ) : (
           <FiAlertCircle className="inline-block h-8 w-8 stroke-current" />
         )}
       </div>
       <div className="stat-title whitespace-normal text-sm md:text-base">
-        {lastDate ? "Last repair date" : "No repairs"}
+        {repairs.length ? "Last repair date" : "No repairs"}
       </div>
-      {lastDate ? (
+      {repairs.length && lastDate ? (
         <>
           <div className="stat-value whitespace-normal text-2xl text-accent md:text-4xl">
             {formatDate(lastDate)}
