@@ -6,6 +6,12 @@
   display: none;
 }
 
+*,
+*::before,
+*::after {
+  @apply motion-reduce:transition-none motion-reduce:hover:transform-none;
+}
+
 *:focus:not(:focus-visible) {
   outline: none;
 }

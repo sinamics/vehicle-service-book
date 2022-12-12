@@ -8,6 +8,8 @@ import { signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
+import Logo from "@/components/Logo";
+
 type Props = {
   user?: User;
 };
@@ -51,13 +53,7 @@ export default function Header({ user }: Props) {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <Link href="/">
-                    <Image
-                      className="block h-8 w-11"
-                      width={44}
-                      height={32}
-                      src="/favicon.svg"
-                      alt="Car service book"
-                    />
+                    <Logo className="h-8 w-8" />
                   </Link>
                 </div>
                 <nav className="hidden sm:ml-6 sm:flex sm:flex-1 sm:justify-self-center">
