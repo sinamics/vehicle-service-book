@@ -52,7 +52,11 @@ function CarsList() {
   }
 
   if (isError) {
-    return <div>{error.message}</div>;
+    return (
+      <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center gap-6 sm:min-h-layout-inside">
+        {error.message}
+      </div>
+    );
   }
 
   if (isSuccess && !cars?.length) {
