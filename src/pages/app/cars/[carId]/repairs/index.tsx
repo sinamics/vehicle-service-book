@@ -7,6 +7,7 @@ import type {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
+import { FaTools } from "react-icons/fa";
 import { FiAlertCircle, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 import Loader from "@/components/Loader";
@@ -126,7 +127,7 @@ function RepairsList() {
               <div className="flex items-end justify-center gap-2 pt-3">
                 <div className="tooltip tooltip-success" data-tip="Edit repair">
                   <Link
-                    className="btn-outline btn-success btn border-none"
+                    className="btn-outline btn-success btn h-10 min-h-[2.5rem] border-none px-3"
                     aria-label="Edit repair"
                     href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
                   >
@@ -135,7 +136,7 @@ function RepairsList() {
                 </div>
                 <div className="tooltip tooltip-error" data-tip="Delete repair">
                   <button
-                    className="btn-outline btn-error btn border-none"
+                    className="btn-outline btn-error btn h-10 min-h-[2.5rem] border-none px-3"
                     aria-label="Delete repair"
                     onClick={() => {
                       setDeleteModal({

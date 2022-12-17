@@ -10,10 +10,12 @@ import {
   FiAlertCircle,
   FiEdit,
   FiPlus,
+  FiRefreshCw,
   FiTool,
   FiTrash2,
 } from "react-icons/fi";
 
+import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -36,6 +38,7 @@ function CarsList() {
     isError,
     error,
     isSuccess,
+    refetch,
     data: cars,
   } = trpc.car.getAll.useQuery();
 
@@ -53,9 +56,12 @@ function CarsList() {
 
   if (isError) {
     return (
-      <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center gap-6 sm:min-h-layout-inside">
-        {error.message}
-      </div>
+      <Error message={error?.message}>
+        <button onClick={() => refetch()} className="btn mt-4">
+          <FiRefreshCw className="mr-2" size={20} />
+          Try again
+        </button>
+      </Error>
     );
   }
 
@@ -125,7 +131,7 @@ function CarsList() {
                   data-tip="Show car repairs"
                 >
                   <Link
-                    className="btn-outline btn-info btn border-none"
+                    className="btn-outline btn-info btn h-10 min-h-[2.5rem] border-none px-3"
                     aria-label="Show car repairs"
                     href={`/app/cars/${car.id}/repairs`}
                   >
@@ -134,7 +140,7 @@ function CarsList() {
                 </div>
                 <div className="tooltip tooltip-success" data-tip="Edit car">
                   <Link
-                    className="btn-outline btn-success btn border-none"
+                    className="btn-outline btn-success btn h-10 min-h-[2.5rem] border-none px-3"
                     aria-label="Edit car"
                     href={`/app/cars/${car.id}`}
                   >
@@ -143,7 +149,7 @@ function CarsList() {
                 </div>
                 <div className="tooltip tooltip-error" data-tip="Delete car">
                   <button
-                    className="btn-outline btn-error btn border-none"
+                    className="btn-outline btn-error btn h-10 min-h-[2.5rem] border-none px-3"
                     aria-label="Delete car"
                     onClick={() => {
                       setDeleteModal({
