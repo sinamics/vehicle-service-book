@@ -75,12 +75,14 @@ export default function Login({
     if (result?.error) {
       setError(result.error);
       setTimeout(() => setError(""), 3000);
+      return;
     }
 
     if (result?.ok) {
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
       router.push(result?.url ? result.url : "/app");
+      return;
     }
   };
 
