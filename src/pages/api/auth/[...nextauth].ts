@@ -2,7 +2,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { verify } from "argon2";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import FacebookProvider from "next-auth/providers/facebook";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 import { prisma } from "@/server/db/client";
 
@@ -49,6 +51,14 @@ export const authOptions: NextAuthOptions = {
 
         return userWithoutHash;
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID || "",
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
     }),
     GithubProvider({
       clientId: process.env.GITHUB_ID || "",
