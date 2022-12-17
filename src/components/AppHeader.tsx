@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 
 import Logo from "@/assets/images/svg/Logo.svg";
 
@@ -32,7 +33,7 @@ export default function Header({ user }: Props) {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="swap swap-rotate inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
+                <Disclosure.Button className="swap-rotate swap inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
                   <span className="sr-only">Open main menu</span>
                   <FiX
                     className={cx("absolute h-6 w-6", {
@@ -82,77 +83,84 @@ export default function Header({ user }: Props) {
                   </ul>
                 </nav>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Menu as="div" className="relative ml-3">
-                  <Menu.Button className="flex rounded-full bg-gray-800 text-sm transition-all hover:outline-none hover:ring-2 hover:ring-white hover:ring-offset-2 hover:ring-offset-gray-800">
-                    <span className="sr-only">Open user menu</span>
-                    {user?.image ? (
-                      <Image
-                        width={32}
-                        height={32}
-                        className="h-8 w-8 rounded-full"
-                        src={user?.image}
-                        alt=""
-                      />
-                    ) : null}
-                  </Menu.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            href="/"
-                            className={cx(
-                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
-                              {
-                                "bg-gray-100 dark:bg-gray-600/30": active,
-                              }
-                            )}
-                          >
-                            Your Profile
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            href="/"
-                            className={cx(
-                              "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
-                              {
-                                "bg-gray-100 dark:bg-gray-600/30": active,
-                              }
-                            )}
-                          >
-                            Settings
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            onClick={() => signOut()}
-                            className={cx(
-                              active && "bg-red-100 dark:bg-red-700/10",
-                              "block w-full px-4 py-2 text-left text-sm text-red-700"
-                            )}
-                          >
-                            Sign out
-                          </button>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
+              {user ? (
+                <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                  <Menu as="div" className="relative ml-3">
+                    <Menu.Button className="group flex items-center gap-2 p-2 text-sm">
+                      <span className="sr-only">Open user menu</span>
+                      <p className="hidden transition-colors group-hover:text-accent sm:block">
+                        {user.name}
+                      </p>
+                      {user.image ? (
+                        <Image
+                          width={32}
+                          height={32}
+                          className="h-8 w-8 rounded-full transition-all group-hover:outline-none group-hover:ring-2 group-hover:ring-white group-hover:ring-offset-2 group-hover:ring-offset-gray-800"
+                          src={user.image}
+                          alt=""
+                        />
+                      ) : (
+                        <FaUserCircle className="h-8 w-8 rounded-full transition-all group-hover:outline-none group-hover:ring-2 group-hover:ring-white group-hover:ring-offset-2 group-hover:ring-offset-gray-800" />
+                      )}
+                    </Menu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              href="/"
+                              className={cx(
+                                "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
+                                {
+                                  "bg-gray-100 dark:bg-gray-600/30": active,
+                                }
+                              )}
+                            >
+                              Your Profile
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              href="/"
+                              className={cx(
+                                "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
+                                {
+                                  "bg-gray-100 dark:bg-gray-600/30": active,
+                                }
+                              )}
+                            >
+                              Settings
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() => signOut()}
+                              className={cx(
+                                active && "bg-red-100 dark:bg-red-700/10",
+                                "block w-full px-4 py-2 text-left text-sm text-red-700"
+                              )}
+                            >
+                              Sign out
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                </div>
+              ) : null}
             </div>
           </div>
           <Transition

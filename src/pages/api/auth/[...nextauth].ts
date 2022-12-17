@@ -29,27 +29,35 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await prisma.user.findUnique({
-          where: { email: credentials?.email.toLowerCase() },
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials?.email.toLowerCase() },
+          });
 
-        if (!user) {
-          throw new Error("Incorrect username or password");
+          if (!user) {
+            throw new Error("Incorrect username or password");
+          }
+
+          if (!user?.hash || !credentials?.password) {
+            throw new Error("Incorrect username or password");
+          }
+
+          const isValidPassword = await verify(user.hash, credentials.password);
+
+          if (!isValidPassword) {
+            throw new Error("Incorrect username or password");
+          }
+
+          const { hash, ...userWithoutHash } = user;
+
+          return userWithoutHash;
+        } catch (error) {
+          process.env.NODE_ENV === "development"
+            ? console.error("Authorization error: ", error)
+            : null;
+
+          return null;
         }
-
-        if (!user?.hash || !credentials?.password) {
-          throw new Error("Incorrect username or password");
-        }
-
-        const isValidPassword = await verify(user.hash, credentials.password);
-
-        if (!isValidPassword) {
-          throw new Error("Incorrect username or password");
-        }
-
-        const { hash, ...userWithoutHash } = user;
-
-        return userWithoutHash;
       },
     }),
     GoogleProvider({
@@ -71,25 +79,33 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token }) {
       if (token.email) {
-        const existingUser = await prisma.user.findUnique({
-          where: {
-            email: token?.email?.toLowerCase(),
-          },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            emailVerified: true,
-            firstName: true,
-            lastName: true,
-            image: true,
-          },
-        });
+        try {
+          const existingUser = await prisma.user.findUnique({
+            where: {
+              email: token?.email?.toLowerCase(),
+            },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              emailVerified: true,
+              firstName: true,
+              lastName: true,
+              image: true,
+            },
+          });
 
-        if (existingUser) {
-          return {
-            user: existingUser,
-          };
+          if (existingUser) {
+            return {
+              user: existingUser,
+            };
+          }
+        } catch (error) {
+          process.env.NODE_ENV === "development"
+            ? console.error("Authorization error: ", error)
+            : null;
+
+          return token;
         }
       }
 

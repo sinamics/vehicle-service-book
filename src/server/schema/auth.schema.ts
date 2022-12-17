@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const authSchema = z.object({
+export const loginSchema = z.object({
   email: z
     .string()
     .min(3, { message: "Email must contain at least 3 characters" })
@@ -12,4 +12,15 @@ export const authSchema = z.object({
     .max(255, { message: "Password must contain at most 255 characters" }),
 });
 
-export type AuthSchema = z.infer<typeof authSchema>;
+export const registerSchema = z
+  .object({
+    firstName: z
+      .string()
+      .min(1, "First name must contain at least 1 character")
+      .max(255, "First name must contain at most 255 characters"),
+    lastName: z.string().optional(),
+  })
+  .merge(loginSchema);
+
+export type LoginSchema = z.infer<typeof loginSchema>;
+export type RegisterSchema = z.infer<typeof registerSchema>;
