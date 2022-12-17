@@ -43,6 +43,10 @@ export default function Register() {
         return;
       }
     },
+    onError: (error) => {
+      setError(error.message);
+      setTimeout(() => setError(""), 3000);
+    },
   });
 
   const {
