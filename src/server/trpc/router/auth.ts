@@ -1,16 +1,17 @@
 import { TRPCError } from "@trpc/server";
 import { hash } from "argon2";
 
-import { authSchema } from "@/server/schema/auth.schema";
+import { registerSchema } from "@/server/schema/auth.schema";
 
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const authRouter = router({
   register: publicProcedure
-    .input(authSchema)
+    .input(registerSchema)
     .mutation(async ({ input, ctx }) => {
+      const { password, ...body } = input;
       const exists = await ctx.prisma.user.findUnique({
-        where: { email: input.email },
+        where: { email: body.email },
       });
 
       if (exists) {
@@ -20,16 +21,17 @@ export const authRouter = router({
         });
       }
 
-      const hashedPassword = await hash(input.password);
+      const hashedPassword = await hash(password);
 
       const result = await ctx.prisma.user.create({
         data: {
-          email: input.email,
+          ...body,
+          name: body.lastName
+            ? `${body.firstName} ${body.lastName}`
+            : body.firstName,
           hash: hashedPassword,
         },
       });
-
-      console.log("result:", result);
 
       return result;
     }),

@@ -14,8 +14,8 @@ import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
 
 import Seo from "@/components/Seo";
 import Toast from "@/components/Toast";
-import type { AuthSchema } from "@/server/schema/auth.schema";
-import { authSchema } from "@/server/schema/auth.schema";
+import type { LoginSchema } from "@/server/schema/auth.schema";
+import { loginSchema } from "@/server/schema/auth.schema";
 
 function getCallbackUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -62,11 +62,11 @@ export default function Login({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<AuthSchema>({
-    resolver: zodResolver(authSchema),
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<AuthSchema> = async (values) => {
+  const onSubmit: SubmitHandler<LoginSchema> = async (values) => {
     const result = await signIn("credentials", {
       redirect: false,
       ...values,
