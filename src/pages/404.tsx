@@ -4,7 +4,7 @@ import React from "react";
 import StopSign from "@/assets/images/svg/StopSign.svg";
 import Seo from "@/components/Seo";
 
-const Custom404 = () => {
+export default function Custom404() {
   return (
     <>
       <Seo title="Error 404" description="Page not found!" />
@@ -29,6 +29,4 @@ const Custom404 = () => {
       </div>
     </>
   );
-};
-
-export default Custom404;
+}

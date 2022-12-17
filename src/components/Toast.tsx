@@ -9,7 +9,7 @@ type Props = PropsWithChildren & {
   right?: boolean;
 };
 
-const Toast = ({ color, top, right, children }: Props) => {
+export default function Toast({ color, top, right, children }: Props) {
   return ReactDOM.createPortal(
     <div
       className={cx("toast", {
@@ -30,6 +30,4 @@ const Toast = ({ color, top, right, children }: Props) => {
     </div>,
     document.body
   );
-};
-
-export default Toast;
+}

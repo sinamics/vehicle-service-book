@@ -7,7 +7,7 @@ type Props = PropsWithChildren & {
   message: string;
 };
 
-const Error = ({ message, children }: Props) => {
+export default function Error({ message, children }: Props) {
   return (
     <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center sm:min-h-layout-inside">
       <GiPoliceCar className="mx-auto mb-4" size={56} />
@@ -24,6 +24,4 @@ const Error = ({ message, children }: Props) => {
       {children}
     </div>
   );
-};
-
-export default Error;
+}

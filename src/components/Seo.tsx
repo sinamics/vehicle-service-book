@@ -8,12 +8,12 @@ type Props = {
   withOg?: boolean;
 };
 
-const Seo = ({
+export default function Seo({
   title,
   description,
   image = "/placeholder-social.jpg",
   withOg = false,
-}: Props) => {
+}: Props) {
   const url = process.env.NEXT_PUBLIC_URL;
   const canonicalURL = url + useRouter().pathname;
 
@@ -60,6 +60,4 @@ const Seo = ({
       ) : null}
     </Head>
   );
-};
-
-export default Seo;
+}
