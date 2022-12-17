@@ -37,12 +37,7 @@
     "eslint": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,scss,md,json}' --loglevel=warn",
     "lint": "npm run prettier && npm run eslint",
-    "typecheck": "tsc --noEmit",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{jsx,js,ts,tsx,scss,json,md}": "prettier --cache --write",
-    "*.{jsx,js,ts,tsx}": "eslint --cache --fix"
+    "typecheck": "tsc --noEmit"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -93,8 +88,6 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "8.0.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
     "postcss": "^8.4.20",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.2.1",

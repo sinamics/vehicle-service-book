@@ -141,7 +141,7 @@ export default function Header({ user }: Props) {
                           <button
                             onClick={() => signOut()}
                             className={cx(
-                              active && "bg-red-100 dark:bg-red-700/30",
+                              active && "bg-red-100 dark:bg-red-700/10",
                               "block w-full px-4 py-2 text-left text-sm text-red-700"
                             )}
                           >

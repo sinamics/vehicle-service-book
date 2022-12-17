@@ -1,62 +1,29 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import cx from "classnames";
-import type { InferGetServerSidePropsType } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import type { ClientSafeProvider } from "next-auth/react";
-import { getCsrfToken, getProviders, signIn } from "next-auth/react";
-import { Fragment, useState } from "react";
+import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { DiGithubBadge } from "react-icons/di";
 import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
-import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
 
 import Seo from "@/components/Seo";
 import Toast from "@/components/Toast";
 import type { AuthSchema } from "@/server/schema/auth.schema";
 import { authSchema } from "@/server/schema/auth.schema";
+import { trpc } from "@/utils/trpc";
 
-function getCallbackUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("callbackUrl") || `${window.location.origin}/`;
-}
-
-function providerIcon(providerName: ClientSafeProvider["name"]) {
-  switch (providerName) {
-    case "Google":
-      return <SiGoogle className="h-4 w-4" />;
-    case "Facebook":
-      return <SiFacebook className="h-4 w-4" />;
-    case "Twitter":
-      return <SiTwitter className="h-4 w-4" />;
-    case "GitHub":
-      return <DiGithubBadge className="h-6 w-6" />;
-    default:
-      return undefined;
-  }
-}
-
-function providerButton(provider: ClientSafeProvider) {
-  return (
-    <button
-      className="btn flex-grow"
-      key={provider.name}
-      onClick={() => signIn(provider.id, { callbackUrl: getCallbackUrl() })}
-    >
-      {providerIcon(provider.name)}
-    </button>
-  );
-}
-
-export default function Login({
-  providers,
-  csrfToken,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Register() {
   const router = useRouter();
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const { mutate } = trpc.auth.register.useMutation({
+    onSuccess: (data) => {
+      console.log("data:", data);
+      router.push("/auth/login");
+    },
+  });
 
   const {
     register,
@@ -67,21 +34,7 @@ export default function Login({
   });
 
   const onSubmit: SubmitHandler<AuthSchema> = async (values) => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      ...values,
-    });
-
-    if (result?.error) {
-      setError(result.error);
-      setTimeout(() => setError(""), 3000);
-    }
-
-    if (result?.ok) {
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-      router.push(result?.url ? result.url : "/app");
-    }
+    mutate(values);
   };
 
   return (
@@ -94,7 +47,6 @@ export default function Login({
               onSubmit={handleSubmit(onSubmit)}
               className="mb-6 flex flex-col gap-2"
             >
-              <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-control">
                 <label className="label" htmlFor="email">
                   <span
@@ -153,31 +105,16 @@ export default function Login({
                 disabled={isSubmitting}
                 type="submit"
               >
-                {isSubmitting ? "Loading" : "Sign in"}
+                {isSubmitting ? "Loading" : "Register"}
               </button>
             </form>
-            <p className="text-center">
-              Don&apos;t have an account?{" "}
-              <Link className="link-hover link" href="/auth/register">
-                Register
-              </Link>
-            </p>
-            <div className="divider my-6">Or continue with</div>
-            {providers ? (
-              <div className="flex gap-2">
-                {Object.values(providers).map((provider) => {
-                  if (provider.name === "Credentials") return null;
-                  return providerButton(provider);
-                })}
-              </div>
-            ) : null}
           </div>
         </div>
         {success ? (
           <Toast color="success" top right>
             <span className="flex items-center gap-2">
               <FiCheckCircle size={20} />
-              Logged in successfully!
+              Account created successfully!
             </span>
           </Toast>
         ) : null}
@@ -192,16 +129,4 @@ export default function Login({
       </div>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const providers = await getProviders();
-  const csrfToken = await getCsrfToken();
-
-  return {
-    props: {
-      providers,
-      csrfToken,
-    },
-  };
 }

@@ -8,8 +8,9 @@ import type {
 } from "next";
 import Link from "next/link";
 import { FaCalendarCheck, FaPiggyBank, FaRoad } from "react-icons/fa";
-import { FiAlertCircle, FiPlus } from "react-icons/fi";
+import { FiAlertCircle, FiPlus, FiRefreshCw } from "react-icons/fi";
 
+import Error from "@/components/Error";
 import Loader from "@/components/Loader";
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -129,6 +130,7 @@ function DashboardList() {
     isError,
     error,
     isSuccess,
+    refetch,
     data: cars,
   } = trpc.car.getAllWithRepairs.useQuery();
 
@@ -141,7 +143,14 @@ function DashboardList() {
   }
 
   if (isError) {
-    return <div>{error.message}</div>;
+    return (
+      <Error message={error?.message}>
+        <button onClick={() => refetch()} className="btn mt-4">
+          <FiRefreshCw className="mr-2" size={20} />
+          Try again
+        </button>
+      </Error>
+    );
   }
 
   if (isSuccess && !cars?.length) {
