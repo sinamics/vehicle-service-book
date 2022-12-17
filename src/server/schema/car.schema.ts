@@ -15,8 +15,7 @@ export const createCarSchema = z.object({
     .number()
     .nonnegative()
     .gte(1885)
-    .lte(new Date().getFullYear())
-    .optional(),
+    .lte(new Date().getFullYear()),
   engineType: z.nativeEnum(EngineType).optional(),
   engineCapacity: z.number().nonnegative().optional(),
   enginePower: z.number().nonnegative().optional(),
