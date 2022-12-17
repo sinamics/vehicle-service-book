@@ -207,7 +207,10 @@ export default function DashboardListWrapper({
 
   return (
     <Layout user={user}>
-      <Seo title="Dashboard" description="car service book dashboard" />
+      <Seo
+        title="Dashboard"
+        description="Welcome to the dashboard of our car service book web application! The dashboard displays a summary of your car's repair history, including the date and mileage of last service visit and total spend costs. Our dashboard is designed to be user-friendly and intuitive, making it easy for you to keep track of your car's service history. Whether you are an individual car owner or managing a fleet of cars, our dashboard provides all the tools you need to stay on top of your car's maintenance and repair needs."
+      />
       <div ref={containerParent}>
         <DashboardList />
       </div>
