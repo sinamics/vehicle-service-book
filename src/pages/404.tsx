@@ -12,10 +12,14 @@ const Custom404 = () => {
           404
         </h1>
       </div>
-      <p className="text-2xl uppercase md:text-4xl">
-        Your car is fine, but this is the end of the road.
-      </p>
-      <p className="text-xl uppercase md:text-3xl">You have to turn back.</p>
+      <div className="flex flex-col justify-center gap-2">
+        <p className="text-center text-2xl uppercase md:text-4xl">
+          Your car is fine, but this is the end of the road.
+        </p>
+        <p className="text-center text-xl uppercase md:text-3xl">
+          You have to turn back.
+        </p>
+      </div>
       <Link href="/" className="btn-outline btn md:btn-lg">
         Turn back
       </Link>
