@@ -93,7 +93,7 @@ function CarsList() {
             <div className="flex h-full flex-col divide-y divide-secondary p-5">
               <div className="flex flex-grow flex-col gap-1 pb-3">
                 <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-                  {car.brand} {car.model} {car.generation} {car.productionYear}
+                  {car.make} {car.model} {car.generation} {car.productionYear}
                 </h4>
                 <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
                   {car.type}

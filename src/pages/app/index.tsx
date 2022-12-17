@@ -163,7 +163,7 @@ function DashboardList() {
       {cars?.map((car, index) => (
         <div className="flex flex-col" key={car.id}>
           <h1 className="mb-4 text-center text-2xl md:text-3xl">
-            {car.brand} {car.model} {car.generation} {car.productionYear}
+            {car.make} {car.model} {car.generation} {car.productionYear}
           </h1>
           <div
             className={cx("stats stats-vertical shadow", {

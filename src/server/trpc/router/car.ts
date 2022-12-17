@@ -19,7 +19,7 @@ export const carRouter = router({
       select: {
         id: true,
         type: true,
-        brand: true,
+        make: true,
         model: true,
         generation: true,
         productionYear: true,
@@ -41,7 +41,7 @@ export const carRouter = router({
       select: {
         id: true,
         type: true,
-        brand: true,
+        make: true,
         model: true,
         generation: true,
         productionYear: true,
@@ -71,7 +71,7 @@ export const carRouter = router({
       select: {
         id: true,
         type: true,
-        brand: true,
+        make: true,
         model: true,
         generation: true,
         productionYear: true,
@@ -117,14 +117,14 @@ export const carRouter = router({
         });
       }
 
-      const { brand, model, ...restBody } = input.body;
+      const { make, model, ...restBody } = input.body;
 
       return await ctx.prisma.car.update({
         where: {
           id: input.params.carId,
         },
         data: {
-          brand: brand || car.brand,
+          make: make || car.make,
           model: model || car.model,
           ...restBody,
         },

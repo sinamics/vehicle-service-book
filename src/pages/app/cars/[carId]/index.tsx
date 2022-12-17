@@ -27,7 +27,7 @@ export default function EditCar({
     {
       onSuccess: (data) => {
         setValue("type", data?.type ?? CarType.Coupe);
-        setValue("brand", data?.brand ?? "");
+        setValue("make", data?.make ?? "");
         setValue("model", data?.model ?? "");
         setValue("generation", data?.generation ?? "");
         setValue(
@@ -111,29 +111,29 @@ export default function EditCar({
                 </label>
               </div>
               <div className="form-control">
-                <label className="label" htmlFor="brand">
+                <label className="label" htmlFor="make">
                   <span
                     className={cx("label-text", {
-                      "text-error": Boolean(errors.brand?.message),
+                      "text-error": Boolean(errors.make?.message),
                     })}
                   >
-                    Brand
+                    Make
                   </span>
                 </label>
                 <input
-                  id="brand"
+                  id="make"
                   type="text"
                   defaultValue=""
                   className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.brand?.message),
-                    "input-accent": !Boolean(errors.brand?.message),
+                    "input-error": Boolean(errors.make?.message),
+                    "input-accent": !Boolean(errors.make?.message),
                   })}
                   placeholder="Honda"
-                  {...register("brand")}
+                  {...register("make")}
                 />
-                <label htmlFor="brand" className="label">
+                <label htmlFor="make" className="label">
                   <span className="label-text-alt text-error">
-                    {errors.brand?.message}
+                    {errors.make?.message}
                   </span>
                 </label>
               </div>
@@ -344,7 +344,7 @@ export default function EditCar({
                 disabled={isSubmitting}
                 type="submit"
               >
-                {isSubmitting ? "Updating" : "Update"}
+                {isSubmitting ? "Updating car" : "Update car"}
               </button>
             </form>
           </div>

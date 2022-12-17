@@ -106,8 +106,9 @@ enum GearboxType {
 model Car {
   id             String       @id @default(cuid())
   type           CarType?
-  brand          String
+  make           String
   model          String
+  vin            String?
   generation     String?
   productionYear Int?         @map("production_year")
   engineType     EngineType?  @map("engine_type")

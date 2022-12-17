@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
-import type { Car } from "@prisma/client";
+import type { Car, PrismaClient } from "@prisma/client";
 import { CarType, EngineType, GearboxType } from "@prisma/client";
 
-export async function addCars(prisma: any, userUUID: string[]) {
+export async function addCars(prisma: PrismaClient, userUUID: string[]) {
   await prisma.car.deleteMany({});
 
   const cars: Car[] = [];
@@ -14,8 +14,9 @@ export async function addCars(prisma: any, userUUID: string[]) {
     const car: Car = {
       id: uuid,
       type: faker.helpers.arrayElement(Object.values(CarType)),
-      brand: faker.vehicle.manufacturer(),
+      make: faker.vehicle.manufacturer(),
       model: faker.vehicle.model(),
+      vin: faker.vehicle.vin(),
       productionYear: faker.date.past().getFullYear(),
       engineCapacity: faker.datatype.number({ min: 1000, max: 5000 }),
       enginePower: faker.datatype.number({ min: 50, max: 900 }),
