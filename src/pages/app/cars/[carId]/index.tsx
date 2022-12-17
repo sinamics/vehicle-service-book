@@ -29,6 +29,7 @@ export default function EditCar({
         setValue("type", data?.type ?? CarType.Coupe);
         setValue("make", data?.make ?? "");
         setValue("model", data?.model ?? "");
+        setValue("vin", data?.vin ?? "");
         setValue("generation", data?.generation ?? "");
         setValue(
           "productionYear",
@@ -77,7 +78,7 @@ export default function EditCar({
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 lg:grid-cols-3"
+              className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
             >
               <div className="form-control">
                 <label className="label" htmlFor="type">
@@ -161,6 +162,32 @@ export default function EditCar({
                 <label htmlFor="model" className="label">
                   <span className="label-text-alt text-error">
                     {errors.model?.message}
+                  </span>
+                </label>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="vin">
+                  <span
+                    className={cx("label-text", {
+                      "text-error": Boolean(errors.vin?.message),
+                    })}
+                  >
+                    VIN
+                  </span>
+                </label>
+                <input
+                  id="vin"
+                  type="text"
+                  defaultValue=""
+                  className={cx("input-bordered input", {
+                    "input-error": Boolean(errors.vin?.message),
+                    "input-accent": !Boolean(errors.vin?.message),
+                  })}
+                  {...register("vin")}
+                />
+                <label htmlFor="vin" className="label">
+                  <span className="label-text-alt text-error">
+                    {errors.vin?.message}
                   </span>
                 </label>
               </div>
@@ -336,7 +363,7 @@ export default function EditCar({
               </div>
               <button
                 className={cx(
-                  "btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 lg:col-span-3",
+                  "btn-accent btn mx-auto mt-2 w-full max-w-sm sm:col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5",
                   {
                     "btn-disabled loading": isSubmitting,
                   }

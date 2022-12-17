@@ -9,11 +9,12 @@ export const createCarSchema = z.object({
   type: z.nativeEnum(CarType).optional(),
   make: z.string().min(1),
   model: z.string().min(1),
+  vin: z.string().optional(),
   generation: z.string().optional(),
   productionYear: z
     .number()
     .nonnegative()
-    .gte(1000)
+    .gte(1885)
     .lte(new Date().getFullYear())
     .optional(),
   engineType: z.nativeEnum(EngineType).optional(),

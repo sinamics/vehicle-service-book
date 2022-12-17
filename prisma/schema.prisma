@@ -110,7 +110,7 @@ model Car {
   model          String
   vin            String?
   generation     String?
-  productionYear Int?         @map("production_year")
+  productionYear Int          @map("production_year")
   engineType     EngineType?  @map("engine_type")
   engineCapacity Int?         @map("engine_capacity")
   enginePower    Int?         @map("engine_power")

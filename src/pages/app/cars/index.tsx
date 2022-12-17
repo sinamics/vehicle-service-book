@@ -91,22 +91,33 @@ function CarsList() {
         {cars?.map((car) => (
           <div className="card min-h-[240px] bg-base-200" key={car.id}>
             <div className="flex h-full flex-col divide-y divide-secondary p-5">
-              <div className="flex flex-grow flex-col gap-1 pb-3">
-                <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-                  {car.make} {car.model} {car.generation} {car.productionYear}
-                </h4>
-                <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
-                  {car.type}
-                </p>
-                <p>
-                  <span className="font-medium">Engine:</span> {car.engineType}{" "}
-                  {formatEngineCapacity(car.engineCapacity)} {car.enginePower}
-                  HP
-                </p>
-                <p className="mb-2">
-                  <span className="font-medium">Gearbox:</span>{" "}
-                  {car.gearboxType}
-                </p>
+              <div className="flex flex-grow flex-col gap-5 pb-3">
+                <div className="flex flex-col gap-1">
+                  <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                    {car.make} {car.model} {car.generation} {car.productionYear}
+                  </h4>
+                  <p className="font-light text-gray-700 dark:text-gray-400">
+                    {car.type}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <p>
+                    <span className="font-medium">Engine:</span>{" "}
+                    {car.engineType} {formatEngineCapacity(car.engineCapacity)}{" "}
+                    {car.enginePower ? `${car.enginePower} HP` : null}
+                  </p>
+                  {car.gearboxType ? (
+                    <p>
+                      <span className="font-medium">Gearbox:</span>{" "}
+                      {car.gearboxType}
+                    </p>
+                  ) : null}
+                  {car.vin ? (
+                    <p className="mb-2">
+                      <span className="font-medium">VIN:</span> {car.vin}
+                    </p>
+                  ) : null}
+                </div>
               </div>
               <div className="flex items-end justify-center gap-2 pt-3">
                 <Link
