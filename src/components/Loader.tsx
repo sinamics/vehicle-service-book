@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 
-import Logo from "@/components/Logo";
+import Logo from "@/assets/images/svg/Logo.svg";
 
 type Props = PropsWithChildren;
 

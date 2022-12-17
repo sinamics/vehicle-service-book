@@ -41,7 +41,10 @@ export default function AddCar({
 
   return (
     <Layout user={user}>
-      <Seo title="Add car" description="Add car" />
+      <Seo
+        title="Add car"
+        description="Welcome to the car adding page of our car service book web application! From this page, you can easily add a new car to your service history. Simply enter the make, model, year and type of the car, as well as any other relevant information, such as the engine size, fuel type, gearbox type and VIN. Once you have entered all of the necessary information, simply click the 'add car' button to save the new car to your service history. Our car adding page is designed to be user-friendly and intuitive, making it easy for you to keep track of all of your cars in one place. Whether you are an individual car owner or managing a fleet of cars, our car adding page provides a quick and easy way to add new cars to your service history."
+      />
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-3xl">Add car</h2>
       </div>
@@ -83,29 +86,29 @@ export default function AddCar({
               </label>
             </div>
             <div className="form-control">
-              <label className="label" htmlFor="brand">
+              <label className="label" htmlFor="make">
                 <span
                   className={cx("label-text", {
-                    "text-error": Boolean(errors.brand?.message),
+                    "text-error": Boolean(errors.make?.message),
                   })}
                 >
-                  Brand
+                  Make
                 </span>
               </label>
               <input
-                id="brand"
+                id="make"
                 type="text"
                 defaultValue=""
                 className={cx("input-bordered input", {
-                  "input-error": Boolean(errors.brand?.message),
-                  "input-accent": !Boolean(errors.brand?.message),
+                  "input-error": Boolean(errors.make?.message),
+                  "input-accent": !Boolean(errors.make?.message),
                 })}
                 placeholder="Honda"
-                {...register("brand")}
+                {...register("make")}
               />
-              <label htmlFor="brand" className="label">
+              <label htmlFor="make" className="label">
                 <span className="label-text-alt text-error">
-                  {errors.brand?.message}
+                  {errors.make?.message}
                 </span>
               </label>
             </div>
@@ -316,7 +319,7 @@ export default function AddCar({
               disabled={isSubmitting}
               type="submit"
             >
-              {isSubmitting ? "Adding" : "Add"}
+              {isSubmitting ? "Adding car" : "Add car"}
             </button>
           </form>
         </div>

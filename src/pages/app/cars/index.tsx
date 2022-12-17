@@ -52,7 +52,11 @@ function CarsList() {
   }
 
   if (isError) {
-    return <div>{error.message}</div>;
+    return (
+      <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center gap-6 sm:min-h-layout-inside">
+        {error.message}
+      </div>
+    );
   }
 
   if (isSuccess && !cars?.length) {
@@ -89,7 +93,7 @@ function CarsList() {
             <div className="flex h-full flex-col divide-y divide-secondary p-5">
               <div className="flex flex-grow flex-col gap-1 pb-3">
                 <h4 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-                  {car.brand} {car.model} {car.generation} {car.productionYear}
+                  {car.make} {car.model} {car.generation} {car.productionYear}
                 </h4>
                 <p className="mb-4 font-light text-gray-700 dark:text-gray-400">
                   {car.type}
@@ -206,7 +210,10 @@ export default function CarsListWrapper({
 
   return (
     <Layout user={user}>
-      <Seo title="Cars" description="cars list" />
+      <Seo
+        title="Cars"
+        description="Welcome to the cars list page of our car service book web application! From this page, you can view and manage all of the cars in your service history. The list displays a summary of each car's details like production year, type, engine and gearbox type. From the list page, you can easily access the full service history of any car by clicking on repairs button. Whether you are an individual car owner or managing a fleet of cars, our cars list page provides all the tools you need to stay organized and keep track of your car's repair needs."
+      />
       <div ref={containerParent}>
         <CarsList />
       </div>

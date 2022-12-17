@@ -7,7 +7,7 @@ export const carParams = z.object({
 
 export const createCarSchema = z.object({
   type: z.nativeEnum(CarType).optional(),
-  brand: z.string().min(1),
+  make: z.string().min(1),
   model: z.string().min(1),
   generation: z.string().optional(),
   productionYear: z

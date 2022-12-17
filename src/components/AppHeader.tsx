@@ -8,7 +8,7 @@ import { signOut } from "next-auth/react";
 import { Fragment } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
-import Logo from "@/components/Logo";
+import Logo from "@/assets/images/svg/Logo.svg";
 
 type Props = {
   user?: User;

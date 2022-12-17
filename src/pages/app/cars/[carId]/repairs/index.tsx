@@ -225,7 +225,10 @@ export default function RepairsListWrapper({
 
   return (
     <Layout user={user}>
-      <Seo title="Repairs" description="repairs list" />
+      <Seo
+        title="Repairs"
+        description="Welcome to the repairs list page of our car service book web application! From this page, you can view and manage all of the repairs of selected car in your service history. The list displays a summary of each repair details like title and description. From the list page, you can easily update or delete each repair. Whether you are an individual car owner or managing a fleet of cars, our repairs list page provides all the tools you need to stay organized and keep track of your car's repair needs."
+      />
       <div ref={containerParent}>
         <RepairsList />
       </div>
