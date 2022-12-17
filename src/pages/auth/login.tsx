@@ -25,11 +25,11 @@ function getCallbackUrl() {
 function providerIcon(providerName: ClientSafeProvider["name"]) {
   switch (providerName) {
     case "Google":
-      return <SiGoogle className="mr-2 -ml-1 h-6 w-6" />;
+      return <SiGoogle className="mr-2 -ml-1 h-4 w-4" />;
     case "Facebook":
-      return <SiFacebook className="mr-2 -ml-1 h-6 w-6" />;
+      return <SiFacebook className="mr-2 -ml-1 h-4 w-4" />;
     case "Twitter":
-      return <SiTwitter className="mr-2 -ml-1 h-6 w-6" />;
+      return <SiTwitter className="mr-2 -ml-1 h-4 w-4" />;
     case "GitHub":
       return <DiGithubBadge className="mr-2 -ml-1 h-6 w-6" />;
     default:
