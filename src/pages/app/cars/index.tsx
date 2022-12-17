@@ -120,32 +120,41 @@ function CarsList() {
                 </div>
               </div>
               <div className="flex items-end justify-center gap-2 pt-3">
-                <Link
-                  className="btn-outline btn-info btn border-none"
-                  aria-label="Show car repairs"
-                  href={`/app/cars/${car.id}/repairs`}
+                <div
+                  className="tooltip tooltip-info"
+                  data-tip="Show car repairs"
                 >
-                  <FiTool size={18} />
-                </Link>
-                <Link
-                  className="btn-outline btn-success btn border-none"
-                  aria-label="Edit car"
-                  href={`/app/cars/${car.id}`}
-                >
-                  <FiEdit size={18} />
-                </Link>
-                <button
-                  className="btn-outline btn-error btn border-none"
-                  aria-label="Delete car"
-                  onClick={() => {
-                    setDeleteModal({
-                      visible: true,
-                      carId: car.id,
-                    });
-                  }}
-                >
-                  <FiTrash2 size={18} />
-                </button>
+                  <Link
+                    className="btn-outline btn-info btn border-none"
+                    aria-label="Show car repairs"
+                    href={`/app/cars/${car.id}/repairs`}
+                  >
+                    <FiTool size={18} />
+                  </Link>
+                </div>
+                <div className="tooltip tooltip-success" data-tip="Edit car">
+                  <Link
+                    className="btn-outline btn-success btn border-none"
+                    aria-label="Edit car"
+                    href={`/app/cars/${car.id}`}
+                  >
+                    <FiEdit size={18} />
+                  </Link>
+                </div>
+                <div className="tooltip tooltip-error" data-tip="Delete car">
+                  <button
+                    className="btn-outline btn-error btn border-none"
+                    aria-label="Delete car"
+                    onClick={() => {
+                      setDeleteModal({
+                        visible: true,
+                        carId: car.id,
+                      });
+                    }}
+                  >
+                    <FiTrash2 size={18} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

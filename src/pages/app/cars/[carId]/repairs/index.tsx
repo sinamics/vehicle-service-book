@@ -124,26 +124,30 @@ function RepairsList() {
                 </p>
               </div>
               <div className="flex items-end justify-center gap-2 pt-3">
-                <Link
-                  className="btn-outline btn-success btn border-none"
-                  aria-label="Edit repair"
-                  href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
-                >
-                  <FiEdit size={18} />
-                </Link>
-                <button
-                  className="btn-outline btn-error btn border-none"
-                  aria-label="Delete repair"
-                  onClick={() => {
-                    setDeleteModal({
-                      visible: true,
-                      carId: repair.carId,
-                      repairId: repair.id,
-                    });
-                  }}
-                >
-                  <FiTrash2 size={18} />
-                </button>
+                <div className="tooltip tooltip-success" data-tip="Edit repair">
+                  <Link
+                    className="btn-outline btn-success btn border-none"
+                    aria-label="Edit repair"
+                    href={`/app/cars/${repair.carId}/repairs/${repair.id}`}
+                  >
+                    <FiEdit size={18} />
+                  </Link>
+                </div>
+                <div className="tooltip tooltip-error" data-tip="Delete repair">
+                  <button
+                    className="btn-outline btn-error btn border-none"
+                    aria-label="Delete repair"
+                    onClick={() => {
+                      setDeleteModal({
+                        visible: true,
+                        carId: repair.carId,
+                        repairId: repair.id,
+                      });
+                    }}
+                  >
+                    <FiTrash2 size={18} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
