@@ -12,6 +12,7 @@ import { registerSchema } from "@/server/schema/auth.schema";
 import { trpc } from "@/utils/trpc";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
@@ -65,7 +66,7 @@ export default function Register() {
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="mb-6 flex flex-col gap-2"
+              className="flex flex-col gap-2"
             >
               <div className="form-control">
                 <label className="label" htmlFor="firstName">
@@ -178,6 +179,13 @@ export default function Register() {
                 {isSubmitting ? "Loading" : "Register"}
               </button>
             </form>
+            <div className="divider"></div>
+            <p className="text-center">
+              Already have an account?{" "}
+              <Link className="link-hover link" href="/auth/login">
+                Sign In
+              </Link>
+            </p>
           </div>
         </div>
         {success ? (
