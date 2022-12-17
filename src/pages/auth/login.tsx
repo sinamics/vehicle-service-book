@@ -1,7 +1,7 @@
-import { Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import cx from "classnames";
 import type { InferGetServerSidePropsType } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ClientSafeProvider } from "next-auth/react";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
@@ -25,13 +25,13 @@ function getCallbackUrl() {
 function providerIcon(providerName: ClientSafeProvider["name"]) {
   switch (providerName) {
     case "Google":
-      return <SiGoogle className="mr-2 -ml-1 h-4 w-4" />;
+      return <SiGoogle className="h-4 w-4" />;
     case "Facebook":
-      return <SiFacebook className="mr-2 -ml-1 h-4 w-4" />;
+      return <SiFacebook className="h-4 w-4" />;
     case "Twitter":
-      return <SiTwitter className="mr-2 -ml-1 h-4 w-4" />;
+      return <SiTwitter className="h-4 w-4" />;
     case "GitHub":
-      return <DiGithubBadge className="mr-2 -ml-1 h-6 w-6" />;
+      return <DiGithubBadge className="h-6 w-6" />;
     default:
       return undefined;
   }
@@ -40,12 +40,11 @@ function providerIcon(providerName: ClientSafeProvider["name"]) {
 function providerButton(provider: ClientSafeProvider) {
   return (
     <button
-      className="btn"
+      className="btn flex-grow"
       key={provider.name}
       onClick={() => signIn(provider.id, { callbackUrl: getCallbackUrl() })}
     >
       {providerIcon(provider.name)}
-      Sign in with {provider.name}
     </button>
   );
 }
@@ -93,7 +92,7 @@ export default function Login({
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-2"
+              className="mb-6 flex flex-col gap-2"
             >
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
               <div className="form-control">
@@ -157,9 +156,15 @@ export default function Login({
                 {isSubmitting ? "Loading" : "Sign in"}
               </button>
             </form>
-            <div className="divider"></div>
+            <p className="text-center">
+              Don&apos;t have an account?{" "}
+              <Link className="link-hover link" href="/auth/register">
+                Register
+              </Link>
+            </p>
+            <div className="divider my-6">Or continue with</div>
             {providers ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
                 {Object.values(providers).map((provider) => {
                   if (provider.name === "Credentials") return null;
                   return providerButton(provider);
@@ -172,7 +177,7 @@ export default function Login({
           <Toast color="success" top right>
             <span className="flex items-center gap-2">
               <FiCheckCircle size={20} />
-              Successfully logged in
+              Logged in successfully!
             </span>
           </Toast>
         ) : null}
