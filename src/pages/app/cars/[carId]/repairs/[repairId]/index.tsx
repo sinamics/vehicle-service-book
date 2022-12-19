@@ -92,10 +92,13 @@ export default function EditRepair({
                 <input
                   id="title"
                   type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.title?.message),
-                    "input-accent": !Boolean(errors.title?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.title?.message),
+                      "input-accent": !Boolean(errors.title?.message),
+                    }
+                  )}
                   {...register("title")}
                 />
                 <label htmlFor="title" className="label">
@@ -111,10 +114,13 @@ export default function EditRepair({
                 <textarea
                   id="description"
                   rows={5}
-                  className={cx("textarea-bordered textarea", {
-                    "textarea-error": Boolean(errors.description?.message),
-                    "textarea-accent": !Boolean(errors.description?.message),
-                  })}
+                  className={cx(
+                    "textarea-bordered textarea shadow-none focus:border-accent",
+                    {
+                      "textarea-error": Boolean(errors.description?.message),
+                      "textarea-accent": !Boolean(errors.description?.message),
+                    }
+                  )}
                   {...register("description")}
                 />
                 <label htmlFor="description" className="label">
@@ -131,10 +137,13 @@ export default function EditRepair({
                   id="price"
                   type="number"
                   defaultValue={0}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.price?.message),
-                    "input-accent": !Boolean(errors.price?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.price?.message),
+                      "input-accent": !Boolean(errors.price?.message),
+                    }
+                  )}
                   {...register("price", {
                     valueAsNumber: true,
                   })}
@@ -154,10 +163,13 @@ export default function EditRepair({
                   type="date"
                   defaultValue={dayjs().format("YYYY-MM-DD")}
                   max={dayjs().format("YYYY-MM-DD")}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.date?.message),
-                    "input-accent": !Boolean(errors.date?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.date?.message),
+                      "input-accent": !Boolean(errors.date?.message),
+                    }
+                  )}
                   {...register("date")}
                 />
                 <label htmlFor="date" className="label">
@@ -175,10 +187,13 @@ export default function EditRepair({
                   type="number"
                   defaultValue={0}
                   min={getValues("mileage") ?? 0}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.mileage?.message),
-                    "input-accent": !Boolean(errors.mileage?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.mileage?.message),
+                      "input-accent": !Boolean(errors.mileage?.message),
+                    }
+                  )}
                   {...register("mileage", {
                     valueAsNumber: true,
                   })}
