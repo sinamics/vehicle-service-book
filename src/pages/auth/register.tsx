@@ -1,5 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import cx from "classnames";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -10,9 +13,6 @@ import Toast from "@/components/Toast";
 import type { RegisterSchema } from "@/server/schema/auth.schema";
 import { registerSchema } from "@/server/schema/auth.schema";
 import { trpc } from "@/utils/trpc";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
@@ -85,10 +85,13 @@ export default function Register() {
                 <input
                   id="firstName"
                   type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.firstName?.message),
-                    "input-accent": !Boolean(errors.firstName?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.firstName?.message),
+                      "input-accent": !Boolean(errors.firstName?.message),
+                    }
+                  )}
                   {...register("firstName")}
                 />
                 <label htmlFor="firstName" className="label">
@@ -110,10 +113,13 @@ export default function Register() {
                 <input
                   id="lastName"
                   type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.lastName?.message),
-                    "input-accent": !Boolean(errors.lastName?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.lastName?.message),
+                      "input-accent": !Boolean(errors.lastName?.message),
+                    }
+                  )}
                   {...register("lastName")}
                 />
                 <label htmlFor="lastName" className="label">
@@ -135,10 +141,13 @@ export default function Register() {
                 <input
                   id="email"
                   type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.email?.message),
-                    "input-accent": !Boolean(errors.email?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.email?.message),
+                      "input-accent": !Boolean(errors.email?.message),
+                    }
+                  )}
                   placeholder="example@gmail.com"
                   {...register("email")}
                 />
@@ -161,10 +170,13 @@ export default function Register() {
                 <input
                   id="password"
                   type="password"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.password?.message),
-                    "input-accent": !Boolean(errors.password?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.password?.message),
+                      "input-accent": !Boolean(errors.password?.message),
+                    }
+                  )}
                   {...register("password")}
                 />
                 <label htmlFor="password" className="label">
