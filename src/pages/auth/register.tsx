@@ -65,7 +65,7 @@ export default function Register() {
   return (
     <>
       <Seo title="Sign in" description="Sign in page." />
-      <div className="container flex min-h-screen items-center justify-center">
+      <div className="container flex min-h-screen items-center justify-center py-8">
         <div className="card w-full max-w-sm bg-secondary dark:bg-primary">
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
             <form
