@@ -93,10 +93,13 @@ export default function EditCar({
                 <select
                   id="type"
                   defaultValue="Coupe"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.type?.message),
-                    "input-accent": !Boolean(errors.type?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.type?.message),
+                      "input-accent": !Boolean(errors.type?.message),
+                    }
+                  )}
                   {...register("type")}
                 >
                   {Object.values(CarType).map((type) => (
@@ -125,10 +128,13 @@ export default function EditCar({
                   id="make"
                   type="text"
                   defaultValue=""
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.make?.message),
-                    "input-accent": !Boolean(errors.make?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.make?.message),
+                      "input-accent": !Boolean(errors.make?.message),
+                    }
+                  )}
                   placeholder="Honda"
                   {...register("make")}
                 />
@@ -152,10 +158,13 @@ export default function EditCar({
                   id="model"
                   type="text"
                   defaultValue=""
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.model?.message),
-                    "input-accent": !Boolean(errors.model?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.model?.message),
+                      "input-accent": !Boolean(errors.model?.message),
+                    }
+                  )}
                   placeholder="Civic"
                   {...register("model")}
                 />
@@ -179,10 +188,13 @@ export default function EditCar({
                   id="vin"
                   type="text"
                   defaultValue=""
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.vin?.message),
-                    "input-accent": !Boolean(errors.vin?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.vin?.message),
+                      "input-accent": !Boolean(errors.vin?.message),
+                    }
+                  )}
                   {...register("vin")}
                 />
                 <label htmlFor="vin" className="label">
@@ -204,10 +216,13 @@ export default function EditCar({
                 <input
                   id="generation"
                   type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.generation?.message),
-                    "input-accent": !Boolean(errors.generation?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.generation?.message),
+                      "input-accent": !Boolean(errors.generation?.message),
+                    }
+                  )}
                   placeholder="VIII"
                   {...register("generation")}
                 />
@@ -231,10 +246,13 @@ export default function EditCar({
                   id="productionYear"
                   type="number"
                   defaultValue={new Date().getFullYear()}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.productionYear?.message),
-                    "input-accent": !Boolean(errors.productionYear?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.productionYear?.message),
+                      "input-accent": !Boolean(errors.productionYear?.message),
+                    }
+                  )}
                   {...register("productionYear", {
                     valueAsNumber: true,
                   })}
@@ -258,10 +276,13 @@ export default function EditCar({
                 <select
                   id="engineType"
                   {...register("engineType")}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.engineType?.message),
-                    "input-accent": !Boolean(errors.engineType?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.engineType?.message),
+                      "input-accent": !Boolean(errors.engineType?.message),
+                    }
+                  )}
                 >
                   {Object.values(EngineType).map((type) => (
                     <option key={type} value={type}>
@@ -289,10 +310,13 @@ export default function EditCar({
                   id="engineCapacity"
                   type="number"
                   defaultValue={0}
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.engineCapacity?.message),
-                    "input-accent": !Boolean(errors.engineCapacity?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.engineCapacity?.message),
+                      "input-accent": !Boolean(errors.engineCapacity?.message),
+                    }
+                  )}
                   {...register("engineCapacity", {
                     valueAsNumber: true,
                   })}
@@ -316,10 +340,13 @@ export default function EditCar({
                 <input
                   id="enginePower"
                   type="number"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.enginePower?.message),
-                    "input-accent": !Boolean(errors.enginePower?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.enginePower?.message),
+                      "input-accent": !Boolean(errors.enginePower?.message),
+                    }
+                  )}
                   defaultValue={0}
                   {...register("enginePower", {
                     valueAsNumber: true,
@@ -343,10 +370,13 @@ export default function EditCar({
                 </label>
                 <select
                   id="gearboxType"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.gearboxType?.message),
-                    "input-accent": !Boolean(errors.gearboxType?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.gearboxType?.message),
+                      "input-accent": !Boolean(errors.gearboxType?.message),
+                    }
+                  )}
                   {...register("gearboxType")}
                 >
                   {Object.values(GearboxType).map((type) => (

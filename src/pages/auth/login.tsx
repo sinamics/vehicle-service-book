@@ -110,10 +110,13 @@ export default function Login({
                 <input
                   id="email"
                   type="text"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.email?.message),
-                    "input-accent": !Boolean(errors.email?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.email?.message),
+                      "input-accent": !Boolean(errors.email?.message),
+                    }
+                  )}
                   placeholder="example@gmail.com"
                   {...register("email")}
                 />
@@ -136,10 +139,13 @@ export default function Login({
                 <input
                   id="password"
                   type="password"
-                  className={cx("input-bordered input", {
-                    "input-error": Boolean(errors.password?.message),
-                    "input-accent": !Boolean(errors.password?.message),
-                  })}
+                  className={cx(
+                    "input-bordered input shadow-none focus:border-accent",
+                    {
+                      "input-error": Boolean(errors.password?.message),
+                      "input-accent": !Boolean(errors.password?.message),
+                    }
+                  )}
                   {...register("password")}
                 />
                 <label htmlFor="password" className="label">

@@ -7,7 +7,6 @@ import type {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
-import { FaTools } from "react-icons/fa";
 import { FiAlertCircle, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 import Loader from "@/components/Loader";
