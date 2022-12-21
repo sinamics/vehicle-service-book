@@ -1,5 +1,7 @@
 import z from "zod";
 
+import { hasDigitRegex, hasSpecialCharacterRegex } from "@/utils/validators";
+
 export const loginSchema = z.object({
   email: z
     .string()
@@ -9,7 +11,13 @@ export const loginSchema = z.object({
   password: z
     .string()
     .min(12, { message: "Password must contain at least 12 characters" })
-    .max(255, { message: "Password must contain at most 255 characters" }),
+    .max(255, { message: "Password must contain at most 255 characters" })
+    .regex(hasDigitRegex, {
+      message: "Password must contain at least one digit",
+    })
+    .regex(hasSpecialCharacterRegex, {
+      message: "Password must contain at least one special character",
+    }),
 });
 
 export const registerSchema = z
