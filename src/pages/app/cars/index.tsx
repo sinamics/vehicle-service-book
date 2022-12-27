@@ -238,7 +238,7 @@ export default function CarsListWrapper({
     <Layout user={user}>
       <Seo
         title="Cars"
-        description="Welcome to the cars list page of our car service book web application! From this page, you can view and manage all of the cars in your service history. The list displays a summary of each car's details like production year, type, engine and gearbox type. From the list page, you can easily access the full service history of any car by clicking on repairs button. Whether you are an individual car owner or managing a fleet of cars, our cars list page provides all the tools you need to stay organized and keep track of your car's repair needs."
+        description="Welcome to the cars list page of our vehicle service book web application! From this page, you can view and manage all of the cars in your service history. The list displays a summary of each car's details like production year, type, engine and gearbox type. From the list page, you can easily access the full service history of any car by clicking on repairs button. Whether you are an individual car owner or managing a fleet of cars, our cars list page provides all the tools you need to stay organized and keep track of your car's repair needs."
       />
       <div ref={containerParent}>
         <CarsList />

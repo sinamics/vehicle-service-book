@@ -33,7 +33,7 @@ export default function Header({ user }: Props) {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="swap swap-rotate inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
+                <Disclosure.Button className="swap-rotate swap inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
                   <span className="sr-only">Open main menu</span>
                   <FiX
                     className={cx("absolute h-6 w-6", {
@@ -53,8 +53,16 @@ export default function Header({ user }: Props) {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Link href="/">
+                  <Link className="flex items-center gap-3" href="/">
                     <Logo className="h-8 w-8" />
+                    <div className="flex flex-col items-center">
+                      <span className="text-xl leading-5 tracking-widest">
+                        Vehicle
+                      </span>
+                      <span className="text-sm leading-[14px] tracking-tighter">
+                        Service Book
+                      </span>
+                    </div>
                   </Link>
                 </div>
                 <nav className="hidden sm:ml-6 sm:flex sm:flex-1 sm:justify-self-center">
@@ -116,7 +124,7 @@ export default function Header({ user }: Props) {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-                              href="/"
+                              href="/app/profile"
                               className={cx(
                                 "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
                                 {
@@ -131,7 +139,7 @@ export default function Header({ user }: Props) {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-                              href="/"
+                              href="/app/settings"
                               className={cx(
                                 "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300",
                                 {

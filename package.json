@@ -1,18 +1,18 @@
 {
-  "name": "car-service-book-app",
+  "name": "vehicle-service-book-app",
   "version": "0.0.1",
-  "description": "Car service book app made with ❤️ with Next.js",
-  "homepage": "https://github.com/teziovsky/car-service-book/#readme",
+  "description": "Vehicle service book app made with ❤️ with Next.js",
+  "homepage": "https://github.com/teziovsky/vehicle-service-book/#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:teziovsky/car-service-book.git"
+    "url": "git@github.com:teziovsky/vehicle-service-book.git"
   },
   "engines": {
     "node": "16.x",
     "npm": ">=v7.0.0"
   },
   "bugs": {
-    "url": "https://github.com/teziovsky/car-service-book/issues",
+    "url": "https://github.com/teziovsky/vehicle-service-book/issues",
     "email": "teziovsky@gmail.com"
   },
   "license": "The Unlicense",

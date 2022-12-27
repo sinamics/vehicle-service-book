@@ -13,7 +13,7 @@ export default function Header() {
                 width={44}
                 height={32}
                 src="/favicon.svg"
-                alt="Car service book"
+                alt="Vehicle service book"
               />
             </Link>
           </div>
