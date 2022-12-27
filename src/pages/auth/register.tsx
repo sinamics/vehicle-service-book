@@ -3,22 +3,17 @@ import cx from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 import Seo from "@/components/Seo";
-import Toast from "@/components/Toast";
 import type { RegisterSchema } from "@/server/schema/auth.schema";
 import { registerSchema } from "@/server/schema/auth.schema";
 import { trpc } from "@/utils/trpc";
 
 export default function Register() {
   const router = useRouter();
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const { mutate } = trpc.auth.register.useMutation({
     onSuccess: async () => {
@@ -31,21 +26,18 @@ export default function Register() {
       });
 
       if (result?.error) {
-        setError(result.error);
-        setTimeout(() => setError(""), 3000);
+        toast.error(result.error);
         return;
       }
 
       if (result?.ok) {
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
+        toast.success("Account created successfully!");
         router.push(result?.url ? result.url : "/app");
         return;
       }
     },
     onError: (error) => {
-      setError(error.message);
-      setTimeout(() => setError(""), 3000);
+      toast.error(error.message);
     },
   });
 
@@ -204,22 +196,6 @@ export default function Register() {
             </p>
           </div>
         </div>
-        {success ? (
-          <Toast color="success" top right>
-            <span className="flex items-center gap-2">
-              <FiCheckCircle size={20} />
-              Account created successfully!
-            </span>
-          </Toast>
-        ) : null}
-        {error ? (
-          <Toast color="error" top right>
-            <span className="flex items-center gap-2">
-              <FiAlertCircle size={20} />
-              {error}
-            </span>
-          </Toast>
-        ) : null}
       </div>
     </>
   );
