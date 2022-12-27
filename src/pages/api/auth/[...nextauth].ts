@@ -34,11 +34,7 @@ export const authOptions: NextAuthOptions = {
             where: { email: credentials?.email.toLowerCase() },
           });
 
-          if (!user) {
-            throw new Error("Incorrect username or password");
-          }
-
-          if (!user?.hash || !credentials?.password) {
+          if (!user || !user?.hash || !credentials?.password) {
             throw new Error("Incorrect username or password");
           }
 
@@ -52,9 +48,13 @@ export const authOptions: NextAuthOptions = {
 
           return userWithoutHash;
         } catch (error) {
-          process.env.NODE_ENV === "development"
-            ? console.error("Authorization error: ", error)
-            : null;
+          if (error instanceof Error) {
+            process.env.NODE_ENV === "development"
+              ? console.error("Authorization error: ", error.message)
+              : null;
+
+            throw new Error(error.message);
+          }
 
           return null;
         }

@@ -80,7 +80,9 @@ function LastMileageStat(
       {typeof firstMileage === "number" && typeof lastMileage === "number" ? (
         <div className="stat-desc whitespace-normal text-xs md:text-sm">
           {lastMileage - firstMileage !== 0
-            ? `+${formatMileage(lastMileage - firstMileage)}`
+            ? `${formatMileage(
+                lastMileage - firstMileage
+              )} between first and last repair`
             : null}
         </div>
       ) : null}
@@ -94,8 +96,7 @@ function LastDateStat(
   const lastDate = repairs
     .map((repair) => repair.date)
     .reduce((a, b) => {
-      if (repairs.length === 1) return b;
-      if (!a) return null;
+      if (!a) return b;
       if (!b) return null;
       return dayjs(a).isAfter(dayjs(b)) ? a : b;
     }, null);

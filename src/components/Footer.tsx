@@ -3,7 +3,7 @@ import { SiFacebook, SiGithub, SiInstagram, SiTwitter } from "react-icons/si";
 type SocialLinkProps = {
   href: string;
   alt: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const socialLinks = [
