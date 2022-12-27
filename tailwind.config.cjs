@@ -38,7 +38,7 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        "car-service-book-light": {
+        "vehicle-service-book-light": {
           primary: "#d1d5db",
           secondary: "#e5e7eb",
           accent: "#111827",
@@ -52,7 +52,7 @@ module.exports = {
         },
       },
       {
-        "car-service-book-dark": {
+        "vehicle-service-book-dark": {
           primary: "#2E364C",
           secondary: "#5A637E",
           accent: "#E4E6E5",
@@ -66,6 +66,6 @@ module.exports = {
         },
       },
     ],
-    darkTheme: "car-service-book-dark",
+    darkTheme: "vehicle-service-book-dark",
   },
 };

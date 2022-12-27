@@ -20,11 +20,13 @@ export default function Seo({
   return (
     <Head>
       <title>
-        {title ? `${title} | Car Service Book` : "Car Service Book"}
+        {title ? `${title} | Vehicle Service Book` : "Vehicle Service Book"}
       </title>
       <meta
         name="title"
-        content={title ? `${title} | Car Service Book` : "Car Service Book"}
+        content={
+          title ? `${title} | Vehicle Service Book` : "Vehicle Service Book"
+        }
       />
       <meta name="description" content={description} />
       <link rel="canonical" href={canonicalURL} />
@@ -36,7 +38,9 @@ export default function Seo({
           <meta
             name="og:title"
             property="og:title"
-            content={title ? `${title} | Car Service Book` : "Car Service Book"}
+            content={
+              title ? `${title} | Vehicle Service Book` : "Vehicle Service Book"
+            }
           />
           <meta
             name="og:description"
@@ -50,7 +54,9 @@ export default function Seo({
           <meta property="twitter:card" content="summary_large_image" />
           <meta
             property="twitter:title"
-            content={title ? `${title} | Car Service Book` : "Car Service Book"}
+            content={
+              title ? `${title} | Vehicle Service Book` : "Vehicle Service Book"
+            }
           />
           <meta property="twitter:description" content={description} />
           <meta property="twitter:url" content={url} />
