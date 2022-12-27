@@ -56,10 +56,10 @@ export default function Header({ user }: Props) {
                   <Link className="flex items-center gap-3" href="/">
                     <Logo className="h-8 w-8" />
                     <div className="flex flex-col items-center">
-                      <span className="text-xl leading-5 tracking-widest">
+                      <span className="text-xl leading-5 tracking-wide">
                         Vehicle
                       </span>
-                      <span className="text-sm leading-[14px] tracking-tighter">
+                      <span className="text-xs leading-[14px] tracking-tighter">
                         Service Book
                       </span>
                     </div>
