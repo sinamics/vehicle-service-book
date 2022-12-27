@@ -5,15 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ClientSafeProvider } from "next-auth/react";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
-import { Fragment, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { DiGithubBadge } from "react-icons/di";
-import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
+import { toast } from "react-toastify";
 
 import Seo from "@/components/Seo";
-import Toast from "@/components/Toast";
 import type { LoginSchema } from "@/server/schema/auth.schema";
 import { loginSchema } from "@/server/schema/auth.schema";
 
@@ -55,9 +53,6 @@ export default function Login({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -73,14 +68,12 @@ export default function Login({
     });
 
     if (result?.error) {
-      setError(result.error);
-      setTimeout(() => setError(""), 3000);
+      toast.error(result.error);
       return;
     }
 
     if (result?.ok) {
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      toast.success("Logged in successfully!");
       router.push(result?.url ? result.url : "/app");
       return;
     }
@@ -181,22 +174,6 @@ export default function Login({
             ) : null}
           </div>
         </div>
-        {success ? (
-          <Toast color="success" top right>
-            <span className="flex items-center gap-2">
-              <FiCheckCircle size={20} />
-              Logged in successfully!
-            </span>
-          </Toast>
-        ) : null}
-        {error ? (
-          <Toast color="error" top right>
-            <span className="flex items-center gap-2">
-              <FiAlertCircle size={20} />
-              {error}
-            </span>
-          </Toast>
-        ) : null}
       </div>
     </>
   );
