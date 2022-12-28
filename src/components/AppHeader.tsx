@@ -53,8 +53,8 @@ export default function Header({ user }: Props) {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <Link className="flex items-center gap-3" href="/">
-                    <Logo className="h-8 w-8" />
+                  <Link className="group flex items-center gap-3" href="/">
+                    <Logo className="h-8 w-8 group-hover:animate-spin-slow" />
                     <div className="flex flex-col items-center">
                       <span className="text-xl leading-5 tracking-wide">
                         Vehicle

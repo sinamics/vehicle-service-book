@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useRef, useState } from "react";
 import { FiAlertCircle, FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 import Loader from "@/components/Loader";
 import Seo from "@/components/Seo";
@@ -44,7 +45,10 @@ function RepairsList() {
   );
 
   const { mutate: deleteRepair } = trpc.repair.delete.useMutation({
-    onSuccess: () => utils.repair.getAll.invalidate(),
+    onSuccess: () => {
+      toast.success("Repair deleted successfully!");
+      utils.repair.getAll.invalidate();
+    },
   });
 
   if (isLoading) {

@@ -8,6 +8,7 @@ import type {
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -35,6 +36,7 @@ export default function AddRepair({
 
   const { mutate } = trpc.repair.create.useMutation({
     onSuccess: () => {
+      toast.success("Repair added successfully!");
       router.push({
         pathname: "/app/cars/[carId]/repairs",
         query: { carId: router.query.carId },

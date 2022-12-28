@@ -8,6 +8,7 @@ import type {
 import { useRouter } from "next/router";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
@@ -23,6 +24,7 @@ export default function AddCar({
 
   const { mutate } = trpc.car.create.useMutation({
     onSuccess: () => {
+      toast.success("Car added successfully!");
       router.push("/app/cars");
     },
   });

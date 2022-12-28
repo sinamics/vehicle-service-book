@@ -7,7 +7,15 @@
 
 ## Demo 👀
 
-#### [🏠 Link to demo here!](https://github.com/teziovsky/vehicle-service-book/#readme)
+#### [🏠 Link to demo here!](https://vehicle-service-book.vercel.app/)
+
+## Roadmap ✅
+
+- [ ] Implement homepage with fancy animations
+- [ ] Add password reminder
+- [ ] Add ability to add photo of vehicle
+- [ ] Add ability to add/update photo of profile
+- [ ] Add more Vehicle types
 
 ## Author 🙎🏼‍
 
@@ -15,11 +23,7 @@
 
 ## Contact ☎️
 
-If you have any suggestions, please [email me here](mailto:teziovsky@gmail.com)! 🔥
-
-## License 🧾
-
-#### [MIT License](https://choosealicense.com/licenses/mit/)
+If you have any suggestions, please [email me here](mailto:teziovsky@gmail.com)!
 
 ---
 
