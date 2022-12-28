@@ -19,11 +19,6 @@ export default function Header() {
             </Link>
           </div>
         </div>
-        <nav className="absolute inset-y-0 right-8 flex items-center">
-          <Link className="btn-primary btn" href="/app">
-            Go to app
-          </Link>
-        </nav>
       </div>
     </header>
   );

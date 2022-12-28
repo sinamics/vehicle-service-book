@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Seo from "@/components/Seo";
 import Layout from "@/layouts/Layout";
 
@@ -10,6 +12,9 @@ export default function Home() {
       />
       <div className="flex min-h-[200px] flex-col items-center justify-center gap-4">
         <h1>Vehicle service book</h1>
+        <Link className="btn-primary btn" href="/app">
+          Go to app
+        </Link>
       </div>
     </Layout>
   );
