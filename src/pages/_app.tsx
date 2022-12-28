@@ -1,11 +1,11 @@
-import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import "../styles/globals.css";
 
 import { Overpass } from "@next/font/google";
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 
 import { trpc } from "@/utils/trpc";
 
@@ -23,6 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Component className={overpass.className} {...pageProps} />
       <ToastContainer
+        transition={Slide}
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}

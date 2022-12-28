@@ -14,6 +14,7 @@ import {
   FiTool,
   FiTrash2,
 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 import Error from "@/components/Error";
 import Loader from "@/components/Loader";
@@ -43,7 +44,10 @@ function CarsList() {
   } = trpc.car.getAll.useQuery();
 
   const { mutate: deleteCar } = trpc.car.delete.useMutation({
-    onSuccess: () => utils.car.getAll.invalidate(),
+    onSuccess: () => {
+      toast.success("Car deleted successfully!");
+      utils.car.getAll.invalidate();
+    },
   });
 
   if (isLoading) {
