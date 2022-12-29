@@ -75,7 +75,7 @@ export default function EditRepair({
   };
 
   return (
-    <Layout user={user}>
+    <Layout className="container pb-8 pt-24" user={user}>
       <Seo
         title="Edit repair"
         description="Welcome to the repair updating page of our vehicle service book web application! From this page, you can easily update a repair of selected car to your service history. Simply modify the title and description, as well as any other relevant information, such as the date, mileage and price. Once you have entered all of the necessary information, simply click the 'update repair' button to save the updated repair to your service history. Our repair updating page is designed to be user-friendly and intuitive, making it easy for you to keep track of all of your cars in one place. Whether you are an individual car owner or managing a fleet of cars, our repair updating page provides a quick and easy way to update new repairs of selected car to your service history."

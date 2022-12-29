@@ -63,7 +63,7 @@ export default function AddRepair({
   };
 
   return (
-    <Layout user={user}>
+    <Layout className="container pb-8 pt-24" user={user}>
       <Seo
         title="Add repair"
         description="Welcome to the repair adding page of our vehicle service book web application! From this page, you can easily add a new repair of selected car to your service history. Simply enter the title and description, as well as any other relevant information, such as the date, mileage and price. Once you have entered all of the necessary information, simply click the 'add repair' button to save the new repair to your service history. Our repair adding page is designed to be user-friendly and intuitive, making it easy for you to keep track of all of your cars in one place. Whether you are an individual car owner or managing a fleet of cars, our repair adding page provides a quick and easy way to add new repairs of selected car to your service history."

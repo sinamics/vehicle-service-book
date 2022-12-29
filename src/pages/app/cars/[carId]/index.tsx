@@ -70,7 +70,7 @@ export default function EditCar({
   };
 
   return (
-    <Layout user={user}>
+    <Layout className="container pb-8 pt-24" user={user}>
       <Seo
         title="Update car"
         description="Welcome to the car updating page of our vehicle service book web application! From this page, you can easily update the details of any car in your service history. Simply modify the make, model, year and type of the car, as well as any other relevant information, such as the engine size, fuel type, gearbox type and VIN. Once you have entered all of the necessary information, simply click the 'update car' button to save the updated car in your service history. Our car updating page is designed to be user-friendly and intuitive, making it easy for you to keep track of all of your cars in one place. Whether you are an individual car owner or managing a fleet of cars, our car updating page provides a quick and easy way to add new cars to your service history."

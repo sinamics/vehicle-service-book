@@ -232,7 +232,7 @@ export default function RepairsListWrapper({
   const [containerParent] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <Layout user={user}>
+    <Layout className="container pb-8 pt-24" user={user}>
       <Seo
         title="Repairs"
         description="Welcome to the repairs list page of our vehicle service book web application! From this page, you can view and manage all of the repairs of selected car in your service history. The list displays a summary of each repair details like title and description. From the list page, you can easily update or delete each repair. Whether you are an individual car owner or managing a fleet of cars, our repairs list page provides all the tools you need to stay organized and keep track of your car's repair needs."

@@ -11,7 +11,7 @@ export default function ProfilePage({
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <Layout user={user}>
+    <Layout className="container pb-8 pt-24" user={user}>
       <div className="flex min-h-layout-inside-mobile flex-col items-center justify-center gap-6 sm:min-h-layout-inside">
         <MdOutlineBuildCircle className="h-24 w-24 animate-spin-slow text-accent" />
         <div className="flex flex-col items-center justify-center gap-1">
