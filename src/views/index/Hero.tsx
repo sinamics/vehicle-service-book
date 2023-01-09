@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="even:bg-base-200">
-      <div className="mx-auto grid max-w-screen-xl px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0">
-        <div className="mr-auto place-self-center lg:col-span-7">
+    <section className="py-32 even:bg-base-200 sm:py-40 md:py-56">
+      <div className="container grid md:grid-cols-2 md:gap-8 xl:gap-0">
+        <div className="mr-auto place-self-center">
           <h1 className="mb-4 max-w-2xl text-3xl font-extrabold leading-none tracking-tight dark:text-white md:text-4xl xl:text-5xl">
             Stay Up-to-Date with vehicle maintenance and repairs
           </h1>
@@ -17,12 +17,12 @@ export default function Hero() {
             Go to app
           </Link>
         </div>
-        <div className="hidden md:col-span-5 md:mt-0 md:flex">
+        <div className="hidden md:flex">
           <Image
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
-            width={943}
-            height={706}
-            alt="mockup"
+            src="/assets/images/car_repair.svg"
+            width={940}
+            height={448}
+            alt=""
           />
         </div>
       </div>
