@@ -23,8 +23,8 @@ const numbers = [
 
 export default function Numbers() {
   return (
-    <section className="pb-20 even:bg-base-200">
-      <div className="mx-auto h-96 bg-gradient-to-b from-base-100 to-base-200 pb-20">
+    <section className="pb-40 even:bg-base-200">
+      <div className="mx-auto h-96 bg-gradient-to-t from-base-100 to-base-200 pb-20">
         <div className="container mx-auto flex w-full flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center">
             <div className="mt-20">
