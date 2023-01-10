@@ -19,9 +19,10 @@ export default function Hero() {
         </div>
         <div className="hidden md:flex">
           <Image
+            priority
             src="/assets/images/car_repair.svg"
-            width={940}
-            height={448}
+            width={736}
+            height={279}
             alt=""
           />
         </div>
