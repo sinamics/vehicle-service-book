@@ -24,7 +24,7 @@ const numbers = [
 export default function Numbers() {
   return (
     <section className="pb-40 even:bg-base-200">
-      <div className="mx-auto h-96 bg-gradient-to-t from-base-100 to-base-200 pb-20">
+      <div className="mx-auto bg-gradient-to-t from-base-100 to-base-200 pb-20">
         <div className="container mx-auto flex w-full flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center">
             <div className="mt-20">
@@ -40,12 +40,12 @@ export default function Numbers() {
           </div>
         </div>
       </div>
-      <div className="container mx-auto -mt-20 flex items-center justify-center md:-mt-28">
-        <div className="grid gap-x-2 gap-y-2 sm:grid-cols-2 md:grid-cols-2 md:gap-x-6 md:gap-y-6 lg:grid-cols-4 lg:gap-x-6">
+      <div className="container mx-auto -mt-8 flex items-center justify-center">
+        <div className="grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-6 md:gap-y-6 lg:grid-cols-4 lg:gap-x-6">
           {numbers.map((number, index) => (
             <div
               key={index}
-              className="flex h-36 w-36 flex-col items-center justify-center rounded-2xl bg-white shadow md:h-48 md:w-44 lg:h-56 lg:w-56"
+              className="flex h-40 w-40 flex-col items-center justify-center rounded-2xl bg-white shadow sm:h-48 sm:w-48 md:h-52 md:w-52 lg:h-56 lg:w-56"
             >
               <h2 className="text-center text-2xl font-extrabold leading-10 text-gray-800 md:text-4xl lg:text-5xl">
                 {number.value}
