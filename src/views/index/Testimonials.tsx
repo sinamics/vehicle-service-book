@@ -1,4 +1,6 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const testimonials = [
   {
@@ -20,7 +22,7 @@ const testimonials = [
     name: "Rachel Williams",
     title: "Human Resources Director at DEF Inc.",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e290",
-    text: "I love the alerts and reminders that this app provides. It's helped me save money by catching potential issues before they become bigger problems.",
+    text: "I've been using the app for over a year now and it's made keeping track of my vehicle's service history a breeze. I always know when my car needs maintenance and I can even show the service records to my mechanic during an appointment.",
   },
   {
     id: 4,
@@ -39,27 +41,49 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const [testimonialsContainer] = useAutoAnimate<HTMLDivElement>();
+  const [index, setIndex] = useState(0);
+
+  const activeTestimonial = testimonials[index];
+
+  useEffect(() => {
+    const carousel = setInterval(() => {
+      setIndex((prevIndex) => {
+        if (prevIndex === testimonials.length - 1) return 0;
+        return prevIndex + 1;
+      });
+    }, 8000);
+
+    return () => clearTimeout(carousel);
+  }, []);
+
+  if (!activeTestimonial) return null;
+
   return (
     <section className="py-20 even:bg-base-200">
       <div className="container">
-        <h2 className="text-center text-4xl font-black leading-10 text-gray-800 dark:text-white md:text-5xl lg:text-6xl">
-          Testimonials
-        </h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="flex flex-col items-center">
-              <Image
-                src={testimonial.avatar}
-                alt={testimonial.name}
-                width={96}
-                height={96}
-                className="h-24 w-24 rounded-full"
-              />
-              <h3 className="text-xl font-bold">{testimonial.name}</h3>
-              <p className="text-base font-medium">{testimonial.title}</p>
-              <p className="text-base font-light">{testimonial.text}</p>
-            </div>
-          ))}
+        <div
+          ref={testimonialsContainer}
+          className="mx-auto flex min-h-[300px] max-w-xl flex-col items-center justify-center"
+        >
+          <p className="mb-6 text-center font-serif text-base italic text-accent sm:text-xl md:text-2xl">
+            &quot;{activeTestimonial.text}&quot;
+          </p>
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src={activeTestimonial.avatar}
+              alt={activeTestimonial.name}
+              width={64}
+              height={64}
+              className="mb-2 h-12 w-12 rounded-full sm:h-14 sm:w-14 md:h-16 md:w-16"
+            />
+            <h3 className="text-sm font-bold text-accent sm:text-base md:text-lg">
+              {activeTestimonial.name}
+            </h3>
+            <p className="text-center text-xs font-medium text-gray-400 sm:text-sm md:text-base">
+              {activeTestimonial.title}
+            </p>
+          </div>
         </div>
       </div>
     </section>
