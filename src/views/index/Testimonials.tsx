@@ -52,7 +52,7 @@ export default function Testimonials() {
         if (prevIndex === testimonials.length - 1) return 0;
         return prevIndex + 1;
       });
-    }, 8000);
+    }, 7000);
 
     return () => clearTimeout(carousel);
   }, []);
