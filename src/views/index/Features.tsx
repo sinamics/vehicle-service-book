@@ -8,7 +8,7 @@ const features = [
     id: 1,
     title: "Cars Management",
     description:
-      "This feature allows users to add, edit and delete vehicle from the web application. This can include information such as make, model, production year, VIN, and many more.",
+      "This feature allows users to add, update and delete vehicle from the web application. This can include information such as make, model, production year, VIN, and many more.",
     icon: <IoCarSportSharp className="h-8 w-8" />,
   },
   {
