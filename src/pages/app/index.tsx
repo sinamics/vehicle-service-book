@@ -66,10 +66,6 @@ function LastMileageStat(
     return b > a ? a : b;
   });
 
-  console.log("firstMileage:", firstMileage);
-
-  console.log("lastMileage:", lastMileage);
-
   return (
     <div className="stat">
       <div className="stat-figure text-accent">
