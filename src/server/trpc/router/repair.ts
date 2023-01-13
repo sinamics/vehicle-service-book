@@ -92,6 +92,35 @@ export const repairRouter = router({
 
       return repair;
     }),
+  getFirstRepairDate: protectedProcedure
+    .input(repairParams.pick({ carId: true }))
+    .query(async ({ input, ctx }) => {
+      const repair = await ctx.prisma.repair.findFirst({
+        where: {
+          carId: input.carId,
+          AND: {
+            car: {
+              userId: ctx.session.user.id,
+            },
+          },
+        },
+        orderBy: {
+          date: "asc",
+        },
+        select: {
+          id: true,
+          date: true,
+        },
+      });
+
+      if (!repair)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Repair not found",
+        });
+
+      return repair;
+    }),
   create: protectedProcedure
     .input(createRepairSchema)
     .mutation(async ({ input, ctx }) => {

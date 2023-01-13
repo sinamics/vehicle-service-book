@@ -34,6 +34,15 @@ export default function AddRepair({
     }
   );
 
+  const { data: firstDate } = trpc.repair.getFirstRepairDate.useQuery(
+    {
+      carId: router.query.carId as string,
+    },
+    {
+      enabled: Boolean(router.query.carId),
+    }
+  );
+
   const { mutate } = trpc.repair.create.useMutation({
     onSuccess: () => {
       toast.success("Repair added successfully!");
@@ -154,6 +163,11 @@ export default function AddRepair({
                 id="date"
                 type="date"
                 defaultValue={dayjs().format("YYYY-MM-DD")}
+                min={
+                  firstDate?.date
+                    ? dayjs(firstDate.date).format("YYYY-MM-DD")
+                    : undefined
+                }
                 max={dayjs().format("YYYY-MM-DD")}
                 className={cx(
                   "input-bordered input shadow-none focus:border-accent",
