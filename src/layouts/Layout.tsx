@@ -21,7 +21,7 @@ export default function Layout({ user, className, children }: Props) {
         className={cx(
           "min-h-layout-mobile sm:min-h-layout",
           {
-            "pb-8 pt-16": !className,
+            "pt-16": !className,
           },
           className
         )}
