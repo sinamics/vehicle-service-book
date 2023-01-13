@@ -33,7 +33,7 @@ export default function Header({ user }: Props) {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="swap-rotate swap inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
+                <Disclosure.Button className="swap swap-rotate inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-primary hover:text-white">
                   <span className="sr-only">Open main menu</span>
                   <FiX
                     className={cx("absolute h-6 w-6", {
@@ -55,14 +55,14 @@ export default function Header({ user }: Props) {
                 <div className="flex flex-shrink-0 items-center">
                   <Link className="group flex items-center gap-3" href="/">
                     <Logo className="h-8 w-8 group-hover:animate-spin-slow" />
-                    <div className="flex flex-col items-center">
+                    <h1 className="flex flex-col items-center">
                       <span className="text-xl leading-5 tracking-wide">
                         Vehicle
                       </span>
                       <span className="text-xs leading-[14px] tracking-tighter">
                         Service Book
                       </span>
-                    </div>
+                    </h1>
                   </Link>
                 </div>
                 <nav className="hidden sm:ml-6 sm:flex sm:flex-1 sm:justify-self-center">

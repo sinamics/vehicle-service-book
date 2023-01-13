@@ -10,12 +10,12 @@ export default function Header() {
           <div className="flex flex-shrink-0 items-center">
             <Link className="group flex items-center gap-3" href="/">
               <Logo className="h-8 w-8 group-hover:animate-spin-slow" />
-              <div className="flex flex-col items-center">
+              <h1 className="flex flex-col items-center">
                 <span className="text-xl leading-5 tracking-wide">Vehicle</span>
                 <span className="text-xs leading-[14px] tracking-tighter">
                   Service Book
                 </span>
-              </div>
+              </h1>
             </Link>
           </div>
         </div>

@@ -40,7 +40,7 @@ module.exports = {
       {
         "vehicle-service-book-light": {
           primary: "#d1d5db",
-          secondary: "#e5e7eb",
+          secondary: "#c0c1c4",
           accent: "#111827",
           neutral: "#9ca3af",
           "base-100": "#f3f4f6",

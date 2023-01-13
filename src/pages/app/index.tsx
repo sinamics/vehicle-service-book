@@ -25,10 +25,10 @@ function TotalSpendStat(
     .map((repair) => repair.price)
     .reduce((a, b) => {
       if (repairs.length === 1) return b;
-      if (typeof a !== "number") return 0;
-      if (typeof b !== "number") return 0;
+      if (typeof a !== "number") return null;
+      if (typeof b !== "number") return null;
       return a + b;
-    }, 0);
+    });
 
   return (
     <div className="stat">
@@ -54,17 +54,21 @@ function LastMileageStat(
   const allMileages = repairs.map((repair) => repair.mileage);
   const lastMileage = allMileages.reduce((a, b) => {
     if (repairs.length === 1) return b;
-    if (typeof a !== "number") return 0;
-    if (typeof b !== "number") return 0;
+    if (typeof a !== "number") return null;
+    if (typeof b !== "number") return null;
     return a > b ? a : b;
-  }, 0);
+  });
 
   const firstMileage = allMileages.reduce((a, b) => {
-    if (repairs.length) return b;
-    if (typeof a !== "number") return 0;
-    if (typeof b !== "number") return 0;
+    if (repairs.length === 1) return b;
+    if (typeof a !== "number") return null;
+    if (typeof b !== "number") return null;
     return b > a ? a : b;
-  }, 0);
+  });
+
+  console.log("firstMileage:", firstMileage);
+
+  console.log("lastMileage:", lastMileage);
 
   return (
     <div className="stat">
@@ -99,7 +103,7 @@ function LastDateStat(
       if (!a) return b;
       if (!b) return null;
       return dayjs(a).isAfter(dayjs(b)) ? a : b;
-    }, null);
+    });
 
   const difference = dayjs().diff(lastDate, "day");
 
@@ -177,7 +181,7 @@ function DashboardList() {
           </h1>
           <div
             className={cx("stats stats-vertical shadow", {
-              "bg-neutral": index % 2 === 0,
+              "bg-primary dark:bg-neutral": index % 2 === 0,
               "bg-base-200": index % 2 !== 0,
             })}
           >
@@ -216,7 +220,7 @@ export default function DashboardListWrapper({
   const [containerParent] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <Layout user={user}>
+    <Layout className="container pb-8 pt-24" user={user}>
       <Seo
         title="Dashboard"
         description="Welcome to the dashboard of our vehicle service book web application! The dashboard displays a summary of your vehicle's repair history, including the date and mileage of last service visit and total spend costs. Our dashboard is designed to be user-friendly and intuitive, making it easy for you to keep track of your vehicle's service history. Whether you are an individual vehicle owner or managing a fleet of vehicles, our dashboard provides all the tools you need to stay on top of your vehicle's maintenance and repair needs."
