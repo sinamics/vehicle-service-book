@@ -1,6 +1,6 @@
 # Hey it's vehicle-service-book! 🖖🏼
 
-[![GitHub](https://img.shields.io/github/license/teziovsky/vehicle-service-book)](https://choosealicense.com/licenses/mit/)
+[![GitHub](https://img.shields.io/github/license/teziovsky/vehicle-service-book?style=plastic)](https://choosealicense.com/licenses/mit/)
 [![Twitter Follow](https://img.shields.io/twitter/follow/teziovsky?style=social)](https://www.twitter.com/teziovsky)
 
 > Vehicle service book app made with ❤️ and t3stack + Planet Scale
@@ -11,11 +11,10 @@
 
 ## Roadmap ✅
 
-- [ ] Implement homepage with fancy animations
 - [ ] Add password reminder
 - [ ] Add ability to add photo of vehicle
 - [ ] Add ability to add/update photo of profile
-- [ ] Add more Vehicle types
+- [ ] Add more vehicle types
 
 ## Author 🙎🏼‍
 
