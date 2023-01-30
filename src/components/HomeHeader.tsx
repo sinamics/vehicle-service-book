@@ -17,6 +17,9 @@ export default function Header() {
                 </span>
               </h1>
             </Link>
+            <Link className="btn-outline btn absolute right-8" href="/app">
+              Go to app
+            </Link>
           </div>
         </div>
       </div>
