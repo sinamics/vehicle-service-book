@@ -11,6 +11,7 @@ import { DiGithubBadge } from "react-icons/di";
 import { SiFacebook, SiGoogle, SiTwitter } from "react-icons/si";
 import { toast } from "react-toastify";
 
+import Logo from "@/assets/images/svg/Logo.svg";
 import Seo from "@/components/Seo";
 import type { LoginSchema } from "@/server/schema/auth.schema";
 import { loginSchema } from "@/server/schema/auth.schema";
@@ -85,6 +86,20 @@ export default function Login({
       <div className="container flex min-h-screen items-center justify-center py-8">
         <div className="card w-full max-w-sm bg-secondary dark:bg-primary">
           <div className="card-body flex flex-col gap-0 p-4 sm:p-8">
+            <Link
+              className="group mb-3 flex items-center gap-3 self-center"
+              href="/"
+            >
+              <Logo className="h-12 w-12 group-hover:animate-spin-slow" />
+              <h1 className="flex flex-col items-center">
+                <span className="text-3xl leading-[30px] tracking-wide">
+                  Vehicle
+                </span>
+                <span className="text-md leading-[12px] tracking-normal">
+                  Service Book
+                </span>
+              </h1>
+            </Link>
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="mb-6 flex flex-col gap-2"
