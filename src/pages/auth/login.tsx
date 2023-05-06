@@ -90,12 +90,12 @@ export default function Login({
               className="group mb-3 flex items-center gap-3 self-center"
               href="/"
             >
-              <Logo className="h-12 w-12 group-hover:animate-spin-slow" />
+              <Logo className="h-10 w-10 group-hover:animate-spin-slow" />
               <h1 className="flex flex-col items-center">
-                <span className="text-3xl leading-[30px] tracking-wide">
+                <span className="text-2xl leading-[24px] tracking-wide">
                   Vehicle
                 </span>
-                <span className="text-md leading-[12px] tracking-normal">
+                <span className="text-sm leading-[14px] tracking-tighter">
                   Service Book
                 </span>
               </h1>
