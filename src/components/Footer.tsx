@@ -50,7 +50,7 @@ export default function Footer() {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="mailto:teziovsky@gmail.com"
+            href="mailto:kontakt@jakubsoboczynski.pl"
             className="transition-colors hover:text-gray-900 hover:underline dark:hover:text-white"
           >
             Jakub Soboczyński
