@@ -7,7 +7,7 @@
 
 ## Demo 👀
 
-#### [🏠 Link to demo here!](https://vehicle-service-book.vercel.app/)
+#### [🏠 Link to demo here!](https://vehicle-service-book.jakubsoboczynski.pl/)
 
 ## Roadmap ✅
 
