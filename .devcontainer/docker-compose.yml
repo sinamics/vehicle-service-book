@@ -1,0 +1,50 @@
+version: "3.1"
+services:
+  # db
+  car_db:
+    image: mysql:8
+    container_name: car_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: service_book
+    ports:
+      - 3306:3306
+    volumes:
+      - car-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  car_service_book:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        NEXT_PUBLIC_CLIENTVAR: "clientvar"
+    container_name: car_service_book
+    volumes:
+      - ..:/workspaces:cached
+    working_dir: /workspaces
+    restart: unless-stopped
+    ports:
+      - 8010:8010
+    environment:
+      DB_HOST: car_db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: mysql
+      DB_DATABASE: service_book
+      NEXTAUTH_URL: "http://localhost:8010" # change localhost to your domain or server ip address if hosting on a server.
+      NEXTAUTH_SECRET: "random_secret" # change this to a random string of characters.
+      NEXT_PUBLIC_URL: "http://localhost:8010" # change localhost to your domain or server ip address if hosting on a server.
+    networks:
+      - app-network
+    depends_on:
+      - car_db
+
+volumes:
+  car-data:
+
+networks:
+  app-network:
+    driver: bridge

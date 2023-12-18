@@ -1,0 +1,10 @@
+FROM node:18-bullseye-slim
+
+ENV NODE_ENV development
+RUN apt update && apt install -y git curl sudo postgresql-client procps nano
+
+# expose port 3000 for application and 5555 for prisma studio
+EXPOSE 3000 5555
+
+ENV PORT 3000
+ENTRYPOINT ["/workspaces/.devcontainer/init-cmd.sh"]
